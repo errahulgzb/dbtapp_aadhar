@@ -1,0 +1,132 @@
+<?php 
+    $userid = new Zend_Session_Namespace('userid');
+    $unme= $userid->userid;
+    $role = new Zend_Session_Namespace('role');
+    $captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+
+<!----------- new script added for 29th june----->
+
+<!--<script src="//cdn.ckeditor.com/4.5.9/full/ckeditor.js"></script>-->
+<!--------------- end ---------------->
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function()
+{
+	jQuery("#scheme_translate").submit(function()
+	{
+		//var alphabetReg = /^[A-Za-z0-9_@.#&+- ]*$/;
+		if (jQuery("#scheme_name_hindi").val() == '')
+		 {
+			alert("Scheme Name <?php echo CANTEMPTY; ?>");
+			jQuery( "#scheme_name_hindi" ).focus();
+			return false;
+		}
+		/* if(!alphabetReg.test(jQuery("#scheme_name_hindi").val()))
+	    {
+			alert("Scheme Name <?php echo ALPHABETSVALIDATION; ?>");
+			jQuery( "#scheme_name_hindi" ).focus();
+			return false;
+		} */
+		 var schemedescript  = CKEDITOR.instances['editor1'].getData();
+		if(schemedescript == '')
+		 {
+			alert("Scheme Description <?php echo CANTEMPTY; ?>");
+			jQuery( "#editor1" ).focus();
+			return false;
+		 }
+		 if(jQuery('#vercode').val() == '')
+		{
+			alert("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+	});
+});
+</script>
+<?php 
+
+$editid = $this->editid;
+  $cmidata = $this->cmidata;
+  $postUrl = $this->url(array(
+        'controller' => 'scheme',
+        //'action'  => 'userview'
+        ))."?id=".$this->escape($editid); 
+?>
+
+<h2><?php echo Scheme_translate_hindi; ?></h2>
+
+ <form role="form" method="post" action="<?php echo $postUrl; ?>" enctype="multipart/form-data"  name="frmTranslateScheme" id="scheme_translate" >
+        <?php if($this->errorMessage){?>
+        <div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+        <?php }elseif(@$_GET[actmsg] =='rpt'){ ?>
+        <div class='error-msg'><?php echo "This Scheme is already Exists."; ?></div>
+        <?php }elseif(@$_GET[actmsg] =='fileformaterror'){ ?>
+        <div class='error-msg'><?php echo "This file format is not support!!! Please try another format."; ?></div>
+        <?php } ?>   
+     <div class="row">
+            <div class="form-group col-sm-6">
+                <label>Language<sup class="require">*</sup> </label>
+                <?php echo $this->form->languagescheme?>
+            </div>	
+             <?php echo $this->form->lang;?>
+
+             <div class="form-group col-sm-6">
+                <label>Scheme Name<sup class="require">*</sup> </label>
+                <?php echo $this->form->scheme_name_hindi?>
+            </div>
+         
+            <div class="form-group col-sm-12">
+              <label>Scheme Description<sup class="require">*</sup>  </label>
+             <?php echo $this->form->description_hindi; ?>
+        </div>
+		
+				<!-----------Add Captcha Code Script----->
+			 <div class="form-group col-sm-4">
+				<label>Captcha Code<sup class="require">*</sup></label>
+				<p>
+					<img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/>
+					<span><a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();" id="change-image" class="menu4 refresh pull-left" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a></span>									
+				</p>
+				<p class="text-left"><?php echo $this->form->vercode; ?></p>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+
+              <div class="form-group col-md-12 col-sm-12 text-center">
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton"><?php echo CANCEL; ?></button>
+            </div>
+     </div>
+</form>
+		
+<!---- new script added 22th june -------------->
+
+
+<script>
+	
+	
+
+
+
+CKEDITOR.replace( 'editor1', {
+	filebrowserBrowseUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/ckfinder.html',
+	filebrowserUploadUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+} );
+
+var editor = CKEDITOR.replace( 'ckfinder' );
+CKFinder.setupCKEditor( editor );
+
+CKFinder.setupCKEditor();
+CKEDITOR.replace( 'editor1' );
+
+
+
+
+</script>
+
+
+
+<!------------- end--------------->

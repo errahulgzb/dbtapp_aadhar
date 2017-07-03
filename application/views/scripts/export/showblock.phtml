@@ -1,0 +1,35 @@
+<?php
+$searchUrl = $this->url(array(
+    'controller' => 'export',
+    'action'  => 'showstate'
+    )); 
+?>
+<form  class="form-inline webform-client-form" role="form" method="post" accept-charset="UTF-8" action="<?=$postUrl?>">
+	<div class='table table-responsive'>
+		<table class='table' summary='Display the ministry record'>
+			<thead>
+			<tr>
+				<th scope='col'>#</th>
+				<th scope='col'>Block Name</th>
+				<th scope='col'>Block Code</th>
+			</tr>
+			</thead>
+			<tbody>
+				<?php 
+					$data = $this->blockarr;
+					$i = 1;
+					foreach($data as $key => $val){?>
+						<tr>
+							<td><?php echo $i; ?></td>
+							<td><?php echo $val['title']; ?></td>
+							<td><?php echo $val['block_code']; ?></td>
+						</tr>
+					<?php
+					$i+=1;
+					}
+				?>
+			</tbody>
+</form>
+<?php
+exit;
+?>

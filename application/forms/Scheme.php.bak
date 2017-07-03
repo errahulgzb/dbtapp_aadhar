@@ -1,0 +1,222 @@
+<?PHP
+
+
+class Application_Form_Scheme extends Zend_Form
+{
+
+public function init()
+{
+// Set the method for the display form to POST
+}
+
+public function addform()
+	{
+
+		// Set the method for the display form to POST
+        $this->setMethod('post');
+
+       $this->addElement('text', 'scheme_name', array( 			
+            'required'   => true,
+            'class'   => 'form-control',
+            'filters'    => array('StringTrim'),
+			'maxlength'  => '100',
+			'decorators'=>Array(
+			'ViewHelper','Errors'
+		   ),
+            'validators' => array(
+			    array('notEmpty', true, array(
+                    'messages' => array(
+                        'isEmpty'   =>  'Scheme name can\'t be empty'
+                    )
+                )),
+                    array('Regex',
+                        false,
+                          array('/^[a-z][a-z0-9., \'-]{0,}$/i', 'messages'=>array(
+'regexNotMatch'=>'Scheme name field has special characters.Please remove them and try again.')))
+    ),          
+  ));
+  
+  
+  
+/************ Add language Element 28th june ******************/
+ $language = new Zend_Form_Element_Select('language',array(  
+            'label'        => '',
+            'required'   => true,
+            'class'   => 'form-control',
+			//'registerInArrayValidator' => false,
+            'multiOptions' => array(
+            '0'    => '--Select Language--',
+                      
+        ),
+		    'decorators'=>Array(
+			'ViewHelper','Errors'
+		   ),
+		   'attribs'    => array('disabled' => 'disabled')	
+		
+		 ));
+     $required = new Zend_Validate_NotEmpty ();
+     $required->setType ($required->getType() | Zend_Validate_NotEmpty::INTEGER | Zend_Validate_NotEmpty::ZERO);
+			$language->addValidators (array($required));
+          
+        $objlang = new Application_Model_Contentmanagement; 
+	 	$showlanguage = $objlang->language(); 
+        $language->setValue("2");			
+	 	// echo "<pre>";
+	 	// print_r($showministryname);
+	 	// echo "</pre>";
+	 	// exit;
+		foreach($showlanguage as $key => $value){
+			$name = $value['title'];			
+			$language->addMultiOption($value['id'], $name);
+		}
+        $this->addElement($language);
+
+
+
+/****************** end **********************/  
+/************* Add Language Hidden field *****/
+
+    $this->addElement('hidden', 'lang', array( 			
+            'required'   => true,
+            'type' => 'hidden',
+             'class'   => 'form-control',
+            'filters'    => array('StringTrim'),
+			'maxlength'  => '100',
+			'value' => '2',
+			'decorators'=>Array(
+			'ViewHelper','Errors'
+		   )
+                    
+  ));
+  
+
+
+/******************** end***************/
+		
+		//// project field select box
+		
+	  $ministry = new Zend_Form_Element_Select('ministry_id',array(  
+            'label'        => '',
+            'required'   => true,
+            //'registerInArrayValidator' => false,
+            'class'   => 'form-control',
+            'multiOptions' => array(
+            '0'    => '--Select Ministry--',
+                      
+        ),
+		    'decorators'=>Array(
+			'ViewHelper','Errors'
+		   ),
+		
+		 ));
+     $required = new Zend_Validate_NotEmpty ();
+     $required->setType ($required->getType() | Zend_Validate_NotEmpty::INTEGER | Zend_Validate_NotEmpty::ZERO);
+			$ministry->addValidators (array($required));
+          
+        $objministry = new Application_Model_DbtMinistry; 
+	 	$showministryname = $objministry->roleuser();   
+	 	// echo "<pre>";
+	 	// print_r($showministryname);
+	 	// echo "</pre>";
+	 	// exit;
+		foreach($showministryname as $key => $value){
+			$name = $value['ministry_name'];			
+			$ministry->addMultiOption($value['id'], $name);
+		}
+        $this->addElement($ministry);
+		
+		
+		
+ 
+//to add schme type
+        $schmeType = new Zend_Form_Element_Select('scheme_type',array(  
+            'label'        => '',
+            'required'   => true,
+            //'registerInArrayValidator' => false,
+            'class'   => 'form-control',
+            'multiOptions' => array(
+            '0'    => '--Select Scheme Type--',
+            '1'    => 'Cash',
+            '2'    => 'Kind',
+            '3'    => 'Others',
+                      
+        ),
+		    'decorators'=>Array(
+			'ViewHelper','Errors'
+		   ),w
+		 ));
+     $requiredtype = new Zend_Validate_NotEmpty ();
+     $requiredtype->setType ($requiredtype->getType() | Zend_Validate_NotEmpty::INTEGER | Zend_Validate_NotEmpty::ZERO);
+	$schmeType->addValidators (array($requiredtype));
+        $this->addElement($schmeType);
+//add schme type end here
+
+//About scheme description
+        $this->addElement('textarea', 'description', array( 			
+            'required'   => true,
+			 //'class'   => 'mceEditor',
+			 //'id' => 'mceEditor',
+                           'class'   => 'form-control',
+			 'id' => 'editor1',
+            'filters'    => array('StringTrim'),
+			'maxlength'  => '10000',
+			'cols' => '1000',
+			'decorators'=>Array(
+			'ViewHelper','Errors'
+		   ),
+            'validators' => array(
+			    array('notEmpty', true, array(
+                    'messages' => array(
+                        'isEmpty'   =>  'Descrption can\'t be empty'
+                    )
+                )),),          
+  ));
+//scheme description
+
+            $this->addElement('file', 'uploadscheme', array( 
+                            'label'      => '',
+                            'required'   => false,
+                            'id' => 'uploadscheme',
+                            ));
+        
+   /*     
+//to add file type in scheme
+        //to add schme type
+        $filename = new Zend_Form_Element_Select('file', 'filename', array(          
+            'required'   => true,
+             'class'   => 'filename',
+             'id' => 'filename',
+            'decorators'=>Array(
+            'ViewHelper','Errors'
+           ),
+            'validators' => array(
+                array('notEmpty', true, array(
+                    'messages' => array(
+                        'isEmpty'   =>  'file can\'t be empty'
+                    )
+                )),),          
+  ));
+    * */
+   
+//add schme type end here
+//filetype add end here
+
+
+
+
+		
+        // Add the submit button
+        $this->addElement('submit', 'submit', array(
+            'ignore'   => true,
+            'label'    => 'Submit',
+        ));
+
+        // And finally add some CSRF protection
+        $this->addElement('hash', 'csrf', array(
+            'ignore' => true,
+        ));
+
+		
+	}
+
+}

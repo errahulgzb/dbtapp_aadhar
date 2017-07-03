@@ -1,0 +1,145 @@
+
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function()
+{
+	jQuery("#frmfeedback").submit(function()
+	{
+		if (jQuery("#title").val() == '')
+		 {
+			alert("Title <?php echo CANTEMPTY; ?>");
+			jQuery( "#title" ).focus();
+			return false;
+		}
+		var contentdescript  = CKEDITOR.instances['editor1'].getData();                                              
+		if(contentdescript == '')
+		 {
+			  // alert('desct');
+			alert("Description <?php echo CANTEMPTY; ?>");
+			jQuery( "#editor1" ).focus();
+			return false;
+		}
+		if(jQuery('#vercode').val() == '')
+		{
+			alert("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+		<!-----------Add Captcha Code Script----->
+		// if (jQuery("#txtInput").val() == '')
+		 // {
+			// alert("<?php echo CAPTCHA_NOTEMPTY; ?>");
+			// jQuery( "#txtInput" ).focus();
+			// return false;
+		 // }
+		// if (string1!= string2){
+		   // alert('<?php echo CAPTCHA_INCORRECT; ?>');				  
+		   // return false;
+         // }
+		 <!-----------Add Captcha Code Script----->
+	});
+});
+</script>
+
+<?php 
+
+$crntrowid =  $this->crntrowid;
+?>
+
+<?  $cmidata = $this->cmidata;$postUrlUpdate = $this->url(array(
+        'controller' => 'contentmanagement',
+        //'action'  => 'userview'
+        ))."?id=".$this->escape($crntrowid); ?>
+
+
+<?php if(($userid->userid)&&($role->role==4)){ ?>
+<ul class="tabs">
+    <li><a href="<?php echo $this->url(array('controller' => 'location', 'action'  => 'locationview')); ?>" class="active" title="<?php echo "Scheme";?>"><?php echo "Scheme";?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'site', 'action'  => 'siteview')); ?>" title="<?php echo MANAGE_SITE;?>"><?php echo MANAGE_SITE;?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'assignengineer')); ?>" title="<?php echo MANAGE_ASSIGN_ENGINEER;?>"><?php echo MANAGE_ASSIGN_ENGINEER;?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'assignsupervisior')); ?>" title="<?php echo MANAGE_TRANSFER_ENGINEER;?>"><?php echo MANAGE_TRANSFER_ENGINEER;?></a></li>	
+	<li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'projectupdate')); ?>" title="<?php echo CUSTOMER_PROJECT_UPDATE;?>"><?php echo CUSTOMER_PROJECT_UPDATE;?></a></li>
+	<li><a href="<?php echo $this->url(array('controller' => 'Report', 'action'  => 'reportview')); ?>" title="<?php echo REPORT; ?>" ><?php echo REPORT; ?></a></li>
+</ul>
+<?php } ?>
+<h2 class="margin_left15"><?php echo content_management_translate;?></h2>		
+<div class="cntnt">
+		
+				
+					<form method="post" accept-charset="UTF-8" action="<?=$postUrlUpdate?>" name="frmfeedback" id="frmfeedback" onsubmit="return validate();">
+							<?php 
+							if($this->errorMessage){
+							echo "<div class='error-msg'>".$this->errorMessage."</div>"; 
+							}
+							?>
+<?= $this->form->lang?>
+					
+                   
+            <div class="form-group col-sm-6">
+                <label>Language<sup class="require">*</sup> </label>
+                <?php echo $this->form->language?>
+            </div>	
+                    
+                    
+                    <div class="form-group col-sm-6">
+                <label>Title<sup class="require">*</sup> </label>
+                <?php echo $this->form->title?>
+            </div>
+					<div class="form-group col-sm-12">
+              <label>Description<sup class="require">*</sup>  </label>
+             <?php echo $this->form->description; ?>
+            </div>				
+            <!-----------Add Captcha Code Script----->
+			<div class="form-group col-sm-4">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+				<p>
+					<img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/>
+					<span><a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();"
+						id="change-image" class="menu4 refresh pull-left" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+					</span>									
+				</p>
+				<p class="text-left">										
+					<?php echo $this->form->vercode; ?>
+				</p>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+					<div class="form-group col-md-12 col-sm-12 text-center">
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton"><?php echo CANCEL; ?></button>
+            </div>
+                    
+                                
+				</form>
+	 </div>
+<script>
+	
+	
+
+
+
+CKEDITOR.replace( 'editor1', {
+	filebrowserBrowseUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/ckfinder.html',
+	filebrowserUploadUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+} );
+
+var editor = CKEDITOR.replace( 'ckfinder' );
+CKFinder.setupCKEditor( editor );
+
+CKFinder.setupCKEditor();
+CKEDITOR.replace( 'editor1' );
+
+
+
+</script>
+
+

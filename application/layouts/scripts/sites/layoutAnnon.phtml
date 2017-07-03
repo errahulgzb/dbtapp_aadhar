@@ -1,0 +1,115 @@
+<?php
+
+require_once 'Zend/Session.php';
+$admname = new Zend_Session_Namespace('adminMname');
+$role = new Zend_Session_Namespace('role');
+$admname = new Zend_Session_Namespace('userid');
+?>
+<?php 
+	$frontdata = $this->mainpage;
+		if(base64_decode($_GET['colorid'])=="contrast")
+		{
+			$_SESSION['colorcontrast']=base64_decode($_GET['colorid']);
+		}
+		else if(base64_decode($_GET['colorid'])=="normal")
+		{
+			$_SESSION['colorcontrast']="";
+			session_destroy($_SESSION['colorcontrast']);
+		}
+	//echo "<pre>";
+//	echo "count".count($showAllMenuTitle);
+	//echo "</pre>";
+	
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+        <title><?php echo 'DBT';?></title>
+                 
+        <?php /*$this->headScript()
+                ->appendFile($this->baseUrl('/js/jquery-ui.js'));*/
+        ?>
+        
+        <script>
+		 var a=navigator.onLine;
+		 if(a){
+		 // alert('online');
+		 }else{
+		  alert('DBT Portal is offline');
+			 window.location="<?php echo $_SERVER['HTTP_REFERER']; ?>";
+		  } 
+
+		  if (top != self) 
+		  { 
+			  top.location=self.location;
+		   }
+          </script>
+        <link rel="shortcut icon" href="<?php echo $this->baseUrl('images/favicon.ico');?>" type="image/x-icon">
+      <link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/bootstrap.css'); ?>">
+            <link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/style.css'); ?>"> 
+            <link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/animate.css'); ?>"> 
+            <script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery-1.11.3.min.js') ?>"></script> 
+	     <script type="text/javascript" src="<?php echo $this->baseUrl('js/md5.js') ?>"></script> 
+            
+        
+             
+
+          <!--[if lt IE 9]>
+          <script type="text/javascript" src="<?php echo $this->baseUrl('js/html5shiv.min.js') ?>"></script>
+          <script type="text/javascript" src="<?php echo $this->baseUrl('js/respond.min.js') ?>"></script>
+          <![endif]-->
+	<script type="text/javascript">
+		  /*$(document).ready(function(){
+	
+		/// getting district name from state id with ajax call.......
+			$( "#lng_change" ).change(function() {
+			
+				var language = $("#lng_change").val();
+				location.href="<?php echo $_SERVER[PHP_SELF];?>";
+				frmLanguage.submit();	
+
+			});
+
+
+		});*/
+
+
+
+
+</script>
+    </head>
+
+    <body class="<?php echo $_SESSION['colorcontrast'];?>">
+   <noscript>
+		
+		<div class="noscriptmsg">
+		You don't have javascript enabled. 
+		</div>
+	</noscript>
+<!--[if lt IE 10]>
+    <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/" style="color:#ffcc00;">You are using an outdated browser. Some functionality may not be performed, upgrade for free today.</a></div>
+		<![endif]-->
+        <?php if($admname->userid){
+                    echo $this->render('topmenu.phtml');
+        }else{
+            echo $this->render('sites/topmenu.phtml');
+        }?>
+        <?php echo $this->render('sites/header.phtml');?>
+        <?php echo $this->render('sites/navigation.phtml');?>
+        <?php //echo $this->render('sites/banner.phtml');?>
+        <?php echo $this->layout()->content; ?>    
+        <?php echo $this->render('sites/footer.phtml');?>
+        <div class="clr"></div>
+  
+        
+        <!-- Include all compiled plugins (below), or include individual files as needed --> 
+        <script src="<?php echo $this->baseUrl('js/bootstrap.js');?>"></script>
+        <!--All custom script file--> 
+        <script src="<?php echo $this->baseUrl('js/custom-script.js');?>"></script>
+    </body>
+</html>

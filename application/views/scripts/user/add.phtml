@@ -1,0 +1,557 @@
+<noscript>
+    <style type="text/css">
+        .webform-client-form {display:none;}
+    </style>
+    <div class="noscriptmsg">
+    You don't have javascript enabled.  Good luck with that.
+    </div>
+</noscript>
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+$("#vercode").val("");
+});
+ 
+$(document).ready(function(){
+	var rid = $("#name").val();
+	if(rid ==3){
+			$(".role-item").show();	
+		}
+	else{
+		$(".role-item").hide();
+	}
+	if(rid ==2){
+		$(".state-item").css({'visibility':'visible'});		
+	}
+	else{
+		$(".state-item").css({'visibility':'hidden'});
+	}if(rid ==5){
+		$(".state-item").css({'visibility':'visible'});	
+		$(".city-item").hide();
+	}else{
+		$(".city-item").hide();
+	}
+	if(rid==''){
+	}
+	if(rid == 6){
+		$(".ministry-item").css({'visibility':'visible'});	
+	}
+	else{
+		$(".ministry-item").hide();			
+	}
+		
+		
+		
+		
+		
+		
+	$("#name").change(function(){
+		var role = $(this).val();
+		$("#role").html("");
+//alert(role);
+		if(role ==3){
+			$(".role-item").show();	
+		}
+		else{
+			$(".role-item").hide();
+		}
+		if(role ==12){//2-> state administrator and 5 means District Administrator
+			$(".state-item").css({'visibility':'visible'});
+		}
+		else{
+			$(".state-item").css({'visibility':'hidden'});
+		}
+		if(role ==5){
+			$(".city-item").show();
+		}
+		else{
+			$(".city-item").hide();
+		}
+		if(role ==6){
+			$(".ministry-item").show();			
+		}
+		else{
+			$(".ministry-item").hide();	
+		}
+	});
+	
+	/// getting district name from state id with ajax call.......
+	jQuery("#statename").change(function(){
+	var statename_id = $(this).val();
+		//alert("statename_id="+statename_id);
+		jQuery.ajax({
+			type: "POST",
+			url: "../user/districtlistprocess?statename_id="+statename_id,
+			data: { statename_id: statename_id}
+			})
+			.done(function( msg ) {
+			//alert("MSG"+msg);
+			  jQuery("#cityname").html(msg);
+		});
+	});
+});
+
+
+
+function validate(){
+	var 	iChars12 = "0123456789";
+	var 	iChars = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";
+	//var 	iCharsCertian = "!#$%^&*()+=-[]\\\;/{}|\:<>~`";
+	var 	iCharsCertian = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";
+	var 	iCharsCertian1 = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	var  	reWhiteSpace = new RegExp(/^\s+$/);
+	var 	iChars_username = "!@#$%^&*()+=-[]\\\';,/{}|\":<>?~`() ";
+	var 	iChars_allow_space = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	var e = document.getElementById("name");
+	var strUser = e.options[e.selectedIndex].value;
+	//if you need text to be compared then use
+	var strUser1 = e.options[e.selectedIndex].text;
+	if(strUser==0){ //for text use if(strUser1=="Select")
+		$('#role').text("Please select a role");
+		document.addnewuser.name.focus();
+		return false;
+	}else{
+
+			}
+	/*
+	var estate = document.getElementById("statename");
+	var strState = estate.options[estate.selectedIndex].value;
+	//if you need text to be compared then use
+	//var strState1 =estate.options[estate.selectedIndex].text;
+	if((strUser==16 || strUser==14) && strState==0){
+		$('#state').text("Please select a state");
+		document.addnewuser.statename.focus();
+		return false;
+	}*/
+	if(strUser==2){ //for text use if(strUser1=="Select") if(role ==14)
+		if(document.addnewuser.statename.value=='0'||document.addnewuser.statename.value==null){
+			$('#state').text("Please select a state");
+			document.addnewuser.statename.focus();
+			return false;
+		}	
+	}
+
+if(strUser==12){ //for text use if(strUser1=="Select") if(role ==14)
+	 if(document.addnewuser.statename.value=='0'||document.addnewuser.statename.value==null){
+		$('#state').text("Please select a state");
+		document.addnewuser.statename.focus();
+		return false;
+	 }
+/*		if(document.addnewuser.cityname.value=='0'||document.addnewuser.cityname.value==null){
+		$('#district').text("Please select a district");
+		document.addnewuser.cityname.focus();
+		return false;
+	 }
+*/	 
+}
+
+if(strUser==6){
+	 if(document.addnewuser.ministry_name.value=='0'||document.addnewuser.ministry_name.value==null){
+		$('#ministry').text("Please select a ministry");
+		document.addnewuser.ministry_name.focus();
+		return false;
+	 }else{
+		$('#ministry').text("");
+		}
+}
+
+	if(strUser>0){//for text use if(strUser1=="Select")
+		$('#role').text("");
+		$('#ministry').text("");
+		$('#district').text("");
+		$('#state').text("");
+	}
+
+////// end//////////////////////////////////////////////////////////	  	
+ if(document.addnewuser.username.value==''||document.addnewuser.username.value==null)
+   {
+	   $('#user').text("Username field cannot be empty");
+	   document.addnewuser.username.focus();
+	   return false;
+   }
+  			    
+					if(document.addnewuser.username.value!='')
+					{
+						for (var i = 0; i < document.addnewuser.username.value.length; i++) {
+						if (iChars_username.indexOf(document.addnewuser.username.value.charAt(i)) != -1) {
+						alert ("Username field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+						document.addnewuser.username.focus();
+						return false;
+						}
+				 	  }
+
+					   
+					}
+					if(document.addnewuser.username.value!='')
+					{
+						for (var i = 0; i < 1; i++) {
+						if (iChars12.indexOf(document.addnewuser.username.value.charAt(i)) != -1) {
+						alert ("First character should be string!");
+						document.addnewuser.username.focus();
+						return false;
+						}
+				 	  }
+
+					   
+					}
+ if(document.addnewuser.username.value!=''||document.addnewuser.username.value!=null){
+	   $('#user').text("");
+   }
+
+
+
+
+
+
+
+	if(document.addnewuser.password.value==''||document.addnewuser.password.value==null){
+	  $('#pass').text("Password field cannot be empty");
+	   document.addnewuser.password.focus();
+	   return false;
+   }
+   if(document.addnewuser.password.value!=''||document.addnewuser.password.value!=null){
+	  
+	var passwordval=document.addnewuser.password.value;
+	if(/^(?=.*\d)(?=.*[@#\-_$%^&+=ยง!\?])(?=.*[a-z])(?=.*[A-Z])[0-9A-Za-z@#\-_$%^&+=ยง!\?]{8,20}$/.test(passwordval) == false){
+	$('#pass').text("Your password quality is too bad. Please use some special character,Numbers,Upper case Letter and Lower case letter!");
+	   document.addnewuser.password.focus();
+	   return false;
+	}else{
+		$('#pass').text("");
+	}
+}else{
+	$('#pass').text("");
+}
+ 
+
+	if(document.addnewuser.firstname.value==''||document.addnewuser.firstname.value==null){
+	   $('#first-name').text("First name field cannot be empty");
+	   document.addnewuser.firstname.focus();
+	   return false;
+   }
+  	if(document.addnewuser.firstname.value!=''){
+						for (var i = 0; i < document.addnewuser.firstname.value.length; i++) {
+						if (iChars_allow_space.indexOf(document.addnewuser.firstname.value.charAt(i)) != -1) {
+						alert ("First name field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+						document.addnewuser.firstname.focus();
+						return false;
+						}
+				 	  }
+					}
+					if(document.addnewuser.firstname.value!='')
+					{
+						for (var i = 0; i < 1; i++) {
+						if (iChars12.indexOf(document.addnewuser.firstname.value.charAt(i)) != -1) {
+						alert ("First character should be string!");
+						document.addnewuser.firstname.focus();
+						return false;
+						}
+				 	  }
+
+					   
+					}
+if(document.addnewuser.firstname.value!=''||document.addnewuser.firstname.value!=null)
+   {
+	   $('#first-name').text("");
+   }
+
+
+					
+	   if(document.addnewuser.lastname.value==''||document.addnewuser.lastname.value==null)
+   {
+	   $('#last-name').text("Last name field cannot be empty");
+	   document.addnewuser.lastname.focus();
+	   return false;
+   }
+  			    
+					if(document.addnewuser.lastname.value!='')
+					{
+						for (var i = 0; i < document.addnewuser.lastname.value.length; i++) {
+						if (iChars.indexOf(document.addnewuser.lastname.value.charAt(i)) != -1) {
+						alert ("Last name field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+						document.addnewuser.lastname.focus();
+						return false;
+						}
+				 	  }
+					}
+					if(document.addnewuser.lastname.value!='')
+					{
+						for (var i = 0; i < 1; i++) {
+						if (iChars12.indexOf(document.addnewuser.lastname.value.charAt(i)) != -1) {
+						alert ("First character should be string!");
+						document.addnewuser.lastname.focus();
+						return false;
+						}
+				 	  }
+
+					   
+					}
+					
+       if(document.addnewuser.lastname.value!=''||document.addnewuser.lastname.value!=null)
+   {
+	   $('#last-name').text("");
+   }
+ 												
+	if(document.addnewuser.email.value==''||document.addnewuser.email.value==null)
+   {
+	   $('#email-add').text("Email field cannot be empty");
+	   document.addnewuser.email.focus();
+	   return false;
+   }
+
+        if(document.addnewuser.email.value!=''){
+           var email = document.getElementById('email');
+           var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5})+$/;
+           if (!filter.test(email.value)) {
+           $('#email-add').text('Please provide a valid email address');
+           document.addnewuser.email.focus();
+           return false;
+			}
+		}
+	
+	if(document.addnewuser.email.value!=''||document.addnewuser.email.value!=null){
+	   $('#email-add').text("");
+   }	
+			
+if(document.addnewuser.mobile.value==''||document.addnewuser.mobile.value==null){
+	   $('#mobile-no').text("Mobile no. field cannot be empty");
+	   document.addnewuser.mobile.focus();
+	   return false;
+   }
+   
+   /*  if(document.getElementById("txtInput").value ==''|| document.getElementById("txtInput").value ==null)
+   {
+	   alert("<?php //echo CAPTCHA_NOTEMPTY; ?>");
+	   document.getElementById("txtInput").focus();
+	   return false;
+   }
+   if (string1!= string2){
+	   alert('<?php //echo CAPTCHA_INCORRECT; ?>');					  
+	   return false;
+	} */
+        
+if(document.addnewuser.mobile.value!=''){
+var mobile = document.getElementById("mobile").value;
+  var pattern = /^[\s()+-]*([0-9][\s()+-]*){6,20}$/;
+        if (!pattern.test(mobile)) {
+             $('#mobile-no').text("Please Enter Valid Mobile Number");
+			document.addnewuser.mobile.focus();
+            return false;
+        }
+		
+		if(document.addnewuser.mobile.value!=''||document.addnewuser.mobile.value!=null){
+			$('#mobile-no').text("");
+		}	
+}	
+		
+		if(jQuery('#vercode').val() == '')
+		{
+			$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+
+if(jQuery('#vercode').val() != '')
+		{
+			$('#captcha-code').text("");
+		}
+
+     if(document.addnewuser.organisation.value==''||document.addnewuser.organisation.value==null)
+   {
+	   alert("organisation field cannot be empty");
+	   document.addnewuser.organisation.focus();
+	   return false;
+   }
+  			    
+					if(document.addnewuser.organisation.value!='')
+					{
+						for (var i = 0; i < document.addnewuser.organisation.value.length; i++) {
+						if (iCharsCertian1.indexOf(document.addnewuser.organisation.value.charAt(i)) != -1) {
+						alert ("organisation field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+						document.addnewuser.organisation.focus();
+						return false;
+						}
+				 	  }
+
+					   
+					}
+
+
+if(strUser==3) //for text use if(strUser1=="Select")
+{
+	
+	// var elements = getElementsByClassName(),
+	if(document.addnewuser.address.value==''||document.addnewuser.address.value==null)
+	   {
+		   alert("Address field cannot be empty");
+		   document.addnewuser.address.focus();
+		   return false;
+	   }
+
+	   if(document.addnewuser.address.value!=''){
+						for (var i = 0; i < document.addnewuser.address.value.length; i++) {
+						if (iCharsCertian1.indexOf(document.addnewuser.address.value.charAt(i)) != -1) {
+						alert ("Address field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+						document.addnewuser.address.focus();
+						return false;
+						}
+				 	  }
+					}
+}
+if(strUser==3){//for text use if(strUser1=="Select")
+	
+	/*if(document.addnewuser.telephone.value==''||document.addnewuser.telephone.value==null)
+   {
+	   alert("Telephone field cannot be empty");
+	   document.addnewuser.telephone.focus();
+	   return false;
+   }*/
+
+	if(document.addnewuser.telephone.value!='')
+		{
+		var telephone = document.getElementById("telephone").value;
+        var pattern = /^[\s()+-]*([0-9][\s()+-]*){6,20}$/;
+			if (!pattern.test(telephone)) {
+				alert("It is not valid telephone number");
+				document.addnewuser.telephone.focus();
+				return false;
+			}
+        
+		}
+
+}
+	return true;
+}
+
+
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('user/userview'); ?>">User(s) List</a></li>
+   <li class="active">Add</li>
+</ol>
+<div class="row"><div class="col-sm-9 col-xs-12"><h2></h2></div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Users.pdf'); ?>"  target="_blank">Help?</a></div></div>
+<?php $postUrl = $this->url(array(
+    'controller' => 'user',
+    'action'  => 'add'
+    ));
+?>
+<div class="webform-client-form">
+<form role="form" method="post" action="<?php echo $postUrl; ?>" enctype="multipart/form-data"  name="addnewuser"  id="add_new_user"  onsubmit="return validate();">
+    
+        <?php 
+        if($this->errorMessage){
+            echo "<div class='error-msg'>".$this->errorMessage."</div>"; 
+        }?>
+ 		<div class="row">
+            <div class="form-group col-sm-6 col-xs-12">
+                <label>Role<sup class="require">*</sup> </label>
+              
+                <?php echo $this->form->name; ?>
+                <span class="require" id="role"></span>
+            </div>
+           <div class="form-group col-sm-6 col-xs-12 state-item">
+                    <label>State:</label>
+                    <?php echo $this->form->statename; ?>
+                    <span class="require" id="state"></span>
+            </div>
+            </div>
+            <div class="row">
+			<div class="form-group col-sm-12 col-xs-12 ministry-item">
+                    <label>Ministry:</label>
+                    <?php echo $this->form->ministry_name; ?>
+                    <span class="require" id="ministry"></span>
+            </div>
+           <div  class="form-group col-sm-12 col-xs-12 city-item">
+                    <label>District:</label>
+                    <? $this->form->cityname ?>
+                    <span class="require" id="district"></span>
+            </div>
+</div>
+            <div class="row">
+            <div class="form-group col-sm-6 col-xs-12">
+                <label>Username<sup class="require">*</sup> </label>
+                <!--<input type="number" class="form-control" placeholder="Mobile" />-->
+                <?php echo $this->form->username; ?>
+                <span class="require" id="user"></span>
+              </div>
+        
+    
+    
+ 
+              <div class="form-group col-sm-6 col-xs-12">
+              <label>Password<sup class="require">*</sup>  </label>
+              <?php echo $this->form->password; ?>
+              <span class="require" id="pass"></span>
+                 <img data-toggle="tooltip" data-placement="left" data-html="true"  data-title=" Your password needs to:<br>
+Atleast one lowercase character<br>
+Atleast one uppercase character<br>
+Atleast one digit<br>
+Atleast one special sign of @#-_$%^&amp;+=§!?" src="../images/hint.png" alt="hint" class="hint" />
+            </div>
+           </div>
+            <div class="row">
+            <div class="form-group col-sm-6 col-xs-12">
+              <label>First Name<sup class="require">*</sup>  </label>
+              <?php echo $this->form->firstname;?>
+              <span class="require" id="first-name"></span>
+            </div>
+
+    
+    
+              <div class="form-group col-sm-6 col-xs-12">
+              <label>Last Name<sup class="require">*</sup>  </label>
+              <?php echo $this->form->lastname; ?>
+              <span class="require" id="last-name"></span>
+            </div>
+           </div>
+            <div class="row">
+            <div class="form-group col-sm-6 col-xs-12">
+              <label>E-mail Address<sup class="require">*</sup>  </label>
+              <?php echo $this->form->email;?>
+              <span class="require" id="email-add"></span>
+            </div>
+    
+    
+     
+              <div class="form-group col-sm-6 col-xs-12">
+              <label>Mobile Number<sup class="require">*</sup>  </label>
+              <?php echo $this->form->mobile; ?>
+              <span class="require" id="mobile-no"></span>
+            </div>
+            </div>
+            <div class="row">
+            <!-----------Add Captcha Code Script----->
+			    <div class="form-group col-sm-6 col-xs-12 captcha-inner">
+              <label>Captcha Code<sup class="require">*</sup>  </label>
+              <?php echo $this->form->vercode; ?>
+              <?php //echo $this->formRow($form->get('captcha')); ?>
+			   <p><span><img src="<?php echo $this->BaseUrl('cool_capcha/captcha.php');?>" id="captcha" class="pull-left" width="248" height="40" /></span>
+			 <a  onclick="
+    document.getElementById('captcha').src='/cool_capcha/captcha.php?'+Math.random();
+    document.getElementById('vercode').focus();"
+    id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl(); ?>/images/refress.png" class ="refresh" id="refresh" /></a>	</p>
+    <div class="clearfix"></div><span class="require" id="captcha-code"></span>
+			  			
+			   <input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+           </div>
+            <div class="row">
+         <div class="col-md-12 col-sm-12 text-center">
+            <div class="form-group">
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+               <!--<button type="reset" name="Reset" class="btn active text-center" id="sechemSearchButton">Cancel</button>--->
+   <button type="reset" name="Reset" class="btn active text-center" id="resetButton" onclick="goCancel();"><?php echo CANCEL; ?></button>
+            </div>
+        </div>
+       </div>  
+</form>
+<div>

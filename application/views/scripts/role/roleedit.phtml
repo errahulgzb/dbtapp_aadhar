@@ -1,0 +1,69 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+
+?>
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function()
+{
+	jQuery("#frmeditrole").submit(function()
+	{
+		var alphabetReg = /^[a-zA-Z ]*$/;
+		if (jQuery("#name").val() == '')
+		 {
+			alert("Title <?php echo CANTEMPTY; ?>");
+			jQuery( "#name" ).focus();
+			return false;
+		}
+		if(!alphabetReg.test(jQuery("#name").val()))
+	    {
+			alert("Title <?php echo ALPHABETSVALIDATION; ?>");
+			jQuery( "#name" ).focus();
+			return false;
+		}
+	});
+});
+</script>
+<h2 class="btn btn-block btn-danger margin_bottom10 col-sm-12">Edit Role</h2>				
+				<?  $cmidata = $this->cmidata;
+				//print_r($cmidata);
+				$postUrlUpdate = $this->url(array(
+						'controller' => 'role',
+						//'action'  => 'userview'
+						))."?id=".$this->escape($cmidata['id']); ?>
+
+			<form  class="webform-client-form" method="post" accept-charset="UTF-8" action="<?=$postUrlUpdate?>"name="frmeditrole" id="frmeditrole" onsubmit="return validate();">
+					<?php if($this->errorMessage){?>
+					<div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div><?php } ?>
+					<div class="row">
+                        <div class="form-group col-sm-6">
+                            <label>Title:<sup class="require">*</sup> </label>
+                           <input type="text" name="name" id="name" class="form-control" value="<?php echo $cmidata['title'];?>">
+</div>	   
+            <!-----------Add Captcha Code Script----->
+			<div class="form-group col-sm-4">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+				<p>
+					<img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/>
+					<span><a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();"
+						id="change-image" class="menu4 refresh pull-left" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+					</span>									
+				</p>
+				<p class="text-left">										
+					<?php //echo $this->form->vercode; ?>
+					<input type="text" name="vercode" id="vercode" value="" class="form-control captchain" placeholder="Enter Verification Code." autocomplete="off">
+				</p>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+<div class="form-group col-sm-12 text-center">
+                           <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="editRoleButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="cancleRoleButton"><?php echo CANCEL; ?></button>
+</div>
+       	</div>
+				</form>
+	 
+

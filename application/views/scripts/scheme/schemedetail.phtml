@@ -1,0 +1,151 @@
+
+<?php 
+function currencyData($rs = null){
+    setlocale(LC_MONETARY, 'en_IN');
+    $amount = money_format('%!i', $rs);
+    $amount=explode('.',$amount); //Comment this if you want amount value to be 1,00,000.00
+    return $amount[0];
+  }
+$cmidataeng = $this->cmidataeng;
+$cmidatahindi = $this->cmidatahindi;
+$allfund = $this->fund;
+?>
+
+<!--Start Main Contant box-->
+<section class="container-fluid mainContant" id="mainContant">
+ <ol class="breadcrumb  margin_top10">
+ <?php
+	if(!empty($cmidatahindi['scheme_name']))
+	{
+		?>
+    <li><a href="<?php echo $this->baseUrl("/");?>"><?php echo home; ?></a></li>
+    <li><a href="<?php echo $this->baseUrl('scheme/schemelist');?>"><?php echo scheme; ?></a></li>
+	
+	<?php } else { ?>
+	
+	 <li><a href="<?php echo $this->baseUrl("/");?>"><?php echo Home; ?></a></li>
+    <li><a href="<?php echo $this->baseUrl('scheme/schemelist');?>"><?php echo scheme; ?></a></li>
+	
+	<?php } 
+		$allfund = $this->fund;
+		//print_r($allfund); die;
+		foreach ($allfund as $key => $value) {
+  			foreach ($value as $k => $v) {
+  				if(is_array($v)){
+  					$count =1;
+  				}
+  			}
+  		}
+	?>
+
+	<li class="active"><?php 
+	
+	if(!empty($cmidatahindi['scheme_name']))
+	{
+		echo $cmidatahindi['scheme_name'];
+	}
+	else
+	{
+	echo $cmidataeng['scheme_name'];
+	}
+
+	?> </li>
+  </ol>
+<?php
+	$financialyearfrom = date('Y');
+	$financialyearto = date('y') + 1;
+	$currentmonth = date('m');
+	if ($currentmonth <= 3) {$financialyearfrom = date('Y') - 1;$financialyearto = date('y');}
+	$financialyear = $financialyearfrom.'-'.$financialyearto;
+?>
+<div class="col-sm-12 text-center"><h2 class="financialyear"><?php echo FINANCIAL_YEAR;?> <?php echo $financialyear; ?></h2></div>
+  
+  <div class="col-sm-12">
+  <div class="row schemedetail_beneficiary">
+  <?php 
+  if($count > 0){
+  		foreach ($allfund as $key => $value) {
+  			foreach ($value as $k => $v) {
+  				//echo $v['total_beneficiery'];exit;
+          if($v['total_beneficiery'] > 0){
+              ?>
+
+    <div class="col-sm-3">
+        <div class="report fund_re /*margin-left-15*/">
+            <h2><?php echo '<img class="rupee-icon" alt="Rupee Icon" src="'.$this->baseUrl('images/rupee-symbol.png').'">'.currencyData($v['total_transfer']); ?></h2>
+            <p><?php echo total_funds_transfer;?></p>
+            <span><img src="<?php echo $this->baseUrl('images/rupee_2.png');?>" alt="Rupee"></span>
+        </div>
+    </div>
+    
+    <div class="col-sm-3">
+        <div class="report scheme_re /*row*/">
+            <h2> <?php echo currencyData($v['total_abp_seeded']); ?></h2>
+            <p><?php echo TOTAL_NUMBER_OF_TRANSACTIONS; ?><span>(<?php echo DATA_SEEDED_WITH_AADHAR;?>)</span></p>
+            <span><img src="<?php echo $this->baseUrl('images/icon-3.jpg');?>" alt="Beneficiaries with aadhar"></span>
+        </div>
+    </div>
+
+
+
+    <div class="col-sm-3">
+        <div class="report bene_re /*margin-left-15*/">
+            <h2><?php echo currencyData($v['total_beneficiery'] - $v['total_abp_seeded']); ?></h2>
+            <p><?php echo TOTAL_NUMBER_OF_TRANSACTIONS; ?><span>(<?php echo DATA_SEEDED_WITHOUT_AADHAR;?>)</span></p>
+            <span><img src="<?php echo $this->baseUrl('images/icon-2.jpg');?>" alt="Beneficiaries without aadhar"></span>
+        </div>
+    </div>
+    
+        <?php
+          }else if($v['total_beneficiery'] == 0){
+            ?>
+
+    <div class="col-sm-3">
+        <div class="report fund_re /*margin-left-15*/">
+            <h2><?php echo '<img class="rupee-icon" alt="Rupee Icon" src="'.$this->baseUrl('images/rupee-symbol.png').'"> '.currencyData($v['total_amount_tr_man']); ?></h2>
+            <p><?php echo total_funds_transfer;?></p>
+            <span><img src="<?php echo $this->baseUrl('images/rupee_2.png');?>" alt="Rupee"></span>
+        </div>
+    </div>
+    
+    <div class="col-sm-3">
+        <div class="report scheme_re /*row*/">
+            <h2> <?php echo currencyData($v['adhar_beneficiery_man']); ?></h2>
+            <p><?php echo TOTAL_NUMBER_OF_TRANSACTIONS; ?><span>(<?php echo DATA_SEEDED_WITH_AADHAR;?>)</span></p>
+            <span><img src="<?php echo $this->baseUrl('images/icon-3.jpg');?>" alt="Beneficiaries with aadhar"></span>
+        </div>
+    </div>
+        
+    <div class="col-sm-3">
+        <div class="report bene_re /*margin-left-15*/">
+            <h2><?php echo currencyData($v['beneficiery_man'] - $v['adhar_beneficiery_man']); ?></h2>
+            <p><?php echo TOTAL_NUMBER_OF_TRANSACTIONS; ?><span>(<?php echo DATA_SEEDED_WITHOUT_AADHAR;?>)</span></p>
+            <span><img src="<?php echo $this->baseUrl('images/icon-2.jpg');?>" alt="Beneficiaries without aadhar"></span>
+        </div>
+    </div>
+        
+    
+    
+        <?php
+          }
+  			}
+  		}
+  	}
+   ?> 
+  </div>
+  </div>
+            <?php 
+			
+	if(!empty($cmidatahindi['description']))
+	{
+		echo $cmidatahindi['description'];
+	}
+	else
+	{
+	echo $cmidataeng['description'];
+	}
+	 ?>
+                    		
+		
+</section>
+<!--End Main Contant box-->

@@ -1,0 +1,19 @@
+<?php
+$schemename = $this->schemename;
+$scm_name = "Scheme Name: ".$schemename[0]['scheme_name'];
+$scm_code = "Scheme Code: ".$schemename[0]['scheme_codification'];
+$header1 = array(0=> $scm_name, 1=> $scm_code);
+$header=array(0 => "Name",1 => "DOB(mm/dd/yyyy)",2 => "Gender",3 => "Aadhaar No.",4 => "Mobile No",5 => "Email-Id",6 => "Scheme Specific Unique Code",7 => "Scheme Specific Family No",8 => "Home Addres",9 => "Village Code",10 => "Village Name",11 => "Panchayat Code",12 => "Panchayat Name",13 => "Block Code",14 => "Block Name",15 => "District Code",16 => "District Name",17 => "State Code",18 => "State Name",19 => "Pincode",20 => "Ration Card No",21 => "TIN Family No",22 => "Amount",23 => "Fund Transfer(APB/NACH/NEFT/RTGS/CASH)",24 => "Transaction Date(mm/dd/yyyy)",25=>"NoOfTransaction",26 => "AadharSeededTransaction",27 => "Benefit Transfer By(BA/DA/MV)",28 => "Seeded with Aadhaar",29 => "Bank Account No",30 => "IFSC");
+$fp=fopen('php://output','w');
+fputcsv($fp, $header1);
+fputcsv($fp, $header);
+$data = $this->exportarray;
+foreach($data as $key=>$val){
+	fputcsv($fp, $val);
+}
+
+header('Content-type: application/csv');
+$filename = $schemename[0]['scheme_name'].".csv";
+header('Content-Disposition: attachment; filename='.$filename);
+exit;
+?>

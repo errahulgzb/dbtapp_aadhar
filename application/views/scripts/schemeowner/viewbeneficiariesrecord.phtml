@@ -1,0 +1,445 @@
+<?php 
+$schemename= $this->scheme_id;
+$cmidata = json_decode($this->cmidata, true);
+$Count = count($cmidata);
+ /* echo "<pre>";
+print_r($cmidata);
+echo "</pre>"; */  
+$paramdata = "?scheme_id=".safexss($_GET['scheme_id'])."&min_id=".safexss($_GET['min_id'])."&scm_type=".safexss($_GET['scmtype'])."&status=".safexss($_GET['status']);
+?>
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function(){
+	jQuery(".rstbtn").click(function(){
+		jQuery(".srch-box").val('');
+		window.location.href="<?php echo $searchUrl; ?>";
+	});
+});
+</script>
+<!--- ************************************************* --->
+
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('schemeowner/schemeview'); ?>">Scheme List</a></li>
+   <li><a href="<?php echo $this->baseUrl('schemeowner/beneficiarydatalist'.$paramdata); ?>">Beneficiaries Record</a></li>
+   <li class="active">Details</li>
+</ol>
+<div class="row"><div class="col-sm-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Beneficiary-v1.pdf'); ?>"  target="_blank">Help?</a></div></div>
+
+<!--<div class="row">
+<div class="col-sm-9 col-xs-12"><h2>Beneficiaries Details</h2></div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php //echo $this->baseUrl('/samplecsv/add_beneficiarydata_usermanual.pdf'); ?>"  target="_blank">Help?</a></div></div>-->
+<?php 
+$paramget = "id=".safexss($_GET['id'])."&scheme_id=".safexss($_GET['scheme_id'])."&uuid=".safexss($_GET['uuid'])."&scmtype=".safexss($_GET['scmtype']);
+?>
+<div class="row"><div class="col-sm-12 text-right"><a class="btn btn-warning" href='<?php echo $this->baseUrl("schemeowner/exportbeneficiary?".$paramget);?>' alt='Download Record'>Export </a></div></div>
+
+<!--- ************************************************* --->
+
+   <div class="row">
+	  <div class="col-sm-12">
+	  
+	  
+
+	  
+	  
+		<div class="col-sm-12 col-xs-6 text-center record_box">
+			<?php //if(!$Count): echo "No ".RECORD_FOUND; endif;?>
+		</div>
+		<form  class="webform-client-form form-inline" method="post" accept-charset="UTF-8" action="<?php echo $postUrl; ?>">
+		<div class="table table-responsive">
+		
+    <!---view beneficiary data----->
+	  
+	<table class="table beneficiaries-record">
+		    <?php 
+			if($Count==0){ ?>
+			<tr>
+				<td colspan="2"><?php echo RECORD_EMPTY;?></td>
+			</tr>
+			<?php
+			} else { 
+			foreach($cmidata as $key => $val){
+				   ?>
+           <!-- <div class="panel scheme-ministry">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 bg-warning">-->
+                        <tr class="bg-warning">
+                            <td width="50%">Scheme : <?php echo $this->escape($val['scheme_name']);?> (<?php if($this->escape($val['scheme_type']) == 1){
+                            echo "In Cash";
+                            }else if($this->escape($val['scheme_type']) == 2){
+                            echo "In Kind";
+                            }else if($this->escape($val['scheme_type']) == 3){
+                            echo "In Others";
+                            }else{
+                            echo "N/A";
+                            }?>)</td>
+                       <!-- </div>
+                        <div class="col-xs-12 col-sm-6 bg-warning">-->
+                        	<td width="50%">Ministry : <?php echo $this->escape($val['ministry_name']);?></td>
+                            </tr>
+                      <!--  </div>
+                    </div>
+                </div>
+            </div>-->
+                         
+                    <tr class="bg-info">    
+				   <td><label>Title Name: <?php echo $this->escape($val['beneficiary_title']);?></label></td>
+				   <td><label>Name: <?php echo $this->escape($val['name']);?></label></td>
+					
+                    </tr>
+                    <tr class="bg-info">
+					<td><label>Email-ID: <?php echo $this->escape($val['email_id']);?></label></td>
+					<td><label>DOB: <?php echo $this->escape(date('d/m/Y',strtotime($val['dob'])));?></label></td>
+					
+				
+                    </tr>
+                   <tr> <td>
+					<label>Gender: <?php if(strtolower($this->escape($val['gender'])) == "m" || $this->escape($val['gender']) == 1){
+							echo "Male"; 
+						}else if(strtolower($this->escape($val['gender'])) == "f" || $this->escape($val['gender']) == 2){
+							echo "Female";
+						}else{
+							echo "N/A";
+						}?></label></td>
+                    </tr>
+                    <td colspan="2">
+                    
+                    <div class="panel panel-warning">
+                    <div class="panel-heading">Personal Details</div>
+                <div class="panel-body">
+                <div class="table table-responsive">
+                <table class="table">
+					<tr>
+						<td  width="50%">Beneficiary Type:</td>
+						<td  width="50%"><?php 
+						if($val['beneficiary_type']!=''){
+							echo $this->escape($val['beneficiary_type']);
+						}
+						else{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					<tr>
+						<td  width="50%">Beneficiary Language:</td>
+						<td  width="50%"><?php 
+						if($val['beneficiary_regional_lang']!=''){
+							echo $this->escape($val['beneficiary_regional_lang']);
+						}
+						else{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					<tr>
+						<td width="50%">Bank Name:</td>
+						<td width="50%"><?php 
+						if($val['bank_name']!='')
+						{
+						echo $this->escape($val['bank_name']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					<tr>
+						<td width="50%">Account Number:</td>
+						<td width="50%"><?php 
+						if($val['bank_account']!='')
+						{
+						echo $this->escape($val['bank_account']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					<tr>
+						<td  width="50%">Bank IFSC:</td>
+						<td  width="50%"><?php 
+						if($val['ifsc']!=''){
+							echo $this->escape($val['ifsc']);
+						}
+						else{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					<tr>
+						<td scope="row">Aadhaar Number:</td>
+						<td><?php 
+						if($val['aadhar_num']!='')
+						{
+						echo $this->escape($val['aadhar_num']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+				
+					<tr>
+						<td scope="row">Seeded with Aadhaar:</td>
+						<td><?php 
+						if(strtolower($this->escape($val['aadhar_seeded'])) == 'y'){
+							echo "Yes";
+						}else if(strtolower($this->escape($val['aadhar_seeded'])) == 'n'){
+							echo "No";
+						}else{
+							echo "No";
+						}?></td>
+					</tr>	
+                    <tr>
+						<td scope="row">Mobile Number:</td>
+						<td><?php 
+						if($val['mobile_num']!='')
+						{
+						echo $this->escape($val['mobile_num']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					
+                    </table>
+                    </div>
+                    </div>
+                    </div>
+                    
+                    </td>
+                    </tr>
+                    
+                      <tr>
+                    <td colspan="2">
+                    
+                    <div class="panel panel-warning">
+                    <div class="panel-heading">Scheme / Family Details</div>
+                <div class="panel-body">
+                <div class="table table-responsive">
+                <table class="table">
+						<tr>
+						<td width="50%">Scheme Specific Unique Number:</td>
+						<td width="50%"><?php 
+						if($val['scheme_specific_unique_num']!='')
+						{
+						echo $this->escape($val['scheme_specific_unique_num']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					<tr>
+						<td scope="row">Scheme Specific family Number:</td>
+						<td><?php 
+						if($val['scheme_specific_family_num']!='')
+						{
+						echo $this->escape($val['scheme_specific_family_num']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					<tr>
+						<td>Ration card number:</td>
+						<td><?php 
+						if($val['ration_card_num']!='')
+						{
+						echo $this->escape($val['ration_card_num']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					<tr>
+						<td scope="row">Tin Family number:</td>
+						<td><?php 
+						if($val['tin_family_id']!='')
+						{
+						echo $this->escape($val['tin_family_id']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+ </table>
+                    </div>
+                    </div>
+                    </div>
+                    
+                    </td>
+                    </tr>
+                    
+                      <tr>
+                    <td colspan="2">
+                    
+                    <div class="panel panel-warning">
+                    <div class="panel-heading">Address Details</div>
+                <div class="panel-body">
+                <div class="table table-responsive">
+                <table class="table">
+					<tr>
+						<td width="50%">Home Address:</td>
+						<td width="50%">
+						<?php 
+							$home_address = $val['home_address'];
+							$home_address_init = wordwrap($home_address, 25, "\n", true);
+							echo  $home_address_init; 
+					   ?>
+						</td>
+					</tr>
+					
+					<tr>
+						<td scope="row">Village Name:</td>
+						<td><?php 
+						if($val['village_name']!='')
+						{
+						echo $this->escape($val['village_name']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+	                 <tr>
+						<td scope="row">Block Name:</td>
+						<td><?php 
+						if($val['block_name']!='')
+						{
+						echo $this->escape($val['block_name']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>					
+                     <tr>
+						<td scope="row">District Name:</td>
+						<td><?php 
+						if($val['district_name']!='')
+						{
+						echo $this->escape($val['district_name']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+                     <tr>
+						<td scope="row">State Name:</td>
+						<td><?php 
+						if($val['state_name']!='')
+						{
+						echo $this->escape($val['state_name']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+                      <tr>
+						<td scope="row">Postal Code:</td>
+						<td><?php 
+						if($val['pincode']!='')
+						{
+						echo $this->escape($val['pincode']);
+						}
+						else
+						{
+							echo "N/A";
+						}
+						?></td>
+					</tr>
+					 </table>
+                    </div>
+                    </div>
+                    </div>
+                    
+                    </td>
+                    </tr>
+                <!--    
+                <tr>
+                    <td colspan="2">
+                    
+                    <div class="panel panel-warning">
+                    <div class="panel-heading">Heading Name</div>
+                <div class="panel-body">
+                <div class="table table-responsive">
+                <table class="table">
+					 <tr>
+						<td width="50%">Transaction date:</td>
+						<td width="50%"><?php /*
+						if($val['transaction_date']!='')
+						{
+						echo $this->escape($val['transaction_date']);
+						}
+						else
+						{
+							echo "N/A";
+						}*/
+						?></td>
+					</tr>
+					
+					 <tr>
+						<td scope="row">Amount:</td>
+						<td><?php /*
+						if($val['amount']!='')
+						{
+						echo $this->escape($val['amount']);
+						}
+						else
+						{
+							echo "N/A";
+						}*/
+						?></td>
+					</tr>
+					<tr>
+						<td scope="row">Fund Transfer:</td>
+						<td><?php /*
+						if($val['fund_transfer']!='')
+						{
+						echo $this->escape($val['fund_transfer']); 
+						}
+						else
+						{
+							echo "N/A";
+						}*/
+						?></td>
+					</tr>
+					 </table>
+                    </div>
+                    </div>
+                    </div>
+                    
+                    </td>
+                    </tr>-->
+			<?php 
+			      }
+			} ?>
+	  
+	  
+	  </table>
+	  <!----end view beneficiry data--->
+		
+		</div>
+		</form>
+		</div>
+	</div>

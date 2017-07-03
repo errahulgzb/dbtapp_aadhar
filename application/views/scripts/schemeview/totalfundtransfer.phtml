@@ -1,0 +1,166 @@
+<?php 
+    function currencyData($rs = null){
+        setlocale(LC_MONETARY, 'en_IN');
+        $amount = money_format('%!i', $rs);
+        $amount=explode('.',$amount); //Comment this if you want amount value to be 1,00,000.00
+        return $amount[0];
+    }
+
+?>
+<?php 
+$curre_year = strtotime(date("d-m-Y"));          
+            $fixedyear = strtotime(date("d-m-Y", strtotime("31-03-".date("Y"))));
+            if($curre_year > $fixedyear){
+                $start = date("Y");
+            }else if($curre_year <= $fixedyear){
+                $dataa = date("Y")-1;
+                $start = $dataa;
+            }
+                $dateend = $start+1;
+                $end = $dateend;
+
+
+    $data = $this->schemewisedata;
+    $check = 0; 
+    //echo "Aaaaaa";exit;
+    //echo "Aaaaaa";exit;           
+    foreach($data as $key=>$val1){
+    	foreach($val1 as $key=>$value){
+    	if(is_array($value)){
+    		$check = 1;
+    	}
+      }
+    }
+?>
+<?php
+	$financialyearfrom = date('Y');
+	$financialyearto = date('y') + 1;
+	$currentmonth = date('m');
+	if ($currentmonth <= 3) {$financialyearfrom = date('Y') - 1;$financialyearto = date('y');}
+	$financialyear = $financialyearfrom.'-'.$financialyearto;
+?>
+
+
+<section class="container-fluid mainContant" id="mainContant">
+<div class="cntnt" id="scheme_report_state_wise">	
+<div class="col-sm-12 text-center margin_top10"><h2 class="financialyear"><?php echo FINANCIAL_YEAR;?> <?php echo $financialyear; ?></h2></div>
+<table class="table margin_none" role="presentation">
+<thead>
+	<th scope="col" width="20%"><?php echo SchemeName; ?></th>
+    <th scope="col" width="20%"><?php echo TotalDBT; ?></th>
+    <th scope="col" width="20%"><?php echo TotalNoOfBeneficiaries_TransactionsWithAadhaar; ?></th>
+    <th scope="col" width="10%"><?php echo PercentageOfBeneficiaries_TransactionsWithAadhaar; ?></th>
+    <th scope="col" width="20%"><?php echo TotalNoOfBeneficiaries_TransactionsWithoutAadhaar; ?></th>
+    <th scope="col" width="10%"><?php echo PercentageOfBeneficiaries_TransactionsWithoutAadhaar; ?></th>
+</thead>
+<?php 
+	if($check > 0){
+		foreach ($data as $keyarr => $valuearr) {
+			foreach ($valuearr as $k => $val) {
+				//echo "<pre>";print_r($val);echo "</pre>";
+				if(is_array($val)){	
+				if($val['total_beneficiery'] > 0){
+					
+				
+		$abppercent = round(($val['total_abp_amount'] * 100 ) / $val['total_transfer'],2);
+		$nonabp = round((($val['total_transfer'] - $val['total_abp_amount']) * 100 ) / $val['total_transfer'],2);
+?>
+<tbody>
+	<tr>
+    	<td>
+    	<?php
+    		if($this->roleget == "1"){
+    			$url = "/schemereport";
+    		}else if($this->roleget == "2"){
+    			$url = "/stateschemereport";
+    		}else if($this->roleget == "3"){
+    			$url = "/schemereport";
+    		}else if($this->roleget == "5"){
+    			$url = "/diststateschemereport";
+    		}else if($this->roleget == "6"){
+    			$url = "/schemereport";
+    		}
+			else if($this->roleget == "4"){
+    			$url = "/schemereport";
+    		}
+            else if($this->roleget == ""){
+                $url = "/auth/login";
+            }
+    	  ?>
+
+
+    		<a href="<?php echo $this->baseUrl($url);?>?<?php echo "ministry=".$val['ministry_id']."&scheme=".$val['id'];?>">
+    			<?php echo $val['scheme_name'];?>
+    		</a>
+    	</td>
+        <td class="text-right"><?php if($val['total_transfer']) {
+         echo currencyData($val['total_transfer']); 
+     	}else { 
+     		echo "0"; 
+     	}?>
+     	</td>
+        <td><?php 
+        if($val['total_transfer']) { echo currencyData($val['total_abp_amount']); } else { echo "0"; }?></td>
+        <td><?php echo $abppercent;?>%</td>
+        <td><?php if($val['total_transfer'] - $val['total_abp_amount']) { echo currencyData($val['total_transfer'] - $val['total_abp_amount']); } else { echo "0"; }?></td>
+        <td><?php echo $nonabp;?>%</td>
+    </tr>
+</tbody>
+<?php
+				}
+				else if($val['total_beneficiery'] == 0){
+						$abppercent = round(($val['abp_beneficiery_man'] * 100 ) / $val['total_amount_tr_man'], 2);
+						$nonabp = round((($val['total_amount_tr_man'] - $val['abp_beneficiery_man']) * 100 ) / $val['total_amount_tr_man'], 2);
+?>
+<tbody>
+	<tr>
+     <?php
+            if($this->roleget == "1"){
+                $url = "/schemereport";
+            }else if($this->roleget == "2"){
+                $url = "/stateschemereport";
+            }else if($this->roleget == "3"){
+                $url = "/schemereport";
+            }else if($this->roleget == "5"){
+                $url = "/distschemereport";
+            }
+            else if($this->roleget == ""){
+                $url = "/auth/login";
+            }
+          ?>
+    	<td><div id='no-drilldown'>
+    			<?php echo $val['scheme_name'];?>
+    		</div>
+    	</td>
+        <td class="text-right"><?php if($val['total_amount_tr_man']) {
+         echo currencyData($val['total_amount_tr_man']);    //9899062424 
+     	}else { 
+     		echo "0"; 
+     	}?>
+     	</td>
+
+
+        <td><?php 
+        if($val['total_amount_tr_man']) { echo currencyData($val['abp_beneficiery_man']); } else { echo "0"; }?></td>
+        <td><?php echo $abppercent;?>%</td>
+        <td><?php if($val['total_amount_tr_man'] - $val['abp_beneficiery_man']) { echo currencyData($val['total_amount_tr_man'] - $val['abp_beneficiery_man']); } else { echo "0"; }?></td>
+        <td><?php echo $nonabp;?>%</td>
+    </tr>
+</tbody>
+<?php
+				}
+				}//if closed here
+				
+				
+			}
+		}
+	}
+	else{
+		echo "<div class='error-msg'>No Record Found!</div>";
+	}
+
+	?>
+</table>  
+
+</div>  
+</section>

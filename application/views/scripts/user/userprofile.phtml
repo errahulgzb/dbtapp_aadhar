@@ -1,0 +1,75 @@
+
+<script type="text/javascript" language="javascript">
+function openPopUp(name, wdt, hgh){
+		var w = wdt;
+		var h =  hgh;
+		var left = (screen.width/2)-(w/2);
+		var top = (screen.height/2)-(h/2);
+		window.open(name,"","height="+h+",width="+w+",directories=no,scrollbars=yes,location=no,menubar=no,resizeable=no,status=no,toolbar=no,left="+left+",top="+top);
+	}
+</script>
+<?php $postUrl = $this->url(array(
+							 'controller' => 'user',
+							 //'action'     => 'postform'
+	)); 
+	
+	
+	
+
+	?>
+	
+
+<?php
+		$userRecord = $this->userRecord;
+		//echo "<pre>";
+		//print_r($userRecord);
+		//echo "</pre>";
+$userid = new Zend_Session_Namespace('userid');
+	//print_r($admname);
+	//echo "---".$userid->userid;
+	//echo $userRecord->firstname;
+	
+	//echo "aaa";
+	
+	?>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('user/userview'); ?>">User(s) List</a></li>
+   <li class="active">Profile</li>
+</ol>
+	<h2 class="pgTtl">My Account</h2>
+				<div class="cntnt">
+				
+				<div id="profilePage">
+					<div id="leftCol">
+						<div id="photo"><img src="<?php echo $this->baseUrl('images/logo.png');?>" alt="DMS" /><p><?php echo ucfirst($userRecord->firstname)." ".ucfirst($userRecord->lastname); ?></p>
+						</div>
+						<div id="profileOptions">
+							<p><a class="menu_1g" href="javascript:openPopUp('/DMS/user/upload/?fid=<?php echo $folderid->folderid;?>','450','400');">Upload Image </a></p>
+						</div>
+					</div>
+
+						<?php $cmiurl = $this->url(array(
+							 'controller' => 'user',
+							 'action' => 'useredit'
+						))."?id=".$this->escape($val['uid']); 
+						?>
+
+				        <td>
+						  <a href="<?php echo $cmiurl;?>" class="menu1">Edit</a>
+						</td>
+                                   
+
+					<div id="info">
+						
+						<p><span class="ttl">Username:</span><span class="dtl"><?php echo $userRecord->username ?></span></p>
+						<p><span class="ttl">Name:</span><span class="dtl"><?php echo ucfirst($userRecord->firstname)." ".ucfirst($userRecord->lastname); ?></span></p>
+					<!--	<p><span class="ttl">Last Name:</span><span class="dtl"><?php echo $userRecord->lastname ?></span></p> -->
+						<p><span class="ttl">Mobile No. :</span><span class="dtl"><?php echo $userRecord->mobile ?></span></p>
+						<p><span class="ttl">Email Id:</span><span class="dtl"><?php echo $userRecord->email ?></span></p>
+				<!--		<p><span class="ttl">Role:</span><span class="dtl"><?php echo $userRecord->role ?></span></p> -->
+					</div>
+					<div class="clr"></div>
+				</div>
+				</div>
+			

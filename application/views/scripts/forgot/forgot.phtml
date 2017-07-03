@@ -1,0 +1,75 @@
+<script type="text/javascript" language="javascript">
+			function validate()
+			{
+				 if(document.frm_login.username.value==''||document.frm_login.username.value==null)
+			   { 
+				   $('#user').text("User name field <?php echo CANTEMPTY; ?>");
+				   document.frm_login.username.focus();
+				   return false;
+			   }
+			   
+			    if(document.frm_login.username.value!=''||document.frm_login.username.value!=null)
+			   { 
+				   $('#user').text("");
+			   }
+			   
+			    if(document.frm_login.vercode.value==''||document.frm_login.vercode.value==null)
+			   {
+				   $('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+				   document.frm_login.vercode.focus();
+				   return false;
+			   }
+			     if(document.frm_login.vercode.value!=''||document.frm_login.vercode.value!=null)
+			   {
+				   $('#captcha-code').text("");
+				}
+				return true;
+			}
+		</script>
+		
+		<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+                        <?php 
+                        $messing='';
+                        if(@$_GET['message']=="sent")
+                        {
+                            $messing="Your Password has been sent to your registered email id.";
+                        }
+                        if($messing){?>	
+                            <div class="success-msg"> <?php echo $messing; ?></div>
+                        <?php }
+                        if($this->msg){ ?><div class="form-item"><span class="error-msg"><?php echo $this->escape($this->msg);?></span></div><?php }?>
+		              <?php $postUrl = $this->url(array('controller' => 'forgot', 'action'  => 'forgot')); ?>
+                     <div class="login-form">
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Forgot Password</strong></div>
+<div class="panel-body">
+<form class="form-horizontal" id="login-form" name="frm_login" method="post" action="<?=$postUrl?>" onsubmit="return validate();">
+    <div class="form-group">
+        <div class="input-group">
+        	<span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+	        <?=$this->form->username?>
+           
+        </div>
+         <span class="require" id="user"></span>
+    </div>
+    <div class="form-group captcha">
+    	<?php echo $this->form->vercode; ?>	
+    	<p><span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" /></span>
+    	<a  onclick="
+    document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+    document.getElementById('vercode').focus();"
+    id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="../images/refress.png" class ="refresh" id="refresh" /></a></p>
+    <div class="clearfix"></div><span class="require" id="captcha-code"></span>
+    	<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+    </div>
+    <div class="form-group">
+    	<input id="Submit1" type="submit" class="btn submit-login btn-block" value="E-mail new password" name="submit" />
+    </div>
+	<div class="form-group"><a href="<?php echo $this->baseUrl('/'); ?>">Login</a></div>
+</form>    

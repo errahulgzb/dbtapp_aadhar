@@ -1,0 +1,88 @@
+<?php 
+$dbtapplicabledata = $this->dbtapplicabledata;
+$totalschmcount = $this->totalschmcount;
+$totalmincount = $this->totalmincount;
+$totalschmapplicablecount = $this->totalschmapplicablecount;
+$totalapplicablemincount = $this->totalapplicablemincount;
+$totalschmnonapplicablecount = $this->totalschmnonapplicablecount;
+$totalapplicablenonmincount = $this->totalapplicablenonmincount;
+?>
+
+<script type="text/javascript">
+    function printDiv() 
+    {
+      var divToPrint=document.getElementById('mainContant');
+      document.getElementById('print-form').style.display='none';
+      document.getElementById('breadcrumbId').style.display='none';
+      var newWin=window.open('','Print-Window');
+      newWin.document.open();
+      newWin.document.write('<html><head><title>DBT Bharat: DBT Applicable Schemes</title><link rel="STYLESHEET" type="text/css" href="/dbtbharat/css/style.css"></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+      newWin.document.close();
+      setTimeout(function(){newWin.close();},10);
+      document.getElementById('print-form').style.display='block';
+    }
+</script>
+
+<section class="container-fluid mainContant" id="mainContant">
+<ol class="breadcrumb  margin_top10" id="breadcrumbId">
+    <li><a href="<?php echo $this->baseUrl("/");?>"><?php echo home; ?></a></li>
+    <li class="active"><?php echo DBT_APPLICABLE_SCHEMES; ?></li>
+  </ol>
+    <div id="print-form" class="col-sm-12 col-xs-12 text-right margin_bottom10">
+        <a href="#" id='btn' title='Print' class="btn btn-warning" onclick='printDiv();'>Print</a>
+    </div>
+ <div class="col-sm-12 col-xs-12">
+ <ul class="applicablen">
+<li  class="applicablenew">Total No. of Schemes:  <?php echo $totalschmcount; ?> from <?php echo $totalmincount; ?> Ministries</li>
+<li  class="applicablenew">DBT Applicable Schemes:  <?php echo $totalschmapplicablecount; ?> from <?php echo $totalapplicablemincount; ?> Ministries</li>
+<!--<li  class="applicablenew">Non DBT Applicable Schemes:  <?php //echo $totalschmnonapplicablecount; ?> from <?php  //echo $totalapplicablenonmincount; ?> Ministries</li>-->
+</ul>
+    </div>
+ 
+<div id="scheme">
+	    <h2 class="margin_bottom10">DBT Applicable Schemes</h2>
+		<div class="row">
+<?php
+foreach($dbtapplicabledata as $k=>$v)
+{
+	?>
+	
+	
+		        <div class="col-sm-12 col-md-6">
+		
+						
+												<h3><?php echo $v['ministry_name'].': '.count($v['scheme_data']).' Scheme(<span>s</span>)'; ?></h3>
+										 
+									 									<ul>
+																		<?php 
+																		foreach($v['scheme_data'] as $k=>$v)
+																		{
+								
+																			?>
+																			  <li class="applicablenew"><?php echo $v['scheme_name']; ?></li>
+																	<?php 	} ?>
+																			
+									
+										
+																			</ul>
+														
+					
+			
+			
+			
+			
+						
+	         
+		</div>	
+		
+       
+       
+	
+	<?php 
+}
+?>
+
+ </div>
+       </div>
+	   
+	   </section>

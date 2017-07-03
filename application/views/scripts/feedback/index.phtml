@@ -1,0 +1,234 @@
+<?php 
+    $userid = new Zend_Session_Namespace('userid');
+    $unme= $userid->userid;
+    $role = new Zend_Session_Namespace('role');
+    $captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+	$name = $this->name;
+	$email = $this->email;
+	$mobile = $this->mobile;
+
+?>
+
+<script>
+jQuery(document).ready(function()
+{
+$("#frmfeedback").submit(function(){
+	if($('#type').val() == '0')
+	{
+		$('#ftype').text("Please select feedback type!");
+		return false;
+	} 
+ if($('#type').val() > '0')
+	{
+		$('#ftype').text("");
+	}
+	var name_regex = /^[a-zA-Z ]+$/;
+    var detail_regex = /^[a-zA-Z0-9\~\`\!\@\#\$\^\*\(\)\-\_\:\"\'\,\.\?\n ]+$/;
+	var name = $("#name").val();
+	if(name == '' || name == null)
+	{
+		$('#fname').text("Name field can't be empty!");
+		$("#name").focus();
+		return false;
+		
+	}
+	else if(!name.match(name_regex))
+	{
+		$('#fname').text("Name <?php echo ALPHABETSVALIDATION; ?>!");
+		$("#name").focus();
+		return false;
+	}
+	
+	if(name != '' || name != null)
+	{
+		$('#fname').text("");
+		
+	}
+	
+	var email_regex = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/; 
+	var email = $("#email").val();
+	if(email == '' || email == null)
+	{
+		$('#fmail').text("Email field can't be empty!");
+		$("#email").focus();
+		return false;
+		
+	}
+	else if(!email.match(email_regex))
+	{
+		$('#fmail').text("<?php echo EMAILVALIDATION; ?>!");
+		return false;
+	}
+	if(email != '' || email != null)
+	{
+		$('#fmail').text("");
+	}
+	var mobile_regex = /^[0-9]+$/; 
+	var mobile = $("#mobile").val();
+	if(mobile == '' || mobile == null)
+	{
+		$('#fmobile').text("Mobile number can't be empty!");
+		$("#mobile").focus();
+		return false;
+		
+	}
+	else if(!mobile.match(mobile_regex))
+	{
+		$('#fmobile').text("<?php echo NUMERICVALIDATION; ?>!");
+		$("#mobile").focus();
+		return false;
+	}
+	else if(mobile.length != '10')
+	{
+		$('#fmobile').text("Mobile No should be of 10 digits!");
+		$("#mobile").focus();
+		return false;
+	}
+	if(mobile != '' || mobile != null)
+	{
+		$('#fmobile').text("");
+	}
+	var details = $("#details").val();
+	if(details == '' || details == null)
+	{
+		$('#fdetail').text("Detail field can't be empty!");
+		$("#detail").focus();
+		return false;
+	}
+   else if(!details.match(detail_regex))
+	{
+		$('#fdetail').text("Details field has special character please remove them!");
+		$("#details").focus();
+		return false;
+	}
+	if(details != '' || details != null)
+	{
+		$('#fdetail').text("");
+	}
+	if(jQuery('#vercode').val() == '')
+	{
+		$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+		jQuery( "#vercode" ).focus();
+		return false;
+	} 
+	if(jQuery('#vercode').val() != '')
+	{
+		$('#captcha-code').text("");
+	} 
+	
+});
+           function removeSpacesnew(string){
+                  return string.split(' ').join('');
+                  }
+});
+</script>
+<div class="container-fluid mainContant feedback" id="mainContant">
+<ol class="breadcrumb  margin_top10">
+    <li><a href="<?php echo $this->baseUrl("/");?>"><?php echo home; ?></a></li>
+    <li class="active"><?php echo feedback; ?></li>
+  </ol>
+<h2>Feedback</h2>				
+<?php $postUrl = $this->url(array(
+                'controller' => 'feedback',
+                //'action'  => 'index?scheme_id=1'
+                )); 
+                ?>
+<form class="form-horizontal" role="form" method="post" action="<?php echo $postUrl; ?>" name="frmfeedback" id="frmfeedback" onsubmit="return validate();" >		
+        <?php if($this->errorMessage){?>
+        <div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+        <?php } ?>
+        <?php if(@$_GET[actmsg] =='add'){?>
+        <div class='success-msg'><?php echo FEEDBACK_MSG; ?></div>
+        <?php } ?>
+        
+      
+        	<div class="row">
+            <div class="col-sm-6 col-xs-12  margin_bottom10">
+                <label>Type<sup class="error-msg">*</sup> </label>
+                <?php echo $this->form->type?>
+                <span class="require" id="ftype"></span>
+            </div>	
+
+             <div class="col-sm-6 col-xs-12 margin_bottom10">
+                <label>Name<sup class="error-msg">*</sup> </label>
+                <?php 
+				if($name!='')
+				{
+					?>
+					<input type="text" name="name" id="name" value="<?php echo $name; ?>"  disabled  class="form-control" maxlength="100">
+					<input type="hidden" name="name" id="name" value="<?php echo $name; ?>" class="form-control" maxlength="100">
+					<?php 
+				}else
+				{
+					?>
+                <?php echo $this->form->name?>
+				<?php } ?>
+                <span class="require" id="fname"></span>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-sm-6 col-xs-12 feedbackemail  margin_bottom10">
+                <label>E-mail<sup class="error-msg">*</sup> </label>
+                <?php 
+				if($email!='')
+				{
+					?>
+			<input type="text" name="email" id="email" value="<?php echo $email; ?>" disabled class="form-control" maxlength="100">		
+			<input type="hidden" name="email" id="email" value="<?php echo $email; ?>" class="form-control" maxlength="100">
+				<?php } else {
+					?>
+                <?php echo $this->form->email?>
+                
+				<?php 
+				} ?>
+                <span class="require" id="fmail"></span>
+            </div>
+            <div class="col-sm-6 col-xs-12  margin_bottom10">
+                <label>Mobile<sup class="error-msg">*</sup> </label>
+                	<?php 
+				if($mobile!='')
+				{
+					?>
+	      <input type="text" name="mobile" id="mobile" value="<?php echo $mobile; ?>" disabled class="form-control" maxlength="100">
+           <input type="hidden" name="mobile" id="mobile" value="<?php echo $mobile; ?>" class="form-control" maxlength="100">
+				<?php } else {
+					?>
+                <?php echo $this->form->mobile; ?>
+				<?php } ?>
+                <span class="require" id="fmobile"></span>
+            </div>
+            </div>
+            <div class="row margin_bottom10">
+            <div class="col-sm-12 col-xs-12">
+              <label>Details<sup class="error-msg">*</sup>  </label>
+             <?php echo $this->form->details; ?>
+             <span class="require" id="fdetail"></span>
+            </div>
+</div>
+
+            <!-----------Add Captcha Code Script----->
+			<div class="form-group col-sm-6 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();"
+						id="change-image" class="menu4 refresh pull-left" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+														
+				</p>
+				 <div class="clearfix"></div><span class="require" id="captcha-code"></span>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+<div class="row">
+              <div class="col-md-12 col-sm-12 text-center">
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton"><?php echo CANCEL; ?></button>
+            </div>
+            </div>
+  
+</form>
+</div>

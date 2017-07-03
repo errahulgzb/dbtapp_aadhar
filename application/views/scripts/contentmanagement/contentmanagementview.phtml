@@ -1,0 +1,161 @@
+<?php 
+//echo $this->search;
+//echo $_GET['type'];
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$captchanew = new Zend_Session_Namespace('captchanew');
+ $captchanew->captchanew = session_id();
+$transferengineer=$this->transferengineer;
+$searchUrl = $this->url(array(
+            'controller' => 'contentmanagement',
+            'action'  => 'contentmanagementview'
+            ));
+	$array_content_type = array('1'=> 'Header Menu Content', '2'=> 'Footer Menu Content', '3'=> 'Other Content');
+	//print_r($array_content_type);
+?>
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function(){
+	jQuery(".rstbtn").click(function(){
+		
+		jQuery(".srch-box").val('');
+		window.location.href="<?php echo $searchUrl; ?>";
+	});
+});
+function atleast_onecheckbox(e) {
+  if ($("input[type=checkbox]:checked").length === 0) {
+      e.preventDefault();
+     $('#error-msgdone').html("Please choose atleast one content type.");
+      return false;
+  }
+ 
+}
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li class="active">Content</li>
+</ol>
+<h2>Content Management</h2>
+    <?php
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalcmireports;
+        $language = $this->language;
+	
+        if($this->successMsg){
+            echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+        }if(isset($_GET['actmsg']) && $_GET['actmsg']=='ina'){
+			echo "<div class='success-msg'>Content data was successfully updated.</div>"; 
+			}
+    ?>
+   
+	  <div class="data-found">
+		
+		<div class="filterData">
+                    <div class="col-sm-12 col-md-7">
+                        <div class="row">
+                            <form method="get" class="form-inline" action="<?=$searchUrl.'?search='.$searchUrl?>">
+				<label><?php echo SEARCH_BY; ?></label>
+                                <select name="type" class="form-control">
+				<option value="">Please select Content Type</option>
+				<?php foreach($array_content_type as $k=>$v)
+		        {
+					?>
+						<option value="<?php echo $k;?>" <?php if($k==$this->search) { echo "selected";}?>><?php echo $v; ?></option>
+		
+		  <?php } ?>
+			   </select>
+				<input class="rolBtn  btn btn-default btn-warning text-center" type="Submit" name="Submit" value="Search"/>
+				<input class="rolBtn rstbtn btn active text-center" type="reset" name="reset" value="Reset"/> 
+			</form>
+                </div></div>
+ <div class="row"><div class="col-sm-12 text-right">
+			<?php if($role->role==1 || $role->role==6){ ?>
+			<a class="btn btn-warning pull-right margin-right-15" href="<?php echo $this->baseUrl(); ?>/contentmanagement" title="<?php echo Add_Content; ?>"><?php echo Add_Content; ?></a>
+
+
+			<?php } ?>
+		</div>
+        </div>
+        <div class="row"> <div class="col-sm-12 text-center record_box">
+		   <?php if($Count): echo '<span>'.$Count ." ".RECORD_FOUND.'</span>'; endif;?></div>
+    </div></div>
+	
+    <? $postUrl = $this->url(array(
+            'controller' => 'contentmanagement',
+            'action'  => 'contentinactive'
+            ));
+        ?>
+	<div class='table table-responsive'>	
+     <form  class="form-inline webform-client-form" role="form" method="post" accept-charset="UTF-8" action="<?=$postUrl?>" onsubmit="return atleast_onecheckbox(event)">
+        <table class='table' summary='manage content type'>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>S. No.</th>
+                    <th>Page Title</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                    <!--<th>Delete</th>-->
+                </tr>
+            </thead>
+            <tbody><?php if($Count ==0)
+                    { ?>
+                        <tr>
+                            <td colspan="8"><?php echo RECORD_EMPTY;?></td>
+                        </tr>
+                    <?php
+                    }else{
+                        $i=1;
+                        foreach ($cmidata as $key => $val)
+                        {
+							//print_r($val);
+						?>
+						<tr>
+						<td><input type="checkbox" name="roleid[<?php echo $val['id'];?>]" id="roleid"></td>
+						 <td><?php echo $i+$this->start;?></td>
+						 
+                         <td><?php 
+						echo $this->escape($val['title']);
+						?></td>
+					    
+						 <td> <?php echo ($this->escape($val['status']==1))?"Active":"Inactive";?></td>
+                                    <?php $cmiurl = $this->url(array(
+                                         'controller' => 'contentmanagement',
+                                         'action' => 'contentmanagementedit'
+                                        ))."?id=".$this->escape($val['id']);
+										
+										$cmiurlTranslateold = $this->url(array(
+                                         'controller' => 'contentmanagement',
+                                         'action' => 'contentmanagementtranslate'
+                                        ))."?id=".$this->escape($val['id']);
+										
+										
+										$cmiurlTranslatenew = $this->url(array(
+                                         'controller' => 'contentmanagement',
+                                         'action' => 'contentmanagementtranslateedit'
+                                        ))."?id=".$this->escape($val['translation_id']); 
+                                    ?>
+                                <td> <a href="<?php echo $cmiurl;?>" class="menu1">Edit</a></td>
+						
+						
+						</tr>
+                            
+                            <?php ++$i;
+                        }
+                    }?>
+                </tbody> 
+        </table><div>  <span class="require" id="error-msgdone"></span> </div>
+        <div class="status">
+            <select name="status" class="form-control" id="statusId">
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+	     <input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+             <button class="btn btn-default btn-warning text-center rolBtn" type="Submit" name="Submit">Submit</button>
+           <!-- <input class="rolBtn" type="Submit" name="Submit" value="Submit"/>-->
+        </div>
+    </form>
+	</div
+    ><?php echo $this->paginate; ?>
+
+		

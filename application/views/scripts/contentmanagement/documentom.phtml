@@ -1,0 +1,38 @@
+<?php
+
+//print"<pre>";print_r($this->documentomdata);
+$documentdata=$this->documentomdata;
+
+$titlebrdcrumn =  $this->titlebrdcrumn;
+
+$badtags=array('IFRAME','SCRIPT','script','javascript','alert','?','OBJECT','EMBED');
+
+?>
+
+
+<section class="mainContant" id="mainContant">
+		<div id="about">
+	    
+        <div class="col-sm-12 col-md-12">
+		<ol class="breadcrumb  margin_top10">
+    <li><a href="<?php echo $this->baseUrl('/'); ?>"><?php echo home; ?></a></li>
+    <li class="active">
+	<?php echo OFFICEMEMORANDUM; ?></li>
+  </ol>
+			<div class="panel panel-info">
+			<div class="panel-heading"><strong><?php echo OFFICEMEMORANDUM; ?></strong></div>
+
+			<div class="panel-body">
+			<ul>
+					<?php foreach($documentdata as $key=>$docdata){
+						?>
+						<li><a href="<?php echo $this->baseUrl()."/".$docdata['filepath']; ?>" target="_blank" title="<?php echo $docdata['doctitle']; ?>"><?php echo $docdata['doctitle']; ?></a></li>
+					<?php } ?>
+			</ul>
+			</div>
+			</div>
+            		
+		</div>
+        
+       </div>
+</section>

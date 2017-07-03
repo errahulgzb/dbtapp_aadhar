@@ -1,0 +1,149 @@
+<?php
+
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+ $captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+
+$searchUrl = $this->url(array(
+    'controller' => 'ministry',
+    'action'  => 'ministryview'
+    )); 
+?>
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function(){
+	jQuery(".rstbtn").click(function(){
+		
+		jQuery(".srch-box").val('');
+		window.location.href="<?php echo $searchUrl; ?>";
+	});
+});
+function atleast_onecheckbox(e) {
+  if ($("input[type=checkbox]:checked").length === 0) {
+      e.preventDefault();
+     $('#error-msgdone').html("Please choose atleast one ministry.");
+      return false;
+  }
+ 
+}
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li>Ministry</li>
+   <!--<li class="active">List</li>-->
+</ol>
+<h2>Manage Ministry<a class="pull-right" href="<?php echo $this->baseUrl('/samplecsv/DBT_App_User_Manual_Manage_Ministry_and_Department_V3.pdf'); ?>"  target="_blank">Help?</a> </h2>
+	<div class="row">
+		<div class="col-sm-12">
+			<?php	
+				$cmidata = $this->cmidata;
+				$Count = $this->ministrycount;
+			$ministrycount = $this->ministrycount;	
+			?>
+			<?php 
+				if($this->successMsg){
+					echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+				}if(isset($_GET['add']) && $_GET['add']=='updated'){
+			echo "<div class='success-msg'>Ministry data was successfully updated.</div>"; 
+			}
+			?>
+			
+				<form class="form-inline" role="form" method="get" action="<?php echo $searchUrl.'?search='.$searchUrl?>">
+					<div class="row">
+                    	<div class="col-md-9 col-sm-12">
+						<div class="form-group margin-left-15">
+							<label><?php echo SEARCH_BY; ?></label>
+							<input class="form-control" type="text" placeholder="Ministry" name="search" value="<?php echo safexss($this->escape($_GET['search']));?>">
+							<button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+							<button type="reset" class="btn active text-center" name="reset" id="sechemSearchButton">Cancel</button>
+						</div>
+					</div>
+					
+					 	<div class="col-md-3 col-sm-12 text-right">
+						<a class="btn btn-warning margin-right-15" href="<?php echo $this->baseUrl(); ?>/ministry" title="<?php echo ADD_NEW_MINISTRY; ?>"><?php echo ADD_NEW_MINISTRY; ?></a>
+					</div>
+					</div>
+				</form>
+				
+				<div class="col-sm-12 col-xs-6 text-center record_box">
+					
+					<?php if($Count): echo '<span>'.$Count ." ".RECORD_FOUND.'</span>'; endif;?>
+				</div>
+				
+				<? $postUrl = $this->url(array(
+					'controller' => 'ministry',
+					'action'  => 'ministryinactive'
+					));
+			?>
+
+			<form  class="form-inline webform-client-form" role="form" method="post" accept-charset="UTF-8" action="<?=$postUrl?>" onsubmit="return atleast_onecheckbox(event)">
+				<div class='table table-responsive'>
+				<table class='table' summary='Display the ministry record'>
+					<thead>
+						<tr>
+							<th scope='col'>#</th>
+							<th scope='col'>S. No.</th>
+							<th scope='col'>Ministry</th>
+							<th scope='col'>Status</th>
+							<th scope='col'>Action</th>
+							<!--<th>Delete</th>-->
+						</tr>
+					</thead>
+					<tbody><?php
+					
+					if($ministrycount==0){ ?>
+							<tr>
+								<td colspan="10" class='text-center'><?php echo RECORD_EMPTY;?></td>
+							</tr>
+							<?php
+							}else{
+								$i=1;
+								foreach($cmidata as $key => $val)
+								{ 
+							
+								?>
+								 <tr>
+										<td><input type="checkbox" name="roleid[<?php echo $val['id'];?>]" id="roleid"></td>
+										 <td><?php echo $i+$this->start;?></td>
+										<td> <?php echo $this->escape($val['ministry_name']);?></td>
+										 <td> <?php echo ($this->escape($val['status']==1))?"Active":"Inactive";?></td>
+									   <?php $cmiurl = $this->url(array(
+												 'controller' => 'ministry',
+												 'action' => 'ministryedit'
+										))."?id=".$this->escape($val['id']); 
+										
+										
+										$cmiurlTranslateold = $this->url(array(
+												 'controller' => 'ministry',
+												 'action' => 'ministrytranslate'
+										))."?id=".$this->escape($val['id']); 
+										
+										
+										$cmiurlTranslatenew = $this->url(array(
+												 'controller' => 'ministry',
+												 'action' => 'ministrytranslateedit'
+										))."?id=".$this->escape($val['translation_id']); 
+										?>
+										<td> <a href="<?php echo $cmiurl;?>" class="menu1">Edit</a></td>
+									</tr>	
+									<?php ++$i;
+								}
+							}?>
+					</tbody>    
+				</table>
+				</div><div>  <span class="require" id="error-msgdone"></span> </div>
+				<div class="status">
+					<select name="status" class="form-control" id="statusId">
+						<option value="1">Active</option>
+						<option value="0">Inactive</option>
+					</select>
+					 <input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+					 <button class="btn btn-default btn-warning text-center rolBtn" type="Submit" name="Submit">Submit</button>
+				   <!-- <input class="rolBtn" type="Submit" name="Submit" value="Submit"/>-->
+				</div>
+			</form>
+			<?php echo $this->paginate; ?>
+		</div>
+	</div>
+	

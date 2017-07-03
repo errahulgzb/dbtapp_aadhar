@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title><?php echo WEBSITE_TITLE;?></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		
+		
+		<link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/style.css'); ?>">
+		<link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/print.css'); ?>" media="print">
+		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+		<script type="text/javascript" src="<?=$this->baseUrl('js/jquery.min.js') ?>"></script>
+		<script type="text/javascript" src="<?=$this->baseUrl('js/jquery.passwordstrength.js') ?>"></script>
+		<script type="text/javascript" src="<?=$this->baseUrl('js/application.js') ?>"></script>
+
+		<link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/style1.css'); ?>" media="screen" />
+		<link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/font-awesome.css'); ?>" media="screen" />
+
+
+		<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<script type="text/javascript" language="javascript">
+			function validate()
+			{
+				 if(document.frm_login.username.value==''||document.frm_login.username.value==null)
+			   {
+				   alert("Username field cannot be empty");
+				   document.frm_login.username.focus();
+				   return false;
+			   }
+				return true;
+			}
+		</script>
+
+
+
+	</head>
+	<body>
+            
+	<div class="cntnr dcWrap">
+		<header id="header" class="tlc">
+			<div class="toc logo">
+				<h1><a href="<?php echo $this->baseUrl();?>" title="<?php echo WEBSITE_TITLE;?>"><img src="<?php echo $this->baseUrl('images/logo.gif');?>" alt="<?php echo WEBSITE_TITLE;?>" /></a></h1>
+			</div>
+			<!-- <div class="navWrap tnc">
+				<ul id="primary">
+					<li><a class="home" href="index.html" title="Home">Home</a></li>
+					<li><a href="#" title="Online Survey">Online Survey</a></li>
+					<li><a href="#" title="About Us">About Us</a></li>
+					<li class="last"><a href="#" title="Contact Us">Contact Us</a></li>
+				</ul>
+			</div> -->
+		</header>
+		<div class="tlc banner">
+			<ul class="rslides" id="slider">
+				<li><img src="<?php echo $this->baseUrl('images/bannerImg1.jpg');?>" alt="Velocis"><p class="caption"><span class="xxl">Build</span> <span class="lead">a Stable</span> <span class="xl">Network</span><br />Data Center Management</p></li>
+				<li><img src="<?php echo $this->baseUrl('images/bannerImg2.jpg');?>" alt="Velocis"><p class="caption"><span class="xxl">Build</span> <span class="lead">a Stable</span> <span class="xl">Network</span><br />Data Center Management</li>
+				<li><img src="<?php echo $this->baseUrl('images/bannerImg3.jpg');?>" alt="Velocis"><p class="caption"><span class="xxl">Build</span> <span class="lead">a Stable</span> <span class="xl">Network</span><br />Data Center Management</p></li>
+			</ul>
+		</div>
+		<div class="tlc">
+			<? $postUrl = $this->url(array('controller' => 'forgot', 'action'  => 'forgot')); ?>
+			<div id="left" class="thc">
+				<h2>Forgot Password</span></h2>
+				<?php 
+                                        if($this->successMsg){
+                                            echo "<div class='success-msg'>".$this->escape($this->successMsg)."</div>"; 
+                                        }if($this->errorMsg){
+                                            echo "<div class='error-msg'>".$this->escape($this->errorMsg)."</div>"; 
+                                        }
+                                    ?>
+
+				<form  id="user-login-form" name="frm_login" method="post" action="<?=$postUrl?>" onsubmit="return validate();">
+						
+						<div class="form-item"><label>Username</label><?=$this->form->username?></div>
+
+						<div class="form-item">
+							<input type="submit" value="Email new password">
+						</div>
+
+
+						<div class="form-item">
+							<a href="<?php echo $this->baseUrl('auth/login');?>" >Existing User? Click Here</a>
+						</div>
+				</form>
+			</div>
+			
+			<div class="nnc">
+				<h2>Welcome to data center</h2>
+				<div class="cntnt">
+					<p class="highlight">Velocis Systems Pvt. Ltd. is one of the leading players in networking, computing, messaging & collaboration, portals and business process automation.</p>
+					<p>Velocis Systems Pvt. Ltd. is one of the leading players in networking, computing, messaging & collaboration, portals and business process automation. Velocis Systems Pvt. Ltd. is one of the leading players in networking, computing, messaging & collaboration, portals and business process automation. Velocis Systems Pvt. Ltd. is one of the leading players in networking, computing, messaging & collaboration, portals and business process automation.</p>
+					<p>Velocis Systems Pvt. Ltd. is one of the leading players in networking, computing, messaging & collaboration, portals and business process automation.</p>
+				</div>
+			</div>
+			
+		</div>
+		<footer class="tlc">
+			<p class="copy"><?php echo COPYRIGHT; ?></p>
+		</footer>
+		<div class="clr"></div>
+	</div>	
+	<script src="<?php echo $this->baseUrl('js/jquery.min.js');?>"></script>
+	<script src="<?php echo $this->baseUrl('js/responsiveslides.min.js');?>"></script>
+	<script>
+		$(function () {
+			$("#slider").responsiveSlides({
+			auto: true,
+			pager: true,
+			speed: 300,
+			//maxwidth: 540
+			});
+		});
+	</script>
+</body>
+</html>

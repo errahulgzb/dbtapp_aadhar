@@ -1,0 +1,3 @@
+SchemeName: Scheme Name Scheme Code : Scheme code,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Title,Name,DOB(mm/dd/yyyy),Gender,AadharNo,Seeded with Aadhaar,MobileNo,EmailId,SchemeSpecificUniqueNo,SchemeSpecificFamilyNo,HomeAddress,VillageCode,VillageName,PanchayatCode,PanchayatName,BlockCode,BlockName,DistrictCode,DistrictName,StateCode,StateName,PinCode,RationCardNo,TINFamilyId,Bank Account,IFSC,Bank Name,Regional Language,Beneficiary Type
+Mr.,rahul,33370,M,12234568@141,N,9912112097,upendra.yadav@velocis.co.in,123456712,98765678,Rajnagar Extension,10,Raj Nagar,NA,NA,20,GZB,GZB,Ghaziabad,1,UP,201017,1234567,98787778,1.23E+12,UBIN053071,SBI,Hindi,test

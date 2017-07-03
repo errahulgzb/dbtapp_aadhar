@@ -1,0 +1,243 @@
+@charset "utf-8";
+@font-face {font-family: 'Ubuntu';src: url('../fonts/Ubuntu-Regular.eot');src: url('../fonts/Ubuntu-Regular.woff') format('woff'), url('../fonts/Ubuntu-Regular.ttf') format('truetype'), url('../fonts/Ubuntu-Regular.svg') format('svg');	font-weight: normal;font-style: normal;}
+html,body {height: 100%;}
+body {font:normal 14px/1.5 'Ubuntu', sans-serif;color: rgb(86,86,86);}
+header .form-inline button{border-radius:0 4px 4px 0}
+a{ outline:none;}
+p{ text-align:justify;}
+h2 { font-size:18px; margin-top:0px;}
+button,input[ type="submit"], input[ type="reset"],.btn:hover, .btn:focus, .btn.focus{ color: #fff; outline:none;}
+.error,.errors, .error-msg{ color:#F00; display:block; text-align:center;}
+.require { color:#F00;}
+form ul{padding-left:0px;}
+form ul li{ list-style:none; text-align:left;}
+sup{ display:inline-block !important;}
+.success,.success-msg{color:#090; display:block; text-align:center;}
+.success-left{color:#090; display:block;}
+.c-left{ clear:left;}
+#wrap {min-height: 100%;height: auto;margin: 0 auto -92px;padding: 0 0 92px;}
+.text-indent{ text-indent:-9999px; display:block; color:transparent; opacity:0;}
+
+/*bootstrap edit start*/
+label { font-weight:400;}
+a:focus,.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn.focus:active, .btn.active.focus { outline:none;}
+.form-control { border-radius:0px; border-color:rgb(177,167,140);}
+.btn,.btn:active,.btn-warning:active:hover,.btn-warning:focus, .btn-warning.focus{ border-radius:0px; background-color:rgb(179,94,57); border-color: rgb(179,94,57);}
+.btn:hover,.btn-warning:hover {background-color:rgb(165,80,43);border-color:rgb(165,80,43);}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{ background-color:rgb(241,229,206); color:rgb(132,71,45);}
+.pagination > li > a, .pagination > li > span{ border-color:rgb(132,71,45);color:rgb(179,94,57)}
+.pagination > li > a.active, .pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus{background-color:rgb(179,94,57); color:rgb(255,255,255);  border: 1px solid rgb(132,71,45);}
+.breadcrumb { margin-bottom:10px; font-size:12px; border-radius:0px;}
+/*bootstrap edit end*/
+
+/*form statr*/
+.calenderdate button{right: 40px;position: relative;border: 0px;background: none;}
+.date button { right: 16px;position: absolute;margin-top: -30px;border: 0px; background:none;}
+form.form-inline .form-group{ margin-bottom:10px;}
+form dt{ display:none;}
+form dd { overflow:hidden; border:1px solid rgb(177, 167, 140); width:280px;}
+form dd + dt + dd { border-width:0px;}
+/*input type file start*/
+.fileborder {border: 1px solid rgb(177, 167, 140);height: 35px; width:280px;}
+input[type="file"] {bottom: 0;box-shadow: none;cursor: pointer;height: 37px;left: 10px;opacity: 0;padding-left: 0px; padding-top: 0px;position: absolute;right: 0px;top: 20px;z-index: 2; width:280px;}
+#frmfeedback input[type="file"] {left: 10px;top: 0px;}
+#filename {float: left;line-height: 34px; height:34px; width:174px; overflow:hidden;}
+a.filebrowse {background-color: rgb(121, 54, 45);color: #fff;float: left;height: 34px;line-height: 34px;margin-right: 10px;padding: 0 10px;}
+/*input type file end*/
+#frmfeedback label { margin-top:10px;}
+
+/*form end*/
+
+/*margin and padding start*/
+.margin-bottom-10 { margin-bottom:10px;}
+.margin-left-10{ margin-left:10px;}
+/*margin and padding end*/
+
+/*top navigation start*/
+.skipContent { background-color:rgb(249,243, 231);}
+.skipContent ul{ margin:5px 0px;}
+.skipContent ul:last-child li { padding-right:0px;} 
+.skipContent .divider, .skipContent a { color:rgb(132,71,45);}
+.skipContent a.clsDecrease {font-size:10px;}
+.skipContent a.clsIncrease{font-size:17px;}
+.skipContent .colorNormal {  border:1px solid rgb(132,71,45);padding:2px 5px;}
+.skipContent .colorBliend { padding:2px 5px;color:rgb(255,255,255);background-color:rgb(0,0,0); border:1px solid rgb(0,0,0);}
+
+.skipContent .uasername{padding:4px 0px 0px 10px; color:rgb(132,71,45);}
+.skipContent .uasername img{padding-right: 5px;margin-top: -5px;}
+.skipContent .uasername li ul {visibility:hidden;position: absolute;z-index: 100; top:0px; right: 0px;padding-top:27px;}
+.skipContent .uasername li ul li{ background-color:rgb(249,243, 231);border-bottom: 1px solid rgb(132,71,45);min-width: 125px;   padding: 7px 15px;}
+.skipContent .uasername li:hover ul{ visibility:visible;}
+/*top navigation end*/
+
+/*header start*/
+header {padding-top: 10px;padding-bottom: 10px; background: url(../images/header-bg.jpg) left top no-repeat; background-size:cover;}
+header .navbar-brand{height: auto; padding: 0px;}
+header .navbar-brand img { float:left;padding-right:5px;}
+header .navbar-brand .rightlogo{ float:left; padding-top:22px;color: rgb(249,243, 231);}
+header .rightemblem { margin-top:7px;}
+header .navbar-brand .rightlogo span { display: block;}
+/*header end*/
+
+/*top navigation second start*/
+.navbar-default { background-color:rgb(249,243, 231); border-radius:0px; border:none; margin-bottom:10px;}
+.navbar-default .navbar-nav > li > a { color:rgb(132,71,45);}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus, .navbar-default .navbar-nav > li > a.active {background-color:rgb(121,54,45);color: rgb(255,255,255);}
+/*top navigation second end*/
+
+/*login start*/
+.login-form{margin: 15px auto 0px;max-width: 310px;}
+.login-form a { color: rgb(62,62,62);}
+.login-form .panel-body{padding:20px 31px;background-color:rgb(233,226, 207);}
+.login-form .form-group {margin-bottom: 10px;}
+.login-form .panel-primary > .panel-heading { background-color:rgb(177,167,140);border-width:0px; padding:15px;font-size: 18px;font-weight: 400; border-radius:0px;}
+.login-form .input-group-addon {background-color:rgb(177,167,140); border-color:rgb(177,167,140);}
+.login-form .panel-primary {border-width:0px; border-radius:0px;}
+.login-form .submit-login {/*background-color:rgba(138,109,59,0.33);*/}
+.login-form .glyphicon{color:rgb(249,243, 231);}
+.login-form label { font-weight:400;}
+.login-form .input-group-addon,.login-form .form-control { border-radius:0px;}
+.login-form .captcha input {width:48%; float:left;}
+.login-form .captcha p{width:50%; float:right;margin-bottom: 0px;}
+.login-form .captcha p span{ float:left; border:1px solid #ccc; border-right:0px;width: 85px; height:34px; overflow:hidden;}
+.login-form .captcha p span img { width:100%; height:100%;}
+.login-form .captcha p a{ background:#000; display:inline-block; background-color:rgb(177,167,140);}
+.login-form .error {margin-bottom: 0px;}
+/*login end*/
+
+/*table start*/
+.table {margin:5px 0px;}
+table th { background-color:rgb(186,101,64); color:rgb(255,255,255); border-top:1px solid rgb(255,255,255)!important;border-bottom:1px solid rgb(255,255,255)!important;}
+table tr{background-color:rgb(255,255,255); border-top:1px solid rgb(255,255,255)!important;border-bottom:1px solid rgb(255,255,255)!important;}
+table tr:nth-child(odd){background-color:rgb(247,247,247);}
+table.equalspacing span { min-width:150px; display:inline-block; padding-right:5px; font-weight:600;}
+/*table end*/
+
+/*beneficiaries start*/
+.scheme-ministry .bg-warning { padding:15px; }
+.beneficiaries-record .panel { margin: 0px -8px;}
+/*beneficiaries end*/
+
+/*scheme report start*/
+.schereport {color:#884137;text-align: center;}
+.schereport h2 { min-height:45px; background-color:rgb(246,234,210); padding-top:10px; font-size:14px; text-transform:uppercase;}
+.schereport p { font-size:18px; text-align: center;margin-bottom: 0px;padding: 0px 0px 10px;}
+.schereport .row, #schemereport .row{ margin-left: -5px; margin-right: -5px;}
+.schereport .row div, #schemereport .row div { padding:0px 5px 10px;}
+.schereport .total-beneficiaries { background: url(../images/total-beneficiaries.jpg) left top no-repeat; background-size:100% 100%; transition:all 0.5s;}
+.schereport .aadhaar-seeded-beneficiaries{background: url(../images/aadhaar-seeded-beneficiaries.jpg) left top no-repeat; background-size:100% 100%; transition:all 0.5s;}
+.schereport .total-fund-transfer{background: url(../images/total-fund-transfer.jpg) left top no-repeat; background-size:100% 100%; transition:all 0.5s;}
+.schereport .aadhaar-based-payment-fund-transfer{background: url(../images/aadhaar-based-payment-fund-transfer.jpg) left top no-repeat; background-size:100% 100%; transition:all 0.5s;}
+.schereport .total-beneficiaries:hover,.schereport .aadhaar-seeded-beneficiaries:hover,.schereport .total-fund-transfer:hover,.schereport .aadhaar-based-payment-fund-transfer:hover{background-size:125% 125%; transition:all 0.5s;}
+.export-xml-csv{padding-bottom:15px;}
+.export-xml-csv span{color:#fff;}
+.rupee-icon { margin:-3px 3px 0px 0px;}
+/*scheme report end*/
+
+/*user info start*/
+.user-info #photo, .profile-img{ background: rgb(207,203,190); width:115px; height:95px; padding:5px; margin:10px 0px;}
+.profile-img{display:inline-block; margin:0px;}
+.user-info #photo img, .profile-img img{ width:100%; height:100%;}
+.user-info #info { border-top:1px solid #adadad;}
+.user-info #info p{background-color:rgb(240,236,225); margin:1px 0px 0px; padding: 7px 20px;}
+.user-info #info p:nth-child(odd){background-color:rgb(226,222,210);}
+.user-info #info p span{ min-width:125px; display:inline-block;}
+/*user info end*/
+
+/*Assign State User Start*/
+.scheme-show { padding:5px!important; background-color:#d9edf7; min-height:140px!important;}
+.scheme-switch-con { padding:20px 5px 5px!important; text-align:center; border-left:5px solid #fff; border-right:5px solid #fff;background-color:#d9edf7;min-height:140px!important;}
+.scheme-selected { padding:5px!important; background-color:#d9edf7;min-height:140px!important;}
+.scheme-show select ,.scheme-selected select ,scheme-selected select { border:none; background: transparent; min-height:128px!important;width:100%!important;}
+/*Assign State User End*/
+
+/*captcha inner start*/
+.captcha-inner label{ display:block;}
+.captcha-inner input {width:115px !important; margin-right:5px; float:left;}
+.captcha-inner p{width:140px; float:left;margin-bottom: 0px;}
+.captcha-inner p span{ float:left; border:1px solid #ccc; border-right:0px;width: 104px; height:34px; overflow:hidden;}
+.captcha-inner p span img { width:100%; height:100%;}
+.captcha-inner p a{ background:#000; display:inline-block; background-color:rgb(177,167,140);}
+/*captcha inner end*/
+
+/*footer start*/
+footer { background-color:rgb(249,243, 231); padding-top:10px; padding-bottom:10px;color:rgb(121,54,45); margin-top:20px;}
+footer a {  color:rgb(132,71,45);}
+footer a:hover, footer a:focus {color:rgb(121,54,45);}
+/*footer end*/
+
+/*Others Start*/
+.hint{position: absolute;top: 32px;right: 20px; cursor:pointer;}
+.tooltip.left .tooltip-arrow{border-left-color:rgb(121,54,45);}
+.tooltip-inner{background-color:rgb(121,54,45); max-width:270px; text-align:left;}
+
+.screenback{background-color: rgba(0,0,0,0.5);position: fixed; /* z-index: 10; */top: 0px;bottom: 0;left: 0;right: 0px;}
+.loader{margin: 0 auto;top: 50%;position: fixed;left: 0;right:0px}
+.tabaddar{padding: 10px;border:1px solid #ddd;border-top:0px;}
+.nav > li > a:hover, .nav > li > a:focus{background-color: rgb(165,80,43);border-color: rgb(165,80,43);}
+.loader {border: 16px solid rgb(186,101,64);border-radius: 50%;border-top: 16px solid transparent;border-bottom: 16px solid transparent; width: 120px; height: 120px; -webkit-animation: spin 2s linear infinite; animation: spin 2s linear infinite;}
+.beneficiari-tabs .nav-tabs{ margin-top:10px;}
+.beneficiari-tabs .nav-tabs > li > a{padding:10px;}
+.fromdate{position: relative;}
+.fromdate button{position: absolute;right: 7px;top: 12px;border: 0;background: transparent;}
+#filtersearch { margin-right:40px;}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+/*-----------popup css start-----------------*/
+
+#conf-pop .modal-header{
+   padding: 5px 10px;
+   background: rgb(179,94,57);
+   color: #fff;
+}
+
+#conf-pop .modal-dialog{
+	width:450px;
+}
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+  }
+
+/*Others End*/
+
+
+@media (max-width:991px){
+	/*.schereport .row div { padding-bottom:10px;}*/
+	}
+@media (max-width:767px){
+	.text-indent{display: none;}
+	ul.skipContentHide { display:none;}
+	.form-inline button, .form-inline input[type='submit'], .form-inline input[type='reset'], a.btn { margin-top:5px;}
+	.scheme-switch-con {border:0px;border-bottom:5px solid #fff; border-top:5px solid #fff;}
+	}
+	
+	.glyphicon.glyphicon-ok{ color: rgb(177,167,140);;font-size: 15px; cursor:pointer;position: absolute;right: 23px;top: 36px;}
+	.success-left{color:#090; display:block;}
+	.text-indent{ text-indent:-9999px; display:block; color:transparent; opacity:0;}
+	@media (max-width:767px){
+	.text-indent{display: none;}
+	}

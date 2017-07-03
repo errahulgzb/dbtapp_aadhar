@@ -1,0 +1,12 @@
+{
+    "name": "vendor/pakages",
+    "authors": [
+        {
+            "name": "praween",
+            "email": "praween.developer@gmail.com"
+        }
+    ],
+    "require": {
+        "dompdf/dompdf": "^0.7.0"
+    }
+}

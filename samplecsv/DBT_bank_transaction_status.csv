@@ -1,0 +1,4 @@
+Scheme Name: Home Affairs Test Scheme,Scheme Code: XMP87,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+UUID,Name,DOB(mm/dd/yyyy),Gender,Aadhaar No.,Seeded with Aadhaar,Mobile No,Email-Id,Scheme Specific Unique Code,Scheme Specific Family No,Home Addres,Village Code,Village Name,Panchayat Code,Panchayat Name,Block Code,Block Name,District Code,District Name,State Code,State Name,Pincode,Ration Card No,TIN Family No,Bank Account No,IFSC,Amount,Fund Transfer(APB/NACH/NEFT/RTGS/CASH),Transaction Date(mm/dd/yyyy),Transfer By (BA/DA/MV),"Transaction Status (0 = Not Done, 1 = Done)",Transaction Id,Remarks
+sbi0767976,Dilip Kr,01-05-2017,M,6.54E+11,N,5675675876,d.kr@gmail.com,,,H-65,0,,,,0,,324,DEOGHAR,20,JHARKHAND,878787,,,6.58E+13,sbi00000054,5000000,NEFT,02-02-2017,,0,DBTTXN2987,
+sbi0767976,Dilip Kr,01-05-2017,M,6.54E+11,N,5675675876,d.kr@gmail.com,,,H-65,0,,,,0,,324,DEOGHAR,20,JHARKHAND,878787,,,6.58E+13,sbi00000054,50000,NACH,22-05-2017,,0,DBTTXN2017,

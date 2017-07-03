@@ -1,0 +1,208 @@
+
+<?php 
+    $userid = new Zend_Session_Namespace('userid');
+    $unme= $userid->userid;
+    $role = new Zend_Session_Namespace('role');
+	$captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function()
+{
+	jQuery("#frmfeedback").submit(function()
+	{
+		if($('#menu_type').val() == '0')
+		{
+			$('#content-type').text("Content Type <?php echo CANTEMPTY; ?>");
+			$('#menu_type').focus();
+			return false;
+		} 
+		if($('#menu_type').val() > '0')
+		{
+			$('#content-type').text("");
+		}
+		
+		var alphabetReg = /^[ A-Za-z0-9 \-\(\)\& ]*$/;
+		if (jQuery("#title").val() == '')
+		 {
+			$('#titles').text("Title <?php echo CANTEMPTY; ?>");
+			jQuery( "#title" ).focus();
+			return false;
+		}
+		if(!alphabetReg.test(jQuery("#title").val()))
+	    {
+			$('#titles').text("Title <?php echo SPECIALCHARVALIDAION; ?>");
+			jQuery( "#title" ).focus();
+			return false;
+		}
+		
+		if (jQuery("#title").val() != '')
+		 {
+			$('#titles').text("");
+		 }
+		
+		var numberReg = /^[0-9]*$/;
+		if (jQuery("#sort_order").val() == '')
+		 {
+			$('#orders').text("Sort order <?php echo CANTEMPTY; ?>");
+			jQuery( "#sort_order" ).focus();
+			return false;
+		}
+		if(!numberReg.test(jQuery("#sort_order").val()))
+	    {
+			$('#orders').text("Sort order <?php echo NUMERICVALIDATION; ?>");
+			jQuery( "#sort_order" ).focus();
+			return false;
+		}
+		
+		if (jQuery("#sort_order").val() != '')
+		 {
+			$('#orders').text("");
+		 }
+		
+		var schemedescript  = CKEDITOR.instances['editor1'].getData();
+
+		if(schemedescript == '')
+		 {
+			  // alert('desct');
+			$('#description').text("Description <?php echo CANTEMPTY; ?>");
+			jQuery( "#editor1" ).focus();
+			return false;
+		}
+		
+		if(schemedescript != '')
+		 {
+			  // alert('desct');
+			$('#description').text("");
+		}
+		
+		if(jQuery('#vercode').val() == '')
+		{
+			$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+		
+		if(jQuery('#vercode').val() != '')
+		{
+			$('#captcha-code').text("");
+		} 
+		
+	});
+});
+		
+</script>
+<h2>Add Content</h2>	
+	<?php if($this->errorMessage){?>
+	<div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+	<?php } ?>
+<?php $postUrl = $this->url(array(
+                'controller' => 'contentmanagement',
+                //'action'  => 'userview'
+                )); 
+        ?>
+<form role="form" method="post" action="<?php echo $postUrl; ?>" name="frmfeedback" id="frmfeedback" >
+        <?php if(@$_GET[actmsg] =='rpt'){?>
+        <div class='error-msg'><?php echo "This Title is allready exists."; ?></div>
+        <?php } ?>
+	<?php echo $this->form->lang;?>
+
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <label>Language<sup class="require">*</sup> </label>
+                <?php echo $this->form->language?>
+            </div>	
+             <?php echo $this->form->lang?>
+
+             <div class="form-group col-sm-6">
+                <label>Content Type<sup class="require">*</sup> </label>
+                <?php echo $this->form->menu_type?>
+                <span class="require" id="content-type"></span>
+                </div>
+                
+            </div>
+            
+            <div class="row">
+             <div class="form-group col-sm-6">
+                <label>Title<sup class="require">*</sup> </label>
+                <?php echo $this->form->title?>
+                <span class="require" id="titles"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>Sort Order<sup class="require">*</sup> </label>
+                <?php echo $this->form->sort_order?>
+                <span class="require" id="orders"></span>
+            </div>
+            </div>
+            <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Description<sup class="require">*</sup>  </label>
+             <?php echo $this->form->description; ?>
+             <span class="require" id="description"></span>
+        </div>
+        
+        </div>
+            <div class="row">
+            <!-----------Add Captcha Code Script----->
+			<div class="form-group col-sm-12 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>	
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();"
+						id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+													
+				</p>
+				<div class="clearfix"></div><span class="require" id="captcha-code"></span>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+           </div>
+            <div class="row">
+              <div class="form-group col-md-12 col-sm-12 text-center">
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton"><?php echo CANCEL; ?></button>
+            </div>
+   </div>
+</form>
+<!---- new script added 22th june -------------->
+
+<script>
+
+CKEDITOR.replace( 'editor1', {
+	filebrowserBrowseUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/ckfinder.html',
+	filebrowserUploadUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+} );
+
+var editor = CKEDITOR.replace( 'ckfinder' );
+CKFinder.setupCKEditor( editor );
+
+CKFinder.setupCKEditor();
+CKEDITOR.replace( 'editor1' );
+
+
+/* var editor = CKEDITOR.replace( 'editor1' );
+CKFinder.setupCKEditor( editor, {
+    skin: 'jquery-mobile',
+    swatch: 'b',
+    onInit: function( finder ) {
+        finder.on( 'files:choose', function( evt ) {
+            var file = evt.data.files.first();
+            console.log( 'Selected: ' + file.get( 'name' ) );
+        } );
+    }
+} );
+
+
+var editor = CKEDITOR.replace( 'editor1' );
+CKFinder.setupCKEditor( editor, null, { type: 'Files' } );
+
+var editor = CKEDITOR.replace( 'editor1' );
+CKFinder.setupCKEditor( editor, null, { type: 'Files', currentFolder: 'http://192.168.100.37/dbt/archive/' } ); */
+
+</script>
+
+<!------------- end--------------->

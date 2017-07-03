@@ -1,0 +1,487 @@
+<script type="text/javascript" language="javascript">
+function SchemeType(scm_id){
+	
+	//alert(scm_id);
+$.ajax({
+		"data":{scm_id:scm_id},
+		"type": "POST",
+		"url" : "<?php echo $this->baseUrl('misreport/getcurrentschemetype'); ?>",
+		"dataType":"HTML",
+		success:function(response){
+//$("#fund_transfer").html(response);
+		//alert(response);
+			if(response == 1){
+				//alert(response);
+				$("#FT").show();
+				$("#TB").hide();
+			}if(response == 0){
+				//alert(response);
+				$("#TB").show();
+				$("#FT").hide();
+			}
+		}
+	});
+}
+
+
+
+
+function getVal(min_id,scm_id,state_code,district_code,block_code,village_code,gender,fund_transfer,transfer_by,todate,fromdate,aadhar_num_status,bank_account_status){
+	//this ajax callback is getting the result of default scheme to set intot the header box	
+	if(min_id !== "" && scm_id != ""){
+		$.ajax({
+			"url" : "<?php echo $this->baseUrl('misreport/getschememain'); ?>",
+			"data" : {min_id:min_id, scm_id:scm_id},
+			"type" : "POST",
+			"dataType" : "HTML",
+			beforeSend: function(){
+				SchemeType(scm_id);
+				//$("#responseMethodMain").html("<p class='text-center'><img src='<?php echo $this->baseUrl("images/loaderapp.gif")?>'></p>");
+			},
+			success : function(response){
+				console.log(response);
+				$("#responseMethodMain").html("");
+				$("#responseMethodMain").html(response);
+			},error: function(e){
+				console.log(e);
+			}
+		});
+		
+		
+		$.ajax({
+			"url" : "<?php echo $this->baseUrl('misreport/getschemedetails'); ?>",
+			"data" : {min_id:min_id, scm_id:scm_id,state_code:state_code,district_code:district_code,block_code:block_code,village_code:village_code,gender:gender,fund_transfer:fund_transfer,transfer_by:transfer_by,todate:todate,fromdate:fromdate,aadhar_num_status:aadhar_num_status,bank_account_status:bank_account_status},
+			"type" : "POST",
+			"dataType" : "HTML",
+			beforeSend: function(){
+				//$("#responseMethod").html("<p class='text-center'><img src='<?php echo $this->baseUrl("images/loaderapp.gif")?>'></p>");
+				//$("#responseMethod").html("loader will call here");
+			},
+			success : function(response){
+				//console.log(response);
+				$("#responseMethod").html("");
+				$("#responseMethod").html(response);
+			},error: function(e){
+				console.log(e);
+			}
+		});
+	}
+}
+
+
+
+
+//for download the xml or csv data
+function getValExport(min_id,scm_id,state_code,district_code,block_code,village_code,gender,fund_transfer,transfer_by,todate,fromdate,typed,aadhar_num_status,bank_account_status){
+	//this ajax callback is getting the result of default scheme to set intot the header box
+	var datafor = null;
+	//alert(min_id+"--"+scm_id+"--"+state_code+"--"+district_code+"--"+block_code+"--"+village_code+"--"+gender+"--"+fund_transfer+"--"+transfer_by+"--"+todate+"--"+fromdate+"-----"+typed);
+	if(typed == "xml"){
+		var urld = "<?php echo $this->baseUrl('misreport/exportxmldata'); ?>";
+	}else if(typed == "csv"){
+		var urld = "<?php echo $this->baseUrl('misreport/exportcsvdata'); ?>";
+	}
+	//alert(urld);
+	datafor = "?min_id="+min_id+"&scm_id="+scm_id+"&state_code="+state_code+"&district_code="+district_code+"&block_code="+block_code+"&village_code="+village_code+"&gender="+gender+"&fund_transfer="+fund_transfer+"&transfer_by="+transfer_by+"&todate="+todate+"&fromdate="+fromdate+"&aadhar_num_status="+aadhar_num_status+"&bank_account_status="+bank_account_status;
+	
+	if(min_id !== "" && scm_id != ""){
+		window.location = urld+datafor;
+	}
+}
+
+
+
+
+
+$(document).ready(function(){
+//Onchange functionality end here to find the data	
+
+
+function resetAll(status){
+		if(status == 'state'){
+			$("#district_code").html("<option value='0'>==Select District==</option>");
+			$("#block_code").html("<option value='0'>==Select Block==</option>");
+			$("#village_code").html("<option value='0'>==Select Village==</option>");
+		}
+		if(status == 'district'){
+			$("#block_code").html("<option value='0'>==Select Block==</option>");
+			$("#village_code").html("<option value='0'>==Select Village==</option>");
+		}
+		if(status == 'block'){
+			$("#village_code").html("<option value='0'>==Select Village==</option>");
+		}
+	}
+	//getting the dist,block,village name from the database on change
+	
+	
+	
+	//finding here district behalf of states
+    var state_code;
+        $("#state_code").change(function(){
+        state_code = $(this).val();
+			$.ajax({
+				type: "POST",
+				url: "districtfind",
+				data: { state_code: state_code},
+				success: function(msg) {
+				  resetAll("state");
+				  //console.log(msg);
+				  $("#district_code").html(msg);
+				},error:function(e){
+					//console.log(e);
+				}
+			})
+		});
+		
+		var district;
+		$("#district_code").change(function(){
+        district = $(this).val();
+			$.ajax({
+				type: "POST",
+				url: "districtwiseblock",
+				data: { district: district},
+				success: function(msg) {
+					resetAll("district");
+					$("#block_code").html(msg);
+				},error:function(e){
+					//console.log(e);
+				}
+			})
+		});
+//finding here panchayat behalf of district
+    var block;
+    if((district != "" || district != null) && (state_code != "" || state_code != null)){
+        $("#block_code").change(function(){
+        block = $(this).val();
+        //alert(block);
+        $.ajax({
+            type: "POST",
+            url: "blockwisevillage",
+            data: { block: block },
+			success: function(msg){
+				//console.log(msg);
+				$("#village_code").html(msg);
+			},
+			error:function(e){
+				console.log(e);
+			}
+            })
+        });
+      }//finding here panchayat behalf of district end
+      else{
+        //$("#panchayat").html("<option value='0'>--Select Panchayat--</option>");
+        $("#village_code").html("<option value='0'>--Select Village--</option>");
+      }
+//Onchange functionality end here to find the data	
+	
+
+	
+//###################################################################	
+	
+
+//On the loading of the page this function will call for the display the record of by selected first
+	min_id = $("#ministry_name").val();
+	scm_id = $("#scheme_name").val();
+
+	
+	
+//First scheme record end here
+	$("#ministry_name").change(function(){
+		$("#scm_req").html("");
+		min_id = $("#ministry_name").val();
+		//alert(min_id);
+		if(min_id != ""){
+		$.ajax({
+			"url" : "<?php echo $this->baseUrl('misreport/getallscheme'); ?>",
+			"data" : {min_id:min_id},
+			"type" : "POST",
+			"dataType" : "HTML",
+			success : function(response){
+				console.log(response);
+				$("#scheme_name").html(response);
+			},error: function(e){
+				//console.log(e);
+			}
+		});
+		}else if(min_id == ""){
+			$("#scheme_name").html("<option value=''>==Select Scheme==</option>");
+		}
+	});
+	getVal(min_id,scm_id);//calling by default this function for loading time
+
+
+//onchange of the scheme respectively FUND_TRANSFER and TRANSFER_BY will display
+
+	$("#scheme_name").change(function(){
+		scm_id = $("#scheme_name").val();
+		//alert(scm_id);
+		if(scm_id != ""){
+		SchemeType(scm_id);
+		}
+	});
+//onchange of the scheme respectively FUND_TRANSFER and TRANSFER_BY will display
+
+	
+	
+	
+//Onclick event for the getting scheme related data start here####################
+
+	$("#clickval").click(function(){
+		var min_id = scm_id = state_code = district_code = block_code = village_code = gender = fund_transfer = transfer_by = todate = fromdate = aadhar_num_status=bank_account_status=null;
+		
+		min_id 				= $("#ministry_name").val();
+		scm_id 				= $("#scheme_name").val();
+		if(scm_id == 0){
+			$("#scm_req").html("Scheme required!");
+			return false;
+		}else{
+			$("#scm_req").html("");
+		}
+		
+		state_code 			= $("#state_code").val();
+		district_code 		= $("#district_code").val();
+		block_code 			= $("#block_code").val();
+		village_code 		= $("#village_code").val();
+		gender 				= $("#gender").val();
+		fund_transfer 		= $("#fund_transfer").val();
+		transfer_by 		= $("#transfer_by").val();
+		todate 				= $("#todate").val();
+		fromdate 			= $("#fromdate").val();
+		aadhar_num_status 	= $("#aadhar_num_status").val();
+		bank_account_status = $("#bank_account_status").val();
+		//alert(aadhar_num_status);
+		//alert(bank_account_status);
+		getVal(min_id,scm_id,state_code,district_code,block_code,village_code,gender,fund_transfer,transfer_by,todate,fromdate,aadhar_num_status,bank_account_status);
+	});
+//Onclick event for the getting scheme related data end here
+	
+//refreshing the url	
+	$("#clickvalReset").click(function(){
+		window.location = "<?php echo $this->baseUrl('misreport/schemereport'); ?>";
+	});
+	
+
+	
+	
+	
+	
+	
+//Onclick event for the getting xml or csv file###########
+	$("span.clickvalCSV").click(function(){
+		var min_id = scm_id = state_code = district_code = block_code = village_code = gender = fund_transfer = transfer_by = todate = fromdate = typed = aadhar_num_status=bank_account_status=null;
+		
+		typed = $(this).attr("relate");
+		min_id = $("#ministry_name").val();
+		scm_id = $("#scheme_name").val();
+		if(scm_id == 0){
+			$("#scm_req").html("Scheme required!");
+			return false;
+		}else{
+			$("#scm_req").html("");
+		}
+		state_code = $("#state_code").val();
+		district_code = $("#district_code").val();
+		block_code = $("#block_code").val();
+		village_code = $("#village_code").val();
+		gender = $("#gender").val();
+		fund_transfer = $("#fund_transfer").val();
+		transfer_by = $("#transfer_by").val();
+		if(transfer_by == "Bio Authentication"){
+			transfer_by = "1";
+		}else if(transfer_by == "Demographic Authentication"){
+			transfer_by = "2";
+		}else if(transfer_by == "Manual Validation"){
+			transfer_by = "3";
+		}
+		todate = $("#todate").val();
+		fromdate = $("#fromdate").val();
+		aadhar_num_status = $("#aadhar_num_status").val();
+		bank_account_status = $("#bank_account_status").val();
+		//alert(aadhar_num_status);
+		//alert(bank_account_status);
+		getValExport(min_id,scm_id,state_code,district_code,block_code,village_code,gender,fund_transfer,transfer_by,todate,fromdate,typed,aadhar_num_status,bank_account_status);
+	});
+//Onclick event for the getting xml or csv file	##########
+	
+	
+	
+});
+
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li class="active">Scheme Report</li>
+</ol>
+   <div class="row">
+	  <div class="col-sm-12">
+		<div class="response-body main" id="responseMethodMain">
+			<div class="schereport">
+            	<div class="row">
+					<div class="col-sm-6 col-md-3 col-xs-12"><div class="total-fund-transfer"><h2>Total Fund Transfer</h2>
+                    <p id="total_fund"><img src="<?php echo $this->baseUrl('images/rupee-symbol.png');?>" alt="Rupee Icon" class="rupee-icon">0</p></div></div>
+					
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="aadhaar-based-payment-fund-transfer"><h2>Aadhaar Based Payment Fund Transfer</h2>
+                    <p id="apb_based"><img src="<?php echo $this->baseUrl('images/rupee-symbol.png');?>" alt="Rupee Icon" class="rupee-icon">0</p></div></div>
+					
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="total-beneficiaries"><h2>Total Beneficiaries</h2>
+                    <p id="total_beneficiary">0</p></div></div>
+					
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="aadhaar-seeded-beneficiaries"><h2>Aadhaar Seeded Beneficiaries</h2>
+                    <p id="aadhaar_beneficiary">0</p></div></div>
+                </div>
+			</div>
+		</div>
+		<form  class="webform-client-form form-horizontal" id="schemereport" method="post" accept-charset="UTF-8" action="<?php echo $postUrl; ?>">
+        	<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-3">
+                    	<label class="sr-only" for="ministry_name">Select Ministry</label>
+						<?php echo $this->form->ministry_name?>
+                    </div>
+                    
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                    	<label class="sr-only" for="scheme_name">Scheme Name</label>
+                    	<?php echo $this->form->scheme_name;?>
+						<span class="error-msg" id="scm_req"></span>
+                    </div>
+					<div class="col-xs-12 col-sm-6 col-md-3">
+					<label class="sr-only" for="scheme_name">Aadhar Card Status</label>
+					<?php echo $this->form->aadhar_num_status;?>
+					<span class="error-msg" id="aadhar_num_req"></span>
+					</div>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+					<label class="sr-only" for="scheme_name">Bank Account Status</label>
+					<?php echo $this->form->bank_account_status;?>
+					<span class="error-msg" id="bank_account_req"></span>
+					</div>
+                    </div>
+					<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-3">
+                    	<label class="sr-only" for="state_name">State Name</label>
+                    	<?php echo $this->form->state_code;?>
+                    </div>
+                     <div class="col-xs-12 col-sm-6 col-md-3">
+                    	<label class="sr-only" for="district_name">District Name</label>
+                    	<?php echo $this->form->district_code;?>
+                    </div>
+                     <div class="col-xs-12 col-sm-6 col-md-3">
+                    	<label class="sr-only" for="block_name">Block Name</label>
+                    	<?php echo $this->form->block_code;?>
+                    </div>
+                     <div class="col-xs-12 col-sm-6 col-md-3">
+                    	<label class="sr-only" for="village_name">Village Name</label>
+                    	<?php echo $this->form->village_code;?>
+                    </div>
+                     
+					</div>
+					<div class="row">
+					<div class="col-xs-12 col-sm-6 col-md-3">
+                    	<label class="sr-only" for="gender">Gender</label>
+                    	<?php echo $this->form->gender?>
+                    </div>
+                     <div class="col-xs-12 col-sm-6 col-md-3" id="FT">
+                    	<label class="sr-only" for="fund_transfer">Fund Transfer</label>
+                    	<?php echo $this->form->fund_transfer?>
+                    </div>
+                     <div class="col-xs-12 col-sm-6 col-md-3" id="TB">
+                    	<label class="sr-only" for="transfer_by">Transfer By</label>
+                    	<?php echo $this->form->transfer_by?>
+                    </div>
+                     <div class="col-xs-12 col-sm-6 col-md-3 date">
+                    	<label class="sr-only" for="dateto">To Date</label>
+                    	<?php echo $this->form->todate;?>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3 date">
+                    	<label class="sr-only" for="Date From">From Date</label>
+                    	<?php echo $this->form->fromdate;?>
+                    </div>
+                    
+                <div class="col-xs-12 col-sm-12 text-center">    
+					<input type="button" name="clickval" class="btn btn-default btn-warning text-center" id="clickval" value="Search" />
+					<input type="button" name="clickvalReset" class="btn btn-default btn-warning text-center" id="clickvalReset" value="Reset" />
+                </div></div>
+		</form>
+		
+		
+		
+		<div class="text-right export-xml-csv">
+          <span class='clickvalCSV btn btn-default' relate='xml'>Export XML</span>
+		  <span class='clickvalCSV btn btn-default' relate='csv'>Export CSV</span>
+		</div>
+		
+		
+		
+        
+        
+        
+        <div class="response-body" id="responseMethod">
+			<div>
+			<span><em>No. of Transaction</em></span>
+			<span class="badge pull-right">0-0 of 0</span></div>
+			<div class="table table-responsive">
+				<table class="table">
+				<thead>	
+					<tr>
+						<th width="5%">SNo.</th>
+						<th>Unique&nbsp;ID</th>
+						<th>Name</th>
+						<th>DOB</th>
+						<th>Gender</th>
+						<th>Aadhaar&nbsp;No.</th>
+						<th>Seeded&nbsp;With&nbsp;Aadhaar</th>
+						<th>Amount</th>
+						<th>Fund Transfer</th>
+						<th>Transaction&nbsp;Date</th>
+						<th>Transfer&nbsp;By</th>
+						<th>Mobile&nbsp;No.</th>
+						<th>Email-ID</th>
+						<th>Scheme&nbsp;Specific&nbsp;Unique No.</th>
+						<th>Scheme&nbsp;Specific&nbsp;Family No.</th>
+						<th>Home&nbsp;Address</th>
+						<th>Village&nbsp;Name</th>
+						<th>Block&nbsp;Name</th>
+						<th>District&nbsp;Name</th>
+						<th>State&nbsp;Name</th>
+						<th>Ration&nbsp;Card&nbsp;No.</th>
+						<th>TIN&nbsp;Family&nbsp;ID</th>
+						<th>Bank&nbsp;Account</th>
+						<th>IFSC</th>                    
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan='12' class='text-center'><span class="error">No record(s) found!</span></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+        
+		</div>
+	</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+		var yearval  = null;
+		yearval = new Date().getFullYear();
+    $("#todate").datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'button',
+			yearRange: '1920:'+yearval,
+			defaultYear: yearval,
+			maxDate: new Date(),
+            buttonImage: '<?php echo $this->baseUrl("images/calendar-blue.png");?>'
+        });
+	$("#fromdate").datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'button',
+			yearRange: '1920:'+yearval,
+			defaultYear: yearval,
+			maxDate: new Date(),
+            buttonImage: '<?php echo $this->baseUrl("images/calendar-blue.png");?>'
+    });	
+    });
+	
+</script>

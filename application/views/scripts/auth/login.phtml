@@ -1,0 +1,178 @@
+   <?php 
+
+    $captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+    
+
+?>
+   <style>
+/*#demo {
+    position: fixed;
+    font-family: Arial, Helvetica, sans-serif;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 99999;
+    opacity:0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
+    pointer-events: none;
+}
+#demo > div {
+    width: 400px;
+    position: relative;
+    margin: 10% auto;
+   
+}
+*/
+
+</style>
+   
+   <script type="text/javascript" src="<?php echo $this->baseUrl('js/captcha.js') ?>"></script> 
+
+ <script>
+                  
+/***************************************************/
+// Mixing the password for login credintial
+function mixUpValues(ecyn,key1,key2)
+{
+	var stringis;
+	//alert("dilip");
+	stringis=ecyn.substr(0,12);
+	stringis+=key1;
+	stringis+=ecyn.substr(12,10);
+	stringis+=key2;
+	stringis+=ecyn.substr(22);
+	return stringis;
+}
+
+/*************************************************/
+	function valPwd()
+        {
+			
+                            if(document.frm_login.admin.value==""||document.frm_login.admin.value==null)
+                            {
+                                   
+								    $('#user').text('Username field cannot be empty.');
+								   
+									/*var myObject = {
+    username:'<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>Please provide valid Login Id.</div>',
+    userName: function() {
+        return this.username;
+    }
+}
+document.getElementById("demo").style.opacity='1';
+document.getElementById("demo").innerHTML = myObject.userName(); */
+                                    document.frm_login.admin.focus();
+                                    return false;
+                            }
+							 if(document.frm_login.admin.value!="")
+							 { 
+							 	$('#user').text('');
+							 }
+                            if(document.frm_login.password.value=="")
+                            { 
+                                    $('#passwords').text('Password field cannot be empty.');
+                                    document.frm_login.password.focus();
+                                    return false;	
+                            }	
+			    if(document.frm_login.password.value!="")
+				{
+				var hash = CryptoJS.HmacSHA256(document.frm_login.password.value, "");
+				$('#passwords').text('');
+				document.frm_login.password.value=mixUpValues(hash.toString(),document.frm_login.keyy.value,document.frm_login.keyy1.value);
+			
+				}
+				
+				 if(document.frm_login.vercode.value==""||document.frm_login.vercode.value==null)
+					 {
+						$('#captcha-code').text('Please enter code!');
+						$('#vercode').focus();
+						return false; 
+						 }
+						 
+				if(document.frm_login.vercode.value!=""||document.frm_login.vercode.value!=null)
+					{
+						$('#captcha-code').text('');
+					}
+
+                            return true;
+          }
+		  
+		  function removeSpacesnew(string){
+                    return string.split(' ').join('');
+                  }
+		  
+
+            </script>
+                  <?php 
+                        $messing='';
+                        if(@$_GET['message']=="sent")
+                        {
+                            $messing="Password has been sent to your email Id.";
+                        }
+                       if(@$_GET['message']=="sentmail")
+                        {
+                            $messing="Your password has been sent to your registered email Id.";
+                        }
+		      if(@$_GET['message']=="updatepass")
+                        {
+                            $messing="Password has been updated sucessfully";
+                        }
+                        if($messing){?>	
+                            <div class="success-msg margin_top20"> <?php echo $messing; ?></div>
+                        <?php }
+                        if($this->msg){ ?><div class="form-item"><span class="error-msg"><?php echo $this->escape($this->msg);?></span></div><?php }?>
+
+
+
+<div id="demo"></div>
+
+<div class="login-form">
+<div class="panel panel-primary">
+<div class="panel-heading"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span><strong> Login</strong></div>
+<div class="panel-body">
+<form  class="form-horizontal" id="login-form" name="frm_login" method="post" onsubmit="return valPwd();">
+<div class="form-group">
+<div class="input-group">
+<span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+<?php echo $this->form->admin; ?>
+
+</div>
+<span class="require" id="user"></span>
+</div>
+<div class="form-group">
+<div class="input-group">
+<span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+<?php echo $this->form->password; ?>
+
+<input name="keyy" type="hidden" class="textbox" id="keyy" size="37" value="<?php echo time(); ?>"/>
+<input name="keyy1" type="hidden" class="textbox" id="keyy1" size="37" value="<?php echo mt_rand(10000,99999); ?>"/>
+<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />	
+</div>
+<span class="require" id="passwords"></span>
+</div>         
+<div class="form-group captcha">
+<?php echo $this->form->vercode; ?>			
+<p><span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" /></span>
+<a  onclick="
+document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+document.getElementById('vercode').focus();"
+id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="./images/refress.png" class ="refresh" id="refresh" /></a></p>
+<div class="clearfix"></div><span class="require" id="captcha-code"></span>
+</div>
+<div class="form-group">
+<input id="Submit1" class="btn submit-login btn-block" type="submit" value="Login" name="submit" />
+</div>
+<div class="form-group"><a href="<?php echo $this->baseUrl('/forgot/forgot'); ?>">Forgot Password?</a></div>
+</form>    
+</div>
+</div>
+</div>
+                    
+<!--End Main Contant box-->
+
+

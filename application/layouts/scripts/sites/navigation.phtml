@@ -1,0 +1,508 @@
+<?php 
+	$url_arg = $this->userAgent()->getServerValue('request_uri'); 
+	$args = explode("/", $url_arg);
+	$role = new Zend_Session_Namespace('role');
+	
+	$slang = new Zend_Session_Namespace('languageold');
+		$langid =   $slang ->language;
+
+		//echo $langid;
+		
+		$admname = new Zend_Session_Namespace('adminMname');
+	
+	 $userid = new Zend_Session_Namespace('userid');
+	 $unme= $userid->userid;
+	 
+	 $userid = new Zend_Session_Namespace('userid');
+		$userObj = new Application_Model_User;
+
+		$userRecord=$userObj->getUserName($userid->userid);
+		
+	  $usname = $userRecord['firstname'];
+      $lastname = $userRecord['lastname'];
+	  $controller_name = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+	  $method_name =  Zend_Controller_Front::getInstance()->getRequest()->getActionName();
+	 // echo $controller_name;
+	 // echo $method_name;
+
+	 /******* get the id*********/
+	 $id = $_GET['id'];
+	 $pageidurl = base64_decode($id);
+	// echo $pageidurl;
+	// echo $controller_name;
+	 $varhome = 'Home';
+	 /*********end*********/
+	  /******** get the archive param*******/
+	 $archive  = $_GET['archive'];
+	 $pagearchiveurl  = base64_decode($archive);
+	 $resultarchive = substr($pagearchiveurl, 0, 7);
+	 $resultschemearchive = substr($controller_name, -7);
+	 /*******end*******/	
+	if($controller_name == 'scheme')
+	{
+	  $schemename =  ucfirst($controller_name).'s'; 
+	}
+	
+	if($controller_name == 'report')
+	{
+	  $reportname =  ucfirst($controller_name).'s'; 
+	}
+	if($controller_name == 'successstory')
+	{
+		
+
+     $sucessstory = 'Success Stories';		
+		
+	}	
+	  
+$cmi_list = new Application_Model_Utbeneficiarydata();
+	$utlist = $cmi_list->getutlist();
+												//print_r($utlist);
+?>
+
+<!--Start Navigation Box-->
+
+	<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<!--<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>-->
+		
+		<div class="collapse navbar-collapse" id="myNavbar">
+		
+			<ul class="nav navbar-nav">
+			<?php
+			//echo "SessionId=".$_SESSION["LANGUAGE_ID"];
+			$show_header_menu = new Application_Model_Auth;
+			$showAllMenuTitle = $show_header_menu->getHeaderMenu();
+			if(count($showAllMenuTitle)!=0)
+			{
+					
+				//echo "Count=".count($showAllMenuTitle);
+				$i=1;
+				$selected=false;
+				foreach($showAllMenuTitle as $cmsId=>$cmsValue)
+					{
+						
+
+								 if($langid  == 1) //if language is hindi then 
+								{
+									//echo "first";
+									$translation_id = $cmsValue['translation_id'];
+									//echo $tid;
+									// check if transalation id is exist means hindi transaltion is available for particular record then display other english will be displayed by default.
+									$obj = new 	Application_Model_Auth();
+									$valwithtranslation  = $obj->titleListByLang($translation_id,$cmsValue['cmsid']);
+									//return $valwithtranslation;
+									//print_r($valwithtranslation);
+								   $valwithtranslationhindi  = $obj->titleListByLanghindi($translation_id,$cmsValue['cmsid']);
+								//print_r($valwithtranslationhindi); die;
+									if($translation_id!=0)
+									{
+										$menuTtle = $valwithtranslation["title"];
+										$menuId = $valwithtranslationhindi["id"];
+									}
+									else
+									{
+										//echo "second";
+										$menuTtle= $cmsValue["title"];
+										$menuId=$cmsValue["cmsid"];
+									}
+									if($cmsValue['cmsid']==29)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('/');
+									}
+									else if($cmsValue['cmsid']==3)
+									{
+										$selected=true;
+										if ($controller_name == 'ut' || $controller_name == 'utscheme' || $controller_name == 'utschemeowner'){
+											$pageRedirect = $this->baseUrl('utscheme/schemelist');
+										} else{
+											$pageRedirect = $this->baseUrl('scheme/schemelist');
+										}
+									}
+									else if($cmsValue['cmsid']==43)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('report/reportchartview');
+									}
+									else if($cmsValue['cmsid']==39)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('schemearchive');
+									}
+									else if($cmsValue['cmsid']==41)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('photogallery/multimedia');
+									}
+									else if($cmsValue['cmsid']==89)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('successstory');
+									}
+									
+									else
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('page/frontcontentview/?id='.base64_encode($menuId));
+									}
+									//echo "select=".$selected;
+                                                                        
+                                    if($cmsValue['cmsid']==41 || $cmsValue['cmsid']==65 || $cmsValue['cmsid']==87 || $cmsValue['cmsid']==78 || $cmsValue['cmsid']==3 || $cmsValue['cmsid']==43)
+									{ 
+								        if($cmsValue['cmsid']==41)
+										{											
+								     ?>
+										<li  
+										<?php 
+										if($controller_name == 'photogallery')
+										{
+										?>
+										class="active dropdown"
+										<?php 
+										} else {
+											?>
+										class="dropdown"
+										<?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="multimedia.html"><?php echo $menuTtle;?></a>
+											<ul class="dropdown-menu">
+												 <li><a href="<?php echo $this->baseUrl('photogallery/multimedia');?>"><?php echo IMAGE_GALLERY;?></a></li>
+												  <li><a href="<?php echo $this->baseUrl('photogallery/showvideo');?>"><?php echo VIDEO_GALLERY;?></a></li>
+												   <li><a href="<?php echo $this->baseUrl('page/frontcontentview/?id='.base64_encode(93)); ?>"><?php echo PRESSRELEASE;?></a></li>
+											</ul>
+										</li>
+										<?php
+										}if($cmsValue['cmsid']==65)
+										{
+											$pageredirectcircular = $this->baseUrl('page/frontcontentview/?id='.base64_encode(64));
+											$pageredirectevents = $this->baseUrl('page/frontcontentview/?id='.base64_encode(80));
+											$pageredirectdocuments = $this->baseUrl('page/frontcontentview/?id='.base64_encode(65));
+											?>
+								            <li  
+											<?php  if($pageidurl  ==  '64' || $pageidurl  ==  '80' || $pageidurl  ==  '65'){ ?>
+											class="active dropdown"
+											<?php 
+											} else { 
+											?>
+											class="dropdown"
+											<?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="multimedia.html"><?php echo DOCUMENTS;?></a>
+											<ul class="dropdown-menu">
+												 <li><a href="<?php echo $pageredirectcircular; ?>"><?php echo CIRCULAR;?></a></li>
+												  <li><a href="<?php echo $pageredirectevents; ?>"><?php echo EVENTS;?></a></li>
+												  <li><a href="<?php echo $pageredirectdocuments; ?>"><?php echo DOCUMENTS;?></a></li>
+											</ul>
+										</li>
+									    <?php
+										} ?>
+										
+										<?php
+										if($cmsValue['cmsid']==87)
+										{
+										?>
+                                             <li  <?php if(!empty($_GET['state'])) { ?> class="dropdown active" <?php } ?> class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="multimedia.html"><?php  echo uts;?></a>
+											<ul class="dropdown-menu">
+											<?php
+												 $cmi_list = new Application_Model_Utbeneficiarydata();
+		                                        $utlist = $cmi_list->getutlist();
+												foreach ($utlist as $k => $value) {
+													$pageredirectut = $this->baseUrl('ut/?state='.$value['state_code']);
+												?>
+												 <li><a href="<?php echo $pageredirectut; ?>"><?php echo $value['state_name'];?></a></li>
+												<?php
+												}
+												?>
+											</ul>
+										</li>
+
+                                      <?php										
+										}
+										?>
+										
+										<?php
+										if($cmsValue['cmsid']==78)
+										{
+											 
+											$pageredirectcentral = $this->baseUrl('page/frontcontentview/?id='.base64_encode(78));
+											$pageredirectuts = $this->baseUrl('page/frontcontentview/?id='.base64_encode(91));
+										?>
+										
+										<li <?php  if($pageidurl  ==  '78' || $pageidurl  ==  '91'){ ?>
+											class="active dropdown"
+											<?php 
+											} else { 
+											 ?>
+											class="dropdown"
+											<?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo DBTCELL;?></a>
+											<ul class="dropdown-menu">
+												 <li><a href="<?php echo $pageredirectcentral; ?>"><?php echo CENTRAL;?></a></li>
+												  <li><a style="text-transform: none !important;" href="<?php echo $pageredirectuts; ?>"><?php echo stateuts;?></a></li>
+											</ul>
+											</li>
+										
+										
+										<?php 
+										} ?>
+										
+										<?php 
+										if($cmsValue['cmsid']==3)
+										{
+										$pageredirectschemes = $this->baseUrl('scheme/schemelist');
+										$pageredirectapplicableschemes = $this->baseUrl('scheme/dbtapplicablelist');
+										?>
+										<li <?php 
+										if($controller_name == 'scheme') { ?>class="active dropdown" <?php } else { ?>class="dropdown" <?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo SCHM;?></a>
+										<ul class="dropdown-menu">
+										<li><a href="<?php echo $pageredirectschemes; ?>"><?php echo DBTONBOARDEDSCHEMES;?></a></li>
+										<li><a href="<?php echo $pageredirectapplicableschemes; ?>"><?php echo DBT_APPLICABLE_SCHEMES;?></a></li>
+										</ul>
+										</li>
+										<?php
+										} ?>
+										
+										 <?php 
+										if($cmsValue['cmsid']==43)
+										{
+											$pagedashboardlink = $this->baseUrl('report/reportchartview');
+											$pagemprlink = $this->baseUrl('schemereport/mprreport');
+										?>
+										<li <?php 
+										if($controller_name == 'report' || $controller_name == 'schemereport') { ?>class="active dropdown" <?php } else { ?>class="dropdown" <?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo report;?></a>
+										<ul class="dropdown-menu">
+												 <li><a href="<?php echo $pagedashboardlink; ?>"><?php echo DASHBOARD;?></a></li>
+												  <li><a href="<?php echo $pagemprlink; ?>"><?php echo MPRREPORT;?></a></li>
+											</ul>
+											</li>
+										
+										<?php
+										} ?>
+										
+										
+									<?php }else{ 
+                                                                        
+									?>
+									<li <?php if(ucfirst($controller_name) == $cmsValue["title"] ||   ucfirst($method_name) == $cmsValue["title"] || $pageidurl  == $cmsValue['cmsid'] ||  ucfirst($resultarchive) == $cmsValue["title"] || ucfirst($resultschemearchive) == $cmsValue["title"] || $schemename == $cmsValue["title"] ||  $reportname == $cmsValue["title"] ||  $sucessstory == $cmsValue["title"])   { ?> class="active" <?php } ?>
+									><a href="<?php echo $pageRedirect; ?>" <?php if($selected==true){ echo "selected";}?>><?php echo $menuTtle;?></a></li>
+                                                                        <?php } ?>
+									<?php  if(count($showAllMenuTitle)!=$i){?>
+									<li class="divider">|</li>
+									<?php
+										}
+
+									//$val = 'abc';
+								}
+								else // it wil directly come to english.
+								{
+									//$cmsValue['cmsid'];
+
+									if($cmsValue['cmsid']==29)
+									{
+										$pageRedirect = $this->baseUrl('/');
+									}
+									else if($cmsValue['cmsid']==3)
+									{
+										
+										$selected=true;
+										if ($controller_name == 'ut' || $controller_name == 'utscheme' || $controller_name == 'utschemeowner'){
+											$pageRedirect = $this->baseUrl('utscheme/schemelist');
+										} else{
+											$pageRedirect = $this->baseUrl('scheme/schemelist');
+										}
+									}
+									else if($cmsValue['cmsid']==43)
+									{
+										$pageRedirect = $this->baseUrl('report/reportchartview');
+									}
+									else if($cmsValue['cmsid']==41)
+									{
+										$pageRedirect = $this->baseUrl('photogallery/multimedia');
+									}
+									else if($cmsValue['cmsid']==89)
+									{
+										$pageRedirect = $this->baseUrl('successstory');
+									}
+									else if($cmsValue['cmsid']==39)
+									{
+										$pageRedirect = $this->baseUrl('schemearchive');
+									}
+									else
+									{
+										$pageRedirect = $this->baseUrl('page/frontcontentview/?id='.base64_encode($cmsValue[cmsid]));
+										//$this->url('page', array('action' => 'frontcontentview', 'id' =>$cmsValue[cmsid]));
+									}
+									
+                                   									
+					if($cmsValue['cmsid']==41 || $cmsValue['cmsid']==65 || $cmsValue['cmsid']==87 || $cmsValue['cmsid']==78 || $cmsValue['cmsid']==3 || $cmsValue['cmsid']==43)
+									{  
+								if($cmsValue['cmsid']==41)
+										{ ?>
+										<li <?php 
+										if($controller_name == 'photogallery')
+										{
+										?>
+										class="active dropdown"
+										<?php 
+										} else {
+											?>
+										class="dropdown"
+										<?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="multimedia.html"><?php echo $cmsValue["title"];?></a>
+											<ul class="dropdown-menu">
+												 <li><a href="<?php echo $this->baseUrl('photogallery/multimedia');?>"><?php echo IMAGE_GALLERY;?></a></li>
+												  <li><a href="<?php echo $this->baseUrl('photogallery/showvideo');?>"><?php echo VIDEO_GALLERY;?></a></li>
+												   <li><a href="<?php echo $this->baseUrl('page/frontcontentview/?id='.base64_encode(93)); ?>"><?php echo PRESSRELEASE;?></a></li>
+											</ul>
+										</li>
+										<?php
+										}  if($cmsValue['cmsid']== 65){
+											$pageredirectcircular = $this->baseUrl('page/frontcontentview/?id='.base64_encode(64));
+											$pageredirectevents = $this->baseUrl('page/frontcontentview/?id='.base64_encode(80));
+											$pageredirectdocuments = $this->baseUrl('page/frontcontentview/?id='.base64_encode(65));
+											?>
+											<li  
+											<?php  if($pageidurl  ==  '64' || $pageidurl  ==  '80' || $pageidurl  ==  '65'){ ?>
+											class="active dropdown"
+											<?php 
+											} else { 
+											?>
+											class="dropdown"
+											<?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="multimedia.html"><?php echo DOCUMENTS;?></a>
+											<ul class="dropdown-menu">
+												 <li><a href="<?php echo $pageredirectcircular; ?>"><?php echo CIRCULAR;?></a></li>
+												  <li><a href="<?php echo $pageredirectevents; ?>"><?php echo EVENTS;?></a></li>
+												  <li><a href="<?php echo $pageredirectdocuments; ?>"><?php echo DOCUMENTS;?></a></li>
+											</ul>
+										</li>
+										
+										<?php
+										} ?>
+										
+										<?php
+										if($cmsValue['cmsid']==87)
+										{
+										?>
+                                            <li  <?php if(!empty($_GET['state'])) { ?> class="dropdown active" <?php } ?> class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="multimedia.html"><?php  echo uts;?></a>
+											<ul class="dropdown-menu">
+											<?php
+												 $cmi_list = new Application_Model_Utbeneficiarydata();
+		                                        $utlist = $cmi_list->getutlist();
+												//print_r($utlist);
+												foreach ($utlist as $k => $value) {
+													$pageredirectut = $this->baseUrl('ut/?state='.$value['state_code']);
+												?>
+												 <li><a href="<?php echo $pageredirectut; ?>"><?php echo $value['state_name'];?></a></li>
+												<?php
+												}
+												?>
+											</ul>
+										</li>
+
+                                      <?php										
+										}
+										?>
+										
+										<?php
+										if($cmsValue['cmsid']==78)
+										{
+											 
+											$pageredirectcentral = $this->baseUrl('page/frontcontentview/?id='.base64_encode(78));
+											$pageredirectuts = $this->baseUrl('page/frontcontentview/?id='.base64_encode(91));
+										?>
+										
+										<li <?php  if($pageidurl  ==  '78' || $pageidurl  ==  '91'){ ?>
+											class="active dropdown"
+											<?php 
+											} else { 
+											 ?>
+											class="dropdown"
+											<?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo DBTCELL;?></a>
+											<ul class="dropdown-menu">
+												 <li><a href="<?php echo $pageredirectcentral; ?>"><?php echo CENTRAL;?></a></li>
+												  <li><a style="text-transform: none !important;" href="<?php echo $pageredirectuts; ?>"><?php echo stateuts;?></a></li>
+											</ul>
+											</li>
+										
+										
+										<?php 
+										} ?>
+										
+									<?php 
+									if($cmsValue['cmsid']==3)
+									{
+									$pageredirectschemes = $this->baseUrl('scheme/schemelist');
+									$pageredirectapplicableschemes = $this->baseUrl('scheme/dbtapplicablelist');
+									?>
+									<li <?php 
+									if($controller_name == 'scheme') { ?>class="active dropdown" <?php } else { ?>class="dropdown" <?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo SCHM;?></a>
+									<ul class="dropdown-menu">
+									<li><a href="<?php echo $pageredirectschemes; ?>"><?php echo DBTONBOARDEDSCHEMES;?></a></li>
+									<li><a href="<?php echo $pageredirectapplicableschemes; ?>"><?php echo DBT_APPLICABLE_SCHEMES;?></a></li>
+									</ul>
+									</li>
+									<?php
+									} ?>
+									
+									
+									    <?php 
+										if($cmsValue['cmsid']==43)
+										{
+											$pagedashboardlink = $this->baseUrl('report/reportchartview');
+											$pagemprlink = $this->baseUrl('schemereport/mprreport');
+										?>
+										<li <?php 
+										if($controller_name == 'report' || $controller_name == 'schemereport') { ?>class="active dropdown" <?php } else { ?>class="dropdown" <?php } ?>><a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo report;?></a>
+										<ul class="dropdown-menu">
+												 <li><a href="<?php echo $pagedashboardlink; ?>"><?php echo DASHBOARD;?></a></li>
+												  <li><a href="<?php echo $pagemprlink; ?>"><?php echo MPRREPORT;?></a></li>
+											</ul>
+											</li>
+										
+										<?php
+										} ?>
+										
+								<?php }else{ ?>
+									<li <?php if(ucfirst($controller_name) == $cmsValue["title"] ||   ucfirst($method_name) == $cmsValue["title"] || $pageidurl  == $cmsValue['cmsid'] ||  ucfirst($resultarchive) == $cmsValue["title"] || ucfirst($resultschemearchive) == $cmsValue["title"] || $schemename == $cmsValue["title"] ||  $reportname == $cmsValue["title"] || $sucessstory == $cmsValue["title"])   { ?> class="active" <?php } if(empty($method_name)){ ?> class="active" <?php }?>><a href="<?php echo $pageRedirect; ?>"><?php echo $cmsValue["title"];?></a></li>
+									<?php } ?>
+                                                                        
+                                                                        
+									
+									<?php  if(count($showAllMenuTitle)!=$i){?>
+									<li class="divider">|</li>
+									<?php
+									}
+								
+								}
+			?>
+				
+				
+				<?php 
+					$i++;
+					}// end of foreach($showAllMenuTitle as $cmsId=>$cmsValue)
+								
+				} //end of if(count($showAllMenuTitle)!=0)
+				
+				?>
+			</ul>
+			
+			<!--<ul class="nav navbar-nav navbar-right">
+			<?php
+			if( $usname=='')
+			{
+				?>
+				<li><a href="<?php //echo $this->baseUrl('auth/login');?>"><?php //echo login; ?></a></li>
+				
+				<?php
+			}
+			?>
+				
+                 <li><a href="javascript:void(0);" target="_blank">&nbsp;</a></li>
+                                
+			</ul>-->
+		</div>	
+	</div>
+</nav>
+
+<!--End Navigation -->

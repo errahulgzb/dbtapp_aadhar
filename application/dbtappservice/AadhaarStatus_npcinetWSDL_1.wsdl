@@ -1,0 +1,50 @@
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://aadhaar.npci.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="AadhaarStatusService" targetNamespace="http://aadhaar.npci.org/">
+<types>
+<xsd:schema>
+<xsd:import namespace="http://aadhaar.npci.org/" schemaLocation="AadhaarStatusService_schema1.xsd"/>
+</xsd:schema>
+</types>
+<message name="Exception">
+<part name="fault" element="tns:Exception"></part>
+</message>
+<message name="UnknownHostException">
+<part name="fault" element="tns:UnknownHostException"></part>
+</message>
+<message name="getAadhaarStatusResponse">
+<part name="parameters" element="tns:getAadhaarStatusResponse"></part>
+</message>
+<message name="getAadhaarStatus">
+<part name="parameters" element="tns:getAadhaarStatus"></part>
+</message>
+<portType name="AadhaarStatus">
+<operation name="getAadhaarStatus">
+<input message="tns:getAadhaarStatus"></input>
+<output message="tns:getAadhaarStatusResponse"></output>
+<fault name="UnknownHostException" message="tns:UnknownHostException"></fault>
+<fault name="Exception" message="tns:Exception"></fault>
+</operation>
+</portType>
+<binding name="AadhaarStatusPortBinding" type="tns:AadhaarStatus">
+<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+<operation name="getAadhaarStatus">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+<fault name="UnknownHostException">
+<soap:fault name="UnknownHostException" use="literal"/>
+</fault>
+<fault name="Exception">
+<soap:fault name="Exception" use="literal"/>
+</fault>
+</operation>
+</binding>
+<service name="AadhaarStatusService">
+<port name="AadhaarStatusPort" binding="tns:AadhaarStatusPortBinding">
+<soap:address location="https://192.168.179.231/CMAadhaar/AadhaarStatusService"/>
+</port>
+</service>
+</definitions>

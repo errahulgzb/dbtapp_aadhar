@@ -1,0 +1,252 @@
+<?php
+	$uid = $_GET['id'];
+	$scheme_id = $_GET['scheme_id'];
+	$uuid = $_GET['uuid'];
+	$scmtype = $_GET['scmtype'];
+	$decodescmtype = base64_decode($_GET['scmtype']);
+	$paramdata = "?scheme_id=".safexss($_GET['scheme_id'])."&min_id=".safexss($_GET['min_id'])."&scm_type=".safexss($_GET['scmtype'])."&status=".safexss($_GET['status']);
+	$schemename=$this->schemename;
+$schemename= $this->scheme_id;
+?>
+<?php 
+if($decodescmtype == 1 || $decodescmtype == 3)
+{ ?>
+<script>
+function sub(){
+	var amount,amountlength,amount_regex,fund_transfer,transaction_date,dobregex,vercode;
+	amount = $('#amount').val();
+	vercode = $('#vercode').val();
+	fund_transfer = $('#fund_transfer').val(); 
+	transaction_date = $('#transaction_date').val(); 
+	amountlength =  $.trim(amount).length;
+	amount_regex = /^[0-9]+$/;
+	dobregex = /^[0-9\-]+$/;
+	if(amount == '' || amount == null)
+	{
+		$("span#amount-error").text("Amount can\'t be empty.");
+		$("#amount").focus();
+		return false;
+	}
+	else if(amountlength ==0)
+	{
+		$("span#amount-error").text( "White space are not allowed in Amount.");
+		$("#amount").focus();
+		return false;
+	}
+	else if(!amount.match(amount_regex))
+	{
+		$("span#amount-error").text("Amount field is allowed only numeric input.");
+		$("#amount").focus();
+		return false;
+	}
+    else
+    {
+		$("span#amount-error").text(" ");
+	}
+	if(fund_transfer == 0)
+	{
+		$("span#fundtransfer-error").text( "Fund Transfer Method can\'t be  empty." );
+		$("#fund_transfer").focus();
+		return false;
+	}
+	else
+    {
+		$("span#fundtransfer-error").text(" ");
+	}
+   if(transaction_date == '' || transaction_date == null)
+	{
+		$("span#transactiondate-error").text("Transaction Date can\'t be empty.");
+		$("#transaction_date").focus();
+		return false;
+	}
+	else if(!transaction_date.match(dobregex))
+	{
+		$("span#transactiondate-error").text("Please enter valid date format.");
+		$("#transaction_date").focus();
+		return false;
+	}
+    else
+    {
+		$("span#transactiondate-error").text(" ");
+	}
+	if(vercode == '' || vercode == null)
+	{
+		$("span#vercode-error").text("Captcha can\'t be empty.");
+		$("#vercode").focus();
+		return false;
+	}
+}
+</script>
+<?php 
+} else {?>
+
+<script>
+function sub(){
+	var amount,amountlength,amount_regex,fund_transfer,transaction_date,dobregex,vercode,transfer_by;
+	amount = $('#amount').val();
+	vercode = $('#vercode').val();
+	fund_transfer = $('#fund_transfer').val(); 
+	transfer_by = $('#transfer_by').val(); 
+	transaction_date = $('#transaction_date').val(); 
+	amountlength =  $.trim(amount).length;
+	amount_regex = /^[0-9]+$/;
+	dobregex = /^[0-9\-]+$/;
+	
+	if(transfer_by == '' || transfer_by == 0)
+	{
+		$("span#transfer_by-error").text("Please select Transfer By.");
+		$("#transfer_by").focus();
+		return false;
+	}
+   if(transaction_date == '' || transaction_date == null)
+	{
+		$("span#transactiondate-error").text("Transaction Date can\'t be empty.");
+		$("#transaction_date").focus();
+		return false;
+	}
+	else if(!transaction_date.match(dobregex))
+	{
+		$("span#transactiondate-error").text("Please enter valid date format.");
+		$("#transaction_date").focus();
+		return false;
+	}
+    else
+    {
+		$("span#transactiondate-error").text(" ");
+	}
+	if(vercode == '' || vercode == null)
+	{
+		$("span#vercode-error").text("Captcha can\'t be empty.");
+		$("#vercode").focus();
+		return false;
+	}
+}
+</script>
+<?php
+} ?>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('schemeowner/schemeview'); ?>">Scheme List</a></li>
+   <li><a href="<?php echo $this->baseUrl('schemeowner/beneficiarydatalist'.$paramdata); ?>">Beneficiaries Record</a></li>
+   <li class="active">Add Transaction</li>
+</ol>
+<div class="row"><div class="col-sm-9 col-xs-12"><h2><?php $schemename= $this->scheme_id; 
+if(isset($_GET['scmtype']) && base64_decode($_GET['scmtype']) == 1){
+			$type = " (In Cash)";
+		}else if(isset($_GET['scmtype']) && base64_decode($_GET['scmtype']) == 2){
+			$type = " (In Kind)";
+		}else if(isset($_GET['scmtype']) && base64_decode($_GET['scmtype']) == 3){
+			$type = " (In Others)";
+		}else{
+			$type = "";
+		}
+echo "Scheme Name : ".$schemename[0]->scheme_name.$type."&nbsp;&nbsp; Scheme Code: ".$this->scheme_code[0]['scheme_codification'];
+	?>
+</h2></div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Beneficiary-v1.pdf'); ?>"  target="_blank">Help?</a></div></div> 	
+	<?php if($this->errorMessage){?>
+	<div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+	<?php } ?>
+</h4> 		
+<?php $postUrl = $this->url(array(
+                'controller' => 'schemeowner',
+                'action'  => 'beneficiaryedit'
+                )); 
+                ?>
+<form role="form" method="post" action="<?php echo $postUrl; ?>?scheme_id=<?php echo safexss($scheme_id); ?>&id=<?php echo safexss($uid);?>&uuid=<?php echo safexss(trim($uuid));?>&scmtype=<?php echo safexss($scmtype);?>" name="schememanualdataform" id="schememanualdataform" onsubmit = "return sub()">
+
+		<?php if($this->mess){?>
+				<div class='error-msg'><span class="errors"><?php echo $this->mess; ?></span></div>
+		<?php } ?> 
+        <div class="row">
+			<div class="form-group col-sm-6">
+                <label>Beneficiary Id</label>
+                <?php echo $this->form->uniq_user_id; ?>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>Name</label>
+                <?php echo $this->form->name; ?>
+            </div>
+            </div>
+            <div class="row">
+			<div class="form-group col-sm-6">
+                <label>Aadhar Number</label>
+                <?php echo $this->form->aadhar_num; ?>
+            </div>
+            <?php if((base64_decode($scmtype) == 1) || (base64_decode($scmtype) == 3)){?>
+			<div class="form-group col-sm-6">
+                <label>Amount<sup class="require">*</sup> </label>
+                <?php echo $this->form->amount?>
+				<span class="require" id="amount-error"></span>
+            </div>
+            </div>
+            <div class="row">
+             <div class="form-group col-sm-6">
+                <label>Fund Transfer Method<sup class="require">*</sup> </label>
+                <?php echo $this->form->fund_transfer?>
+				<span class="require" id="fundtransfer-error"></span>
+            </div>
+			<?php } ?>
+			<?php if((base64_decode($scmtype) == 2)){?>
+			<div class="form-group col-sm-6 date">
+                <label>Benefit Transfer Mode<sup class="require">*</sup> </label>
+                <?php echo $this->form->transfer_by; ?>
+                <span class="require" id="transfer_by-error"></span>
+
+            </div>
+			<?php } ?>
+            <div class="form-group col-sm-6 date">
+                <label>Transaction Date<sup class="require">*</sup> </label>
+                <?php echo $this->form->transaction_date; ?>
+                <span class="require" id="transactiondate-error"></span>
+
+            </div>
+            </div>
+            <div class="row">
+            <!-----------Add Captcha Code Script----->
+			<div class="form-group col-sm-6 col-xs-12 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();"
+						id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+									
+				</p>
+				 <div class="clearfix"></div>
+				 <span class="require" id="vercode-error"></span>	
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+		
+             <div class="form-group col-md-12 col-sm-12 text-center">
+				<?php echo $this->form->scheme_id; ?>
+				<input type="hidden" name="uuid" value=<?php echo $uuid; ?> >
+				<input type="hidden" name="id" value=<?php echo $uid;?> >
+				<input type="hidden" name="scmtype" value=<?php echo safexss($scmtype); ?> >
+				
+                 <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton" onclick="goCancel();"><?php echo CANCEL; ?></button>
+            </div>
+        </div>
+     </form> 
+<script type="text/javascript">
+    $(document).ready(function() {
+		var yearval  = null;
+		yearval = new Date().getFullYear();
+    $("#transaction_date").datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'button',
+			yearRange: '1920:'+yearval,
+			defaultYear: yearval,
+			maxDate: new Date(),
+            buttonImage: '<?php echo $this->baseUrl("images/calendar-blue.png"); ?>'
+        });
+    });
+	
+</script>		
+

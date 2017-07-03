@@ -1,0 +1,170 @@
+<?php
+require_once 'Zend/Session.php';
+?>
+       <?php
+	  
+	   $gettingid=$this->gettingid;
+	  // echo $gettingid;
+	//   die;
+$postUrl = $this->url(array(
+							 'controller' => 'user',
+							 'action'     => 'upload'
+	))."?uid=".$this->gettingid; 
+?>
+
+ <link href="<?=$this->baseUrl('style/style.css') ?>" rel="stylesheet" type="text/css" />
+  <!--   <script src="<?=$this->baseUrl('js/jquery-1.6.min.js') ?>" type="text/javascript"	language="javascript"></script> -->
+<!--<script language="javascript" src="<?=$this->baseUrl('js/validation.js') ?>" type="text/javascript"></script>-->
+<script language="javascript" type="text/javascript">
+
+var arrFiletypes = AllowedFileTypes;
+
+function startUpload(){
+
+ var str = window.opener.j;
+// var numberOfFile = "<?php echo $rowNum; ?>";
+// var numberOfFile = "<?php echo $this->rowcount; ?>";
+ //var size = "<?php //echo MAX_UPLOAD_SIZE_IN_BYTE; ?>";
+// alert("size="+size);
+//alert(numberOfFile);
+		//alert(document.form1.myfile.value);
+		if(document.form1.myfile.value=='')
+		{
+			alert('Please select a File to upload.') ;
+			return false ;
+		}
+		//alert(document.form1.myfile.value);
+		/*
+		var arrFile = document.form1.myfile.value.split(".");		
+		//alert(arrFile[0]+arrFile[1]);	
+		var blnFlag = false;
+		if(document.form1.myfile.value!='')
+		{
+			for(i=0;i<arrFiletypes.length;i++)
+			{
+				
+				if((arrFiletypes[i] == arrFile[arrFile.length-1]) || (arrFiletypes[i] == arrFile[arrFile.length-1].toLowerCase()) || (arrFiletypes[i] == arrFile[arrFile.length-1].toUpperCase()))
+				{			
+					blnFlag=true;
+					break;		 
+				}
+			}
+			if(!blnFlag)
+			{
+				alert("Sorry!! "+ arrFile[arrFile.length-1].toUpperCase()  +" file type not supported. Please try again.");
+				return false;
+			}
+		}
+	
+
+		//alert(str.match(/@/g).length);*/
+		//if(numberOfFile >9 )
+		//{ 
+			//alert("Maximum 10 files can be uploaded.");
+			//return false ;
+		//}	
+	
+//alert("hello");
+document.getElementById('f1_upload_process').style.visibility = 'visible';
+//alert("hello");
+document.getElementById('f1_upload_form').style.visibility = 'hidden';
+//alert("hello");
+return true;
+//alert("hello");
+}
+//alert("hello");
+function closeiT()
+{
+	//alert("hello");
+	window.close();
+}
+//alert("hello");
+function stopUpload(success , displayName , fileName,uploadedFileId){
+ 	//alert(success+"Upload File Id"+uploadedFileId);
+	  var result = '';
+	  if(window.opener.j=="") 
+          {
+            window.opener.j = fileName ;
+             
+          }else{
+              
+             window.opener.j = window.opener.j+'@'+fileName ;
+          } 
+      if (success == 1){
+	  
+			 //alert("fileName="+fileName+"displayName="+displayName+"uploadedFileId="+uploadedFileId);
+             window.opener.AddUploader(fileName , displayName, uploadedFileId);
+      	//window.opener.document.getElementById("f_upload").innerHTML = '<a href =http://172.16.32.219/cwi010/conv_file/'+path +' target="_blank">'+path+'</a>&nbsp; is uploaded successfully ' ;
+		 
+		 self.close() ;
+		 
+		return true ; 
+      }
+      else {
+      //alert(success+"Upload File Id"+uploadedFileId);
+      // alert(success+"Upload File Id"+uploadedFileId);
+          if(success == -1){
+		 
+           alert('File format is not correct. Kindly upload file with mentioned extensions.');
+	    self.close();
+         }else{
+			 if(success == -2){
+			
+				alert('Size of the file should be within 10 MB') ;
+				//alert("<?php echo MAX_EXCEED_UPLOADED_FILE; ?>");
+			 
+			 }
+				
+							 else{
+
+
+			 //alert();
+				alert("There is an error in file upload. Please try again") ;
+			 }	
+         }
+      }
+      document.getElementById('f1_upload_process').style.visibility = 'hidden';
+	  //document.getElementById('f1_upload_form').innerHTML = result + '<label>File: <input name="myfile" type="file" size="30" /><\/label><label><input type="submit" name="submitBtn" class="sbtn" value="Upload" /><\/label>';
+      document.getElementById('f1_upload_form').style.visibility = 'visible';   
+	  
+	
+      return true;   
+}
+
+
+function notAllowedAtAnyCost(){
+alert("Opps! This file is not allowed. Please upload correct format.");window.close();return false;}
+</script> 
+
+
+       <div id="container">
+            <div id="header"><div id="header_left">NO Allowed</div>
+            <div id="header_main">DBT Image Uploader</div><div id="header_right"></div></div>
+            <div id="content">
+                <form name="form1" action="<?php echo $postUrl;  ?>" method="post" enctype="multipart/form-data" target="upload_target" onsubmit="return startUpload();"   >
+				<!-- target="upload_target" onsubmit="return startUpload();"  -->
+                     <p id="f1_upload_process">Loading...<br/><img src="<?=$this->baseUrl('images/loader.gif') ?>" /><br/></p>
+                     <p id="f1_upload_form" align="center"><br/>
+                         <label>Image:  
+                              <input name="myfile" type="file" size="30" />
+                         </label>
+                         <label>
+							 <input type="submit" name="submitBtn" class="sbtn" value="Upload" />
+                         </label>
+						<Div class="bluetext" style="border-bottom:1px"></div>
+                     </p>
+						<div style='padding-left: 45px; width 75%'>
+													
+							<div class ='NetRow' style='margin-top: 3px'>&gt; Only following listed files can be uploaded:</div>
+							<div class ='NetRow' style='padding-left:30px'>- Image Files &nbsp;&nbsp;[&nbsp;'jpg', 'jpeg', 'bmp', 'gif', 'png','mpg','mpeg'&nbsp;]</div>
+													
+							
+						</div>
+
+                     <iframe id="upload_target" name="upload_target" src="#" style="width:100;height:100;border:1px solid #fff; display:none;"></iframe>
+                 </form>
+             </div>
+          
+                 
+
+

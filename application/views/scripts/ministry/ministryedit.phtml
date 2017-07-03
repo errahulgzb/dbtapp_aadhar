@@ -1,0 +1,101 @@
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+<!-----------Add Captcha Code Script----->
+ <script type="text/javascript" src="<?php echo $this->baseUrl('js/captcha.js') ?>"></script> 
+ <!--------------End Captcha Code------->
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function()
+{
+	jQuery("#frmMinistry").submit(function()
+	{
+		var alphabetReg = /^[ A-Za-z0-9 \,\-\(\)\& ]*$/;
+		if (jQuery("#ministry_name").val() == '')
+		 {
+			$('#ministry').text("Ministry Name <?php echo CANTEMPTY; ?>");
+			jQuery( "#ministry_name" ).focus();
+			return false;
+		}
+		if(!alphabetReg.test(jQuery("#ministry_name").val()))
+	    {
+			$('#ministry').text("Ministry Name field has some special characters. \nThese are not allowed.\n Please remove them and try again");
+			jQuery( "#ministry_name" ).focus();
+			return false;
+		}
+		
+		if (jQuery("#ministry_name").val() != '')
+		 {
+			$('#ministry').text("");
+		}
+		
+	if(jQuery('#vercode').val() == '')
+		{
+			$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+		if(jQuery('#vercode').val() != '')
+		{
+			$('#captcha-code').text("");
+		} 
+	});
+});
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('ministry/ministryview'); ?>">Ministry</a></li>
+   <li class="active">Edit</li>
+</ol>
+<?php  $cmidata = $this->cmidata;
+    $postUrlUpdate = $this->url(array(
+        'controller' => 'ministry',
+        //'action'  => 'userview'
+        ))."?id=".safexss($this->escape($cmidata['id'])); ?>
+
+<h2>Edit Ministry</h2>
+
+    <form class="" role="form" method="post" action="<?php echo $postUrlUpdate; ?>" name="frmMinistry"  id="frmMinistry"  onsubmit="return validate();">				
+				
+            <?php if($this->errorMessage){?>
+            <div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+            <?php } ?>
+
+            <div class="row">
+ <div class="form-group col-sm-6">
+              <label>Language<sup class="require">*</sup>  </label>
+              <?php echo $this->form->language; ?>
+            </div>
+                <div class="form-group col-sm-6">
+                 <label>Ministry Name<sup class="require">*</sup>  </label>
+                 <?php echo $this->form->ministry_name; ?>
+                 <span class="require" id="ministry"></span>
+               </div>
+	
+			 <?php echo $this->form->lang?>
+				<!-----------Add Captcha Code Script----->
+			 <div class="form-group col-sm-6 col-xs-12 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>									
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();" id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>	
+				</p>
+			<div class="clearfix"></div><span class="require" id="captcha-code"></span>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+               <div class="form-group col-md-12 col-sm-12 text-center">
+                  <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="submitButton">Submit</button>
+				    <button type="reset" name="Reset" class="btn active text-center" id="resetButton" onclick="goCancel();"><?php echo CANCEL; ?></button>
+              </div>
+          </div>
+
+    </form>
+
+

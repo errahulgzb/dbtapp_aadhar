@@ -1,0 +1,166 @@
+<?php 
+	$userid = new Zend_Session_Namespace('userid');
+	$role = new Zend_Session_Namespace('role');
+	$searchUrl = $this->url(array(
+            'controller' => 'auditlog',
+            ));
+?>
+
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function(){
+	jQuery("#auditresetButton").click(function(){
+		//jQuery(".srch-box").val('');
+		window.location.href="<?php echo $searchUrl; ?>";
+	});
+});
+</script>
+
+<?php
+	$prevlogurl = $this->url(array(
+		'controller' => 'audit',
+		'action' => 'auditview'
+		));
+?>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li class="active">Audit Log</li>
+</ol>
+<h2>Audit Log</h2>
+<?php
+	$auditlogdata = $this->auditlogdata;
+	$Count = $this->counttotalauditlog;
+	$applicationtype = $this->applicationtype;
+	// print '<pre>';
+	// print_r($applicationtype);
+	// exit;
+	$searchUrl = $this->url(array(
+            'controller' => 'auditlog',
+            ));
+			
+	$application_type = $_GET['application_type'];
+	$fromdate = $_GET['fromdate'];
+	$todate = $_GET['todate'];
+?>
+
+<!----------------------------------------------------------->
+<div class="row">
+	<div class="col-sm-12 margin-bottom-10">
+	 <form id="auditsearch" class="form-inline" role="form" method="get" action="<?php echo $searchUrl.'?search='.$searchUrl; ?>">
+				<div class="form-group">
+					<label>Application Type </label>
+					<!--
+					<input class="form-control" type="text" name="application_type" value='<?php //if($application_type){echo $application_type;}?>'>
+					-->
+
+					<select name="application_type" class="form-control select-application">
+					  <option value="0">Select Application</option>
+						<?php 
+						// print '<pre>';
+						// print_r($applicationtype);
+						// exit;
+							foreach ($applicationtype as $k => $value) {
+								//print_r($value); exit;
+								if ($value["application_type"] == $application_type){
+									echo '<option class="options" value="'.addslashes($value["application_type"]).'" selected="selected">'.$value["application_type"].'</option>';
+								} else {
+									echo '<option class="options" value="'.addslashes($value["application_type"]).'">'.$value["application_type"].'</option>';
+								}
+							}
+						?>
+					  
+					</select>
+                    <span class="calenderdate">
+					<label>From Date </label>
+					<input class="form-control" type="text" name="fromdate" id='fromdate' value='<?php if($fromdate){echo $fromdate;}?>' placeholder='yyyy-mm-dd' readonly>
+					</span><span class="calenderdate"><label>To Date </label>
+					<input class="form-control" type="text" id='todate' name="todate" value='<?php if($todate){echo $todate;}?>' placeholder='yyyy-mm-dd' readonly>
+					</span><button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="auditSearchButton">Submit</button>
+					<button type="reset" class="btn active text-center" name="reset" id="auditresetButton">Reset</button>
+			 </div>
+		</form>
+	 </div>
+</div>
+<div class="data-found">
+<div class="row">
+<div class="col-sm-12 text-center record_box"> 
+<?php if($Count): echo $Count ." ".RECORD_FOUND; endif;?>
+<?php if(!$Count): echo 0 ." ".RECORD_FOUND; endif;?>
+</div>
+</div>
+<div id="logdetails" class="logdetails">
+<div class="table table-responsive">
+<table class="table equalspacing" summary="Audit Log Applocaton type list">
+	<thead>
+		<tr>
+			<th scope="col">SNo.</th>
+			<th scope="col">Application Type</th>
+			<th scope="col">Description</th>
+			<th scope="col">Action Taken By</th>
+			<th scope="col">IP Address</th>
+			<th scope="col">Date</th>	
+		</tr>
+	</thead>
+	<tbody><?php if($Count==0)
+			{ ?>
+				<tr>
+					<td colspan="6" class="text-center"><?php echo RECORD_EMPTY;?></td>
+				</tr>
+			<?php
+			}else{
+				$i=1;
+				foreach ($auditlogdata as $key => $val)
+				{ 
+					// print '<pre>';
+					// print_r($val); exit;
+				?>
+					<tr>
+						<td> <?php echo $i+$this->start;?></td>
+						<td> <?php echo $this->escape($val['application_type']);?></td>
+						<td> <?php echo $val['description'];?></td>
+						<td> <?php echo $val['firstname'].' '.$val['lastname'];?></td>
+						<td> <?php echo $val['ipaddress'];?></td>
+						<td> <?php echo date("d/m/Y H:i:s" ,strtotime($this->escape($val['created'])));?></td>
+					</tr>
+					<?php ++$i;
+				}
+			}?>
+		</tbody> 
+	</table>
+	</div>
+</div>
+<div class="row text-center"><?php echo $this->paginate;?></div>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+		var yearval  = null;
+		yearval = new Date().getFullYear();
+    $("#fromdate").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'button',
+			yearRange: '1920:'+yearval,
+			defaultYear: yearval,
+			//maxDate: new Date(),
+            buttonImage: '<?php echo $this->baseUrl("images/calendar-blue.png"); ?>'
+        });
+    });
+
+$(document).ready(function() {
+		var yearval  = null;
+		yearval = new Date().getFullYear();
+    $("#todate").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'button',
+			yearRange: '1920:'+yearval,
+			defaultYear: yearval,
+			//maxDate: new Date(),
+            buttonImage: '<?php echo $this->baseUrl("images/calendar-blue.png"); ?>'
+        });
+    });
+	
+</script>			
+

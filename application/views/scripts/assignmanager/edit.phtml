@@ -1,0 +1,183 @@
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+ $captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+<script type="text/javascript" language="javascript">
+
+function validate()
+{
+	var 	iChars = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	//var 	iCharsCertian = "!#$%^&*()+=-[]\\\;/{}|\:<>~`";
+	var 	iCharsCertian = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";
+	
+	var  	reWhiteSpace = new RegExp(/^\s+$/);
+	
+        var ec = document.getElementById("projectmanager");
+        var strUserC = ec.options[ec.selectedIndex].value;
+        //var strUser1 = ec.options[ec.selectedIndex].text;
+        if(strUserC==0) //for text use if(strUser1=="Select")
+        {
+            alert("Please select Project Manager.");
+            document.frmfeedback.projectmanager.focus();
+            return false;
+        }
+        var atLeastOneIsChecked = $('input[name="projectname[]"]:checked').length;
+        if(atLeastOneIsChecked<1){
+            //alert("Please choose at least one Project.");
+            //return false;
+        }
+}
+</script>
+
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function(){
+	jQuery("#frmfeedback").submit(function(){
+		if(jQuery('#vercode').val() == '')
+		{
+			$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+		
+		if(jQuery('#vercode').val() != '')
+		{
+			$('#captcha-code').text("");
+		} 
+
+	});
+function removeSpacesnew(string){
+	return string.split(' ').join('');
+}
+});
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('user/userview'); ?>">User(s) List</a></li>
+   <li><a href="<?php echo $this->baseUrl('assignmanager'); ?>">Assigned Scheme List</a></li>
+   <li class="active">Assign Scheme</li>
+</ol>
+<div class="row"><div class="col-sm-12" id="asignmanager-edit">
+<div class="row"><div class="col-sm-9 col-xs-12"><h2><?php echo Scheme_assign_msg; ?></h2></div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Users.pdf'); ?>"  target="_blank">Help?</a></div></div>
+<?php if($this->errorMessage){?>
+<div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+<?php } ?>
+    <?php  
+    $cmidata = $this->cmidata;
+    $countFreeProjectAvailable =  $this->countFreeProject;
+    $postUrlUpdate = $this->url(array(
+                'controller' => 'assignmanager',
+                'action'  => 'edit'
+                ))."?id=".safexss($_GET['id']); ?>
+				
+				
+				<?php
+				 $pids = array();
+				 $disableids = array();
+				 $allprojects = array();
+				 foreach ($this->form->projectname as $label => $val){
+					 $allprojects[] = $val;					
+				 }
+				 foreach($allprojects[1] as $key=>$val){					 
+					 $pids[] = $key;					 
+				 }
+				 foreach($allprojects[2] as $key1=>$val1){					 
+					 $disableids[] = $val1;					 
+				 }
+				 $model = new Application_Model_Assignmanager;
+			     $data = 	$model->customerproject_Info($pids);
+				// echo "aaaa";exit;
+				?>
+	<form role="form" class="form-inline" method="post" action="<?php echo $postUrlUpdate; ?>" name="frmfeedback" id="frmfeedback" onsubmit="return validate();" >
+        <?php echo $this->errorMessage; ?>
+
+		<div class="row">
+            <div class="form-group col-sm-6">
+                <label>Scheme Owner:<sup class="require">*</sup> </label>
+                <?php echo $this->form->projectmanager;?>
+            </div>
+            <div class="form-group col-sm-12">
+                <div class="projects table table-responsive">
+				<table class='table'>
+            <thead>
+                <tr>
+                    <th scope="col">Ministry Information</th> 
+					<th scope="col">Scheme Name</th>
+                </tr>
+            </thead>
+			<tbody>
+			<?php
+			if(!empty($data)){
+			?>
+				<tr>
+					<?php 
+					$cnt=1;	
+					foreach($data as $key=>$pinfo){
+						if($cnt%2==1){
+							$class= 'class="odd"';
+
+						}else{
+							$class= 'class="even"';
+						}
+						$ministry = $model->customerInformation($key);
+						$i =0;
+						$cnt++;
+						$j=1;
+					foreach($pinfo as $key=>$val){?>
+					<tr <?php echo $class;?> >
+					<?php if($j>1){}else{ ?>
+					<td rowspan="<?php echo count($pinfo);?>">
+						<?php
+                             echo $ministry['ministry_name'];
+						?>
+					</td>
+					<?php } ?>	
+					<td>
+						<label>
+								<input <?php if(in_array($val['id'],$disableids)){  echo "checked='checked'";}?> id="projectname-<?=$val['id']?>" type="checkbox" value="<?=$val['id']?>" name="projectname[]">
+									<?=$val['scheme_name']?>
+						</label>
+					</td>	
+					</tr>	
+						<?php $i++;
+						    $j++;
+						}
+						 }
+				 } 
+					else { ?> 
+					<tr><td colspan='8' class='text-center'>No Record(s) Found!</td></tr>
+					<?php }?>
+					</tbody>
+					</table>
+					
+					
+					</div>
+            </div>             
+			<!-----------Add Captcha Code Script----->
+			<div class="form-group col-sm-6 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+				<?php echo $this->form->vercode; ?>
+                <p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();"
+						id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+					</p>
+                     <div class="clearfix"></div><span class="require" id="captcha-code"></span>
+					<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+		   <!--------------End Captcha Code-------> 
+             <div class="form-group col-md-12 col-sm-12 text-center">
+                <button type="submit" name="Submit" class="btn btn-default btn-warning text-center">Submit</button>
+				<button type="reset" class="btn active text-center" id="sechemSearchButton" onclick="goCancel();"><?php echo CANCEL; ?></button>
+            </div>
+        </div>
+
+    </form>
+ 
+
+</div></div>

@@ -1,0 +1,167 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$scheme_name = new Zend_Session_Namespace('scheme_name');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+
+$searchUrl = $this->url(array(
+            'controller' => 'assignmanager',
+            'action'  => 'index'
+            )); 
+?>
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function(){
+	jQuery(".rstbtn").click(function(){
+		
+		jQuery(".srch-box").val('');
+		window.location.href="<?php echo $searchUrl; ?>";
+	});
+});
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('user/userview'); ?>">User(s) List</a></li>
+   <li class="active">Assigned Scheme</li>
+</ol>
+<div class="row"><div class="col-sm-9 col-xs-12"><h2><?php echo ASSIGN_PROJECT;?></h2></div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Users.pdf'); ?>"  target="_blank">Help?</a></div></div>
+
+	<div class="row">
+		<div class="col-sm-12">
+    <?php
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalcmireports;
+    
+        if($this->successMsg){
+				
+			
+			if($scheme_name->scheme_name!=''){
+						$scheme_name1=explode(",",$scheme_name->scheme_name);
+						$j=1;?>
+						<div class="alert alert-warning"><p class="text-center"><strong><?php echo ASSIGNED_SCHEME_MESSAGE;?></strong></p>
+						<?php for($i=0;$i<sizeof($scheme_name1);$i++){
+							echo '<p>'.$j.' '.$scheme_name1[$i].'</p>';
+							$j++;
+						}
+						echo '</div>';
+						$scheme_name->scheme_name=null;
+					}
+					echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+        }
+		
+    ?>
+				<form class="form-inline" role="form" method="get" action="<?php echo $searchUrl.'?search='.$searchUrl?>">
+					<div class="row"><div class="col-sm-12">
+						<div class="form-group">
+							<label><?php echo SEARCH_BY; ?></label>
+							<input class="form-control" type="text" placeholder="Firstname, Lastname" name="search" value="<?php echo safexss($this->escape($_GET['search']));?>">
+							<button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="managesechemSearchButton">Submit</button>
+							<button type="reset" class="btn active text-center" name="reset" id="managesechemCancleButton">Cancel</button>
+						</div>
+					</div></div>
+										
+				</form>
+				<div class="col-sm-12 text-center record_box">
+					
+					<?php if($Count): echo '<span>'.$Count ." ".RECORD_FOUND.'</span>'; endif;?>
+				</div>
+	
+    <? $postUrl = $this->url(array(
+            'controller' => 'assignmanager',
+            'action'  => 'inactive'
+            ));
+        ?>
+	<div class="projects table table-responsive">
+    <form  class="webform-client-form" method="post" accept-charset="UTF-8" action="<?=$postUrl?>">
+        <table class='table' summary='Show the assign manager list'>
+            <thead>
+                <tr>
+                    <th>S. No.</th>
+                    <th>First Name</th>	
+                    <th>Last Name</th>
+					<th>Email-Id</th>
+					<!--<th>Roles</th>-->
+                    <th>Scheme Name</th>
+                    <th>Assign Scheme</th>
+                </tr>
+            </thead>
+            <tbody><?php 
+            //echo "<pre>"; 
+            //print_r($cmidata);
+            if($Count==0)
+                    { ?>
+                        <tr>
+                            <td colspan="8" class='text-center'><?php echo RECORD_EMPTY;?></td>
+                        </tr>
+                    <?php
+                    }else{
+                       
+                        $i=1;
+			//echo $countFreeProjectAvailable=  $this->countFreeProject;
+                        foreach ($cmidata as $key => $val)
+                        { 
+			# Here we are counting if  any project is free or not.
+				$cmi_list_model = new Application_Model_Assignmanager;
+				
+				if($val['id']!=""){ $checkId=$val['id'];}else{$checkId=0;}
+				//$pmArray11=$cmi_list_model->pidList($checkId);
+				//$showprojectname=$pmArray11->toArray();
+					//$countFreeProject =count ($showprojectname);
+			
+			?>
+                            <tr>
+                                <!--<td><input type="checkbox" name="roleid[<?php //echo $val['id'];?>]" id="roleid"></td>-->
+                                <td><?php echo $i+$this->start;?></td>
+								
+                                <td> <?php echo $this->escape($val['firstname']);?></td>
+                                <td> <?php echo $this->escape($val['lastname']);?></td>
+								<td> <?php echo $this->escape($val['email']);?></td>
+								<!--<td> <?php //echo $this->escape($val['role_name']);?></td>-->
+                                <td>
+                                    <?php
+                                     echo "<ul>";
+                                    $arrayval=explode("~",trim($this->escape($val[0])));
+				  // echo count($arrayval);
+                                    foreach($arrayval as $value){
+                                        if(!empty($value)){
+                                            $projectAvalable="yes";
+                                            echo "<li>".$value."</li>";
+                                        }else{
+                                            $projectAvalableNot="yes";
+                                        }
+                                    }
+                                    echo "</ul>";
+                                   ?>
+                                </td>
+                                    <?php $cmiurl = $this->url(array(
+                                         'controller' => 'assignmanager',
+                                         'action' => 'edit'
+                                        ))."?id=".$this->escape($val['id']); 
+                                    ?>
+                                
+                                <?php $delurl = $this->url(array(
+                                         'controller' => 'assignmanager',
+                                         'action' => 'delete'
+                                        ))."?id=".$this->escape($val['id']); 
+                                    ?>
+                                <td> <?php 
+								/*
+								if($countFreeProject==0){
+									echo NO_FREE_PROJECT; 
+									}else {*/?>
+									<a href="<?php echo $cmiurl;?>" class="menu1" ><?php echo ASSIGN_PROJECT;?></a>
+								<?php 
+								//} ?></td>
+                            </tr>
+                            <?php ++$i;
+                        }
+                    }?>
+                </tbody> 
+        </table>
+    </form>
+	</div>
+    <?php echo $this->paginate; ?>
+
+		</div>
+	</div>
+

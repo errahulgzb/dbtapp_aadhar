@@ -1,0 +1,8 @@
+<?php 
+echo $this->tresult; echo $this->uuuid;
+if($this->tresult==-6){
+?>
+
+<div style="color:red;">There is an error in file upload. Please close and try again.</div>
+ <?php }else ?>
+<script language="javascript" type="text/javascript">window.top.window.stopUpload(<?php echo $this->result;?> , "<?php echo $_FILES ['myfile'] ['name'];?>","<?php echo $this->newFileName; ?>","<?php echo $this->uploadedFileId;?>");</script>

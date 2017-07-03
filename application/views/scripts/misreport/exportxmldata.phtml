@@ -1,0 +1,139 @@
+<?php
+// error_reporting(1);
+// ini_set("error_reporting","E_ALL");
+// ini_set("error_display",true);
+$counted = count(array_filter($this->schemerecord));
+$multiarray = array();
+$i=0;
+if($counted > 0){
+	$data = array_filter($this->schemerecord);
+	foreach($data as $key => $value){
+			$payment_date=date('d-m-Y',strtotime($value['transaction_date']));
+			if($value['village_code']=='0'){
+				$value['village_code']='';
+			}if($value['block_code']=='0'){
+				$value['block_code']='';
+			}
+		$multiarray[$i] = array(
+
+		"location" => array(
+				//"address" => $value['home_address'],
+				"village_code" => $value['village_code'],
+				"village_name" => $value['village_name'],
+				"panchayat_code" => $value['panchayat_code'],
+				"panchayat_name" => $value['panchayat_name'],
+				"block_code" => $value['block_code'],
+				"block_name" => $value['block_name'],
+				"district_code" => $value['district_code'],
+				"district_name" => $value['district_name'],
+				"state_code" => $value['state_code'],
+				"state_name" => $value['state_name'],
+				//"pincode" => $value['pincode'],
+			),
+
+			"details" => array(
+				"benefit_transfer_mode" => $value['fund_transfer'],
+				"amount" => $value['amount'],
+				"no_of_beneficiries_transactions" => $value['no_of_beneficiries'],
+				"no_of_aadhaarseeded_beneficiries_transactions" => $value['AadharSeededBeneficiaries'],
+				"transaction_date" => $payment_date,
+				"payment_date" => $payment_date,
+				// "requestid" => $value['scheme_specific_unique_num'],
+				// "scheme_specific_family_num" => $value['scheme_specific_family_num'],
+				// "ration_card_num" => $value['ration_card_num'],
+				// "tin_family_id" => $value['tin_family_id'],
+			),
+			
+			// "transactionDetails" => array(
+				// "aadhar_seeded" => $value['aadhar_seeded'],
+				// "bank_account" => $value['bank_account'],
+				// "ifsc" => $value['ifsc'],
+				// "amount" => $value['amount'],
+				// "fund_transfer" => $value['fund_transfer'],
+				// "transaction_date" => $value['transaction_date'],
+				// "transfer_by" => $value['transfer_by'],
+				
+				// "AadharSeededBeneficiaries" => $value['AadharSeededBeneficiaries'],
+				// "no_of_beneficiries" => $value['no_of_beneficiries'],
+				// "no_of_abp_beneficiries" => $value['no_of_abp_beneficiries'],
+				// "Payment_Date" => $value['Payment_Date'],
+			// ),
+		);
+		// echo "<pre>";
+		// print_r($multiarray);
+		// echo "<pre>";
+		// exit;
+		$i++;
+		//$multiarray = array("EMPTY"=>"No Record Found!");
+	}
+	// echo "<pre>";
+		// print_r($data);
+		// echo "<pre>";
+	// exit;
+}else{
+	$multiarray = array("EMPTY"=>"No Record Found!");
+}
+$scm = strtoupper(substr($this->scheme_name,0,10));
+$name = strftime('FTO%d%m%Y_').$scm.strtotime('Y').".xml";
+//function defination to convert array to xml
+/*
+function array_to_xml($array, &$xml_user_info) {
+    foreach($array as $key => $value) {
+		if(is_array($value)){
+            if(!is_numeric($key)){
+				if($key == 'name'){
+					$xml_user_info->addChild("UserDetails");
+					$subnode = $xml_user_info->addChild("$key");
+					array_to_xml($value, $subnode);
+				}else{
+					$subnode = $xml_user_info->addChild("$key");
+					array_to_xml($value, $subnode);
+				}
+            }else{
+                $subnode = $xml_user_info->addChild("account");
+                array_to_xml($value, $subnode);
+            }
+        }else {
+            $xml_user_info->addChild("$key",htmlspecialchars("$value"));
+        }
+    }
+}
+*/
+
+
+// function to convert multi-dimensional array to xml
+function array2XML($obj, $array){
+    foreach ($array as $key => $value){
+        if(is_numeric($key))
+            $key = 'beneficiary-details';
+
+        if (is_array($value)){
+            $node = $obj->addChild($key);
+            array2XML($node, $value);
+        }
+        else{
+            $obj->addChild($key, htmlspecialchars($value));
+        }
+    }
+}
+// create new instance of simplexml
+$xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding='utf-8'?><beneficiary-master/>");
+// function callback
+//$xml->addChild("beneficiary-master");
+array2XML($xml, $multiarray);
+
+
+//success and error message based on xml creation
+header('Content-type: text/xml');
+header('Content-Disposition: attachment; filename='.$name);
+
+echo trim($xml->asXML());
+header("Expires: 0");
+exit();
+
+
+// save as xml file
+// echo $xml->asXML();exit;
+// echo "aaa";exit;
+// echo (($xml->asXML('data.xml')) ? 'Your XML file has been generated successfully!' : 'Error generating XML file!');
+?>

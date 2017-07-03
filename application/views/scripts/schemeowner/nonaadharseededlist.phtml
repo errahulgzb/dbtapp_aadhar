@@ -1,0 +1,407 @@
+<noscript>
+    <style type="text/css">
+        .webform-client-form {display:none;}
+    </style>
+    <div class="noscriptmsg">
+    You don't have javascript enabled.  Good luck with that.
+    </div>
+</noscript>
+
+<?php 
+
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$transferengineer=$this->transferengineer;
+
+//for the searching record
+$searchUrl = $this->url(array(
+            'controller' => 'schemeowner',
+            'action'  => 'nonaadharseededlist'
+            )); 
+//for Transaction update to the single beneficiaries
+$cmiurl1 = $this->url(array(
+        'controller' => 'schemeowner',
+        'action' => 'beneficiaryedit'
+    ));
+//for display the record of single beneficiaries
+$viewurl = $this->url(array(
+        'controller' => 'schemeowner',
+        'action' => 'viewbeneficiariesrecord'
+    ));	
+
+$schemename= $this->scheme_id;
+$cmidata = $this->cmidata;
+$scheme_data = $this->scheme_data;
+//echo "aaaa";exit;
+//print_r($cmidata);exit;
+$min_id = $cmidata[0]['min_id'] != "" ?  base64_encode($cmidata[0]['min_id']) : isset($_GET['min_id']) ? $_GET['min_id']: "";
+
+
+$paramid = "scheme_id=".safexss(base64_encode($schemename[0]->id))."&min_id=".safexss($_GET['min_id'])."&status=".safexss($_GET['status'])."&scm_type=".safexss($_GET['scm_type']);
+$searchUrl = $searchUrl.'?scheme_id='.$schemename[0]->id;
+//echo $paramid;exit;
+?>
+<script type="text/javascript" language="javascript">
+
+function atleast_onecheckbox(e) {
+  if ($("input[type=checkbox]:checked").length === 0) {
+      e.preventDefault();
+      alert('Please choose minimum one beneficiary user.');
+      return false;
+  }
+ 
+
+}
+
+
+
+
+	
+
+$(document).ready(function(){
+	$("#sechemSearchCancleButton").click(function(){
+		window.location.href="<?php echo '?'.$paramid; ?>";
+	});
+});
+// $(document).ready(function() {
+    // $(".id_attr_check").click(function() {
+	// var beneficiary = '';
+		// beneficiary=$(this).attr("rel");
+	
+       // $.ajax({
+			// type:"POST",
+			// data:{beneficiary:beneficiary},
+			// url:"<?php echo $this->baseUrl('aadharvalidateapi/deletebeneficiary');?>"+"<?php echo $paramid;?>",
+			// success:function(response){
+			
+			// if(response == 1){// if success
+			
+				// window.location.href="<?php echo $this->baseUrl('schemeowner/nonaadharseededlist');?>?"+"<?php echo $paramid;?>&delete=true";
+			// }else{
+		// window.location.href="<?php echo $this->baseUrl('schemeowner/nonaadharseededlist');?>?"+"<?php echo $paramid;?>&delete=false";
+			// }
+		// }
+		// }); 
+    // });
+// });
+
+</script>
+<!--- ************************************************* --->
+
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('schemeowner/schemeview'); ?>">Scheme List</a></li>
+   <li class="active"><?php echo B_SECOND_TAB_MSG; ?> Beneficiaries Record</li>
+</ol>
+
+
+<!--- ************************************************* --->
+
+<div class="row">
+<div class="col-sm-9 col-xs-12"><h2><?php $schemename= $this->scheme_id; 
+if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 1){
+			$type = " (In Cash)";
+		}else if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 2){
+			$type = " (In Kind)";
+		}else if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 3){
+			$type = " (In Others)";
+		}else{
+			$type = "";
+		}
+echo "Scheme Name : ".$schemename[0]->scheme_name.$type."&nbsp;&nbsp; Scheme Code: ".$this->scheme_code[0]['scheme_codification'];
+?>  </h2> </div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Beneficiary-v1.pdf'); ?>"  target="_blank">Help?</a></div></div>
+
+   <div class="row">
+	  <div class="col-sm-12">
+	
+ 
+<?php
+//echo "<pre>";print_r($this->cmidata);echo "</pre>";die;
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalcmireports;
+	   $min_id = $min_id;
+	   //echo $min_id;exit;
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalcmireports;
+		if($this->successMsg){
+            echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+        }
+       if(isset($_GET['aadhar_status1']) && base64_decode($_GET['aadhar_status1'])>0){
+            echo "<div class='success-msg'>Records has been sucessfully deleted.</div>"; 
+        }
+		 if(isset($_GET['actmsg']) && $_GET['actmsg']=='add'){
+            echo "<div class='success-msg'>Well done!! Data saved sucessfully!.</div>"; 
+        }
+		if(isset($_GET['aadhar_status1']) && base64_decode($_GET['aadhar_status1']) === 0){
+            echo "<div class='error-msg'>Sorry!! some thing wrong happen.</div>"; 
+        }
+		if(isset($_GET['aadhar_status1']) && base64_decode($_GET['aadhar_status1']) == "not"){
+            echo "<div class='error-msg'>Please select a one minimum beneficiary user.</div>"; 
+        }
+		if(isset($_GET['status']) && $_GET['status'] == 1){
+            echo "<div class='error-msg'>Some thing wrong happen with server.</div>"; 
+        }if(isset($_GET['aadhar_status_false']) && base64_decode($_GET['aadhar_status_false'])>0){
+            echo "<div class='error-msg'>".base64_decode($_GET['aadhar_status_false'])." ".AADHAR_SEEDED_FAIL."</div>"; 
+        }
+		if(isset($_GET['aadhar_status']) && base64_decode($_GET['aadhar_status'])>0){
+            echo "<div class='success-msg'>".base64_decode($_GET['aadhar_status'])." ".AADHAR_SEEDED_SUCCES."</div>"; 
+        }
+		
+?>
+
+<form class="form-inline" method="get" action="<?=$searchUrl.'?search='.$searchUrl?>">
+        <div class="row margin-bottom-10">
+		
+			<div class="col-sm-12">
+				<div class="form-group margin-left-15">
+					<label><?php //echo SEARCH_BY; ?></label>
+				<span class="dateinput">
+					<input class="rolBtn form-control" type="text" name="dob" id="to" value="<?php if(isset($_GET['dob'])){ echo $_GET['dob']; }?>" placeholder="yyyy-mm-dd" readonly/>
+				</span>
+					<input class="rolBtn form-control" type="text" name="benef_id" value="<?php if(isset($_GET['benef_id'])){ echo safexss($_GET['benef_id']);} ?>" placeholder="Unique ID"/>
+					
+					<input class="rolBtn form-control" type="text" name="name" value="<?php if(isset($_GET['name'])){ echo safexss($_GET['name']);} ?>" placeholder="Name"/>
+					
+					<input class="rolBtn form-control" type="hidden" name="scheme_id" value="<?php echo base64_encode($schemename[0]->id); ?>"/>
+					<input class="rolBtn form-control" type="hidden" name="min_id" value="<?php echo base64_encode($schemename[0]->ministry_id); ?>"/>
+					<input class="rolBtn form-control" type="hidden" name="status" value="<?php  echo safexss($_GET['status']);?>"/>
+					<input class="rolBtn form-control" type="hidden" name="scm_type" value="<?php  echo safexss($_GET['scm_type']);?>"/>
+					<button type="Submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Search</button>
+					<button type="reset" class="btn active text-center" name="reset" id="sechemSearchCancleButton">Reset</button>
+				</div>
+			</div>
+            </div>
+		</form>
+		
+		<div class="row"><div class="col-sm-12">
+			<?php 
+			//below initialization using exporting filter wise data
+			$to = $from = $benef_id = $st = $dt = $bl = $vi = null;
+			if(isset($_GET['benef_id'])){
+				$benef_id = $_GET['benef_id'];
+			}
+			if(isset($_GET['name'])){
+				$name = $_GET['name'];
+			}
+			if(isset($_GET['dob'])){
+				$dob = $_GET['dob'];
+			}
+			$paramtobeexp = "&benef_id=".$benef_id."&name=".$name."&dob=".$dob;
+
+			?>
+			
+			<div class="row">
+			
+		<div class="col-sm-12 text-right">
+						<!--<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/csvexportmethod?scheme_id=<?php echo base64_encode($schemename[0]->id); ?>&min_id=<?php echo $min_id; ?>&scm_type=<?php echo $_GET['scm_type'];?>&status=<?php echo $_GET['status']?><?php echo $paramtobeexp; ?>&exppageno=<?php echo base64_encode(2);?>" title="<?php echo 'Export Data of Current Scheme'; ?>"><?php echo 'Export for Transaction'; ?></a>-->
+				
+					<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/beneficiaryrecord?scheme_id=<?php echo base64_encode($schemename[0]->id); ?>&min_id=<?php echo safexss($min_id); ?>&scm_type=<?php echo safexss($_GET['scm_type']);?>" title="<?php echo 'Add Beneficiary'; ?>"><?php echo 'Add Beneficiary'; ?></a>
+				
+				
+				
+					<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/importscheme?scheme_id=<?php echo base64_encode($schemename[0]->id);?>&scheme_name=<?php echo base64_encode($schemename[0]->scheme_name);?>&min_id=<?php echo safexss($min_id);?>&scm_type=<?php echo safexss($_GET['scm_type']);?>" title="<?php echo 'Import Beneficiaries'; ?>"><?php echo 'Import Beneficiaries'; ?></a>
+					
+				
+			</div>
+            </div>
+
+<div class="row">
+<div class="col-sm-12">
+ <ul class="nav nav-tabs">
+ <li class="active">
+				<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/allbeneficiarydatalist?scheme_id=<?php echo base64_encode($schemename[0]->id);?>&scheme_name=<?php echo base64_encode($schemename[0]->scheme_name);?>&min_id=<?php echo safexss($min_id);?>&scm_type=<?php echo safexss($_GET['scm_type']);?>" title="<?php echo B_FIFTH_TAB_MSG; ?>"><?php echo B_FIFTH_TAB_MSG; ?></a>
+	</li>
+    <li class="active">
+				<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/beneficiarydatalist?scheme_id=<?php echo base64_encode($schemename[0]->id);?>&scheme_name=<?php echo base64_encode($schemename[0]->scheme_name);?>&min_id=<?php echo safexss($min_id);?>&scm_type=<?php echo safexss($_GET['scm_type']);?>" title="<?php echo B_FIRST_TAB_MSG; ?>"><?php echo B_FIRST_TAB_MSG; ?></a>
+	</li>
+<li>
+
+				<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/nonaadharseededlist?scheme_id=<?php echo base64_encode($schemename[0]->id);?>&scheme_name=<?php echo base64_encode($schemename[0]->scheme_name);?>&min_id=<?php echo safexss($min_id);?>&scm_type=<?php echo safexss($_GET['scm_type']);?>" title="<?php echo B_SECOND_TAB_MSG; ?>"><?php echo B_SECOND_TAB_MSG; ?></a>
+</li>
+<li class="active">
+
+				<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/nonaadharuidailist?scheme_id=<?php echo base64_encode($schemename[0]->id);?>&scheme_name=<?php echo base64_encode($schemename[0]->scheme_name);?>&min_id=<?php echo safexss($min_id);?>&scm_type=<?php echo safexss($_GET['scm_type']);?>" title="<?php echo B_THIRED_TAB_MSG; ?>"><?php echo B_THIRED_TAB_MSG; ?></a>
+</li>
+<?php if($scheme_data[0]['pfms_scheme_code']!='' && $scheme_data[0]['pfms_scheme_code']!=null && base64_decode($_GET['scm_type'])!=2){?>
+<li class="active">
+
+				<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/pfmsbeneficiarydata?scheme_id=<?php echo base64_encode($schemename[0]->id);?>&scheme_name=<?php echo base64_encode($schemename[0]->scheme_name);?>&min_id=<?php echo safexss($min_id);?>&scm_type=<?php echo safexss($_GET['scm_type']);?>" title="<?php echo B_FOURTH_TAB_MSG; ?>"><?php echo B_FOURTH_TAB_MSG; ?></a>
+</li>
+<?php }?>
+</ul>
+			</div>
+			</div>
+          
+		<div class="row">
+			<div class="col-sm-12 record_box">
+				<div class="tabaddar">
+					<div class="text-center">
+				<?php if($Count): echo $Count ." ".RECORD_FOUND; endif;?>
+				<?php if(!$Count): echo 0 ." ".RECORD_FOUND; endif;?>
+			
+		</div>
+
+		
+		<?php $postUrl = $this->url(array(
+                'controller' => 'aadharvalidateapi',
+                'action'  => 'nonaadharseededvalidate'
+            )); 
+        ?> 
+		
+		<div class="webform-client-form">
+		<form  class="webform-client-form form-inline" method="post" accept-charset="UTF-8" action="<?php echo $postUrl.'?'.$paramid; ?>" name="schememanualdataform" id="schememanualdataform" onsubmit="return atleast_onecheckbox(event)">
+        <div class="table table-responsive">
+		<table class="table" summary="schemes name" id='tablecheck'>
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox" id="checkall" value="All"/>All</th>
+                    <th scope="col"><?php echo SNo; ?></th>
+					<!--<th scope="col">Scheme Type</th>-->
+					<th scope="col">Name</th>
+                    <th scope="col">Unique ID</th>
+                    <th scope="col">Email ID</th>
+					<th scope="col">Aadhaar Number</th>
+					<th scope="col">Bank Account seeded with Aadhaar</th>
+					<th scope="col">DOB</th>
+					<th scope="col">Remark</th>
+					<th scope="col">Action</th>
+                </tr>
+            </thead>
+			 <tbody>
+	<?php if($Count==0){ ?>
+			<tr>
+				<td colspan="12" class="text-center"><?php echo RECORD_EMPTY;?></td>
+			</tr><?php
+		}else{
+            $i=1;
+			$month_val = array('01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April', '05' => 'May', '06' => 'June', '07' => 'July', '08' => 'August', '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December');
+		//echo "<pre>";print_r($cmidata);die;
+            foreach ($cmidata as $key => $val){
+		?>
+        <tr>
+		<td><input type="checkbox" name="beneficiary_id[]" value="<?php echo $this->escape($val['id']);?>" id="beneficiary_id"></td>
+		<td><?php echo $i+$this->start;?></td>
+		
+		
+		
+		<td><?php echo $this->escape($val['name']);?></td>
+		<td><?php echo $this->escape($val['uniq_user_id']);?></td>
+		<td><?php echo $this->escape($val['email_id']);?></td>
+		<td><?php
+			echo $this->escape($val['aadhar_num']);?>
+		</td>
+		<td><?php
+			echo $this->escape($val['aadhar_seeded']);?>
+		</td><td><?php 
+			
+			echo date("d/m/Y",strtotime($this->escape($val['dob'])));
+			
+		?></td>
+		<td><?php if($this->escape($val['error_remark'])=='' and $this->escape($val['aadhar_validate']==0)){ echo "No Aadhar Seeded till now";}elseif($this->escape($val['error_remark'])=='' and $this->escape($val['aadhar_validate']==2)){ echo "No Aadhar Seeded";}elseif($this->escape($val['error_remark'])!='' and $this->escape($val['aadhar_validate']==2)){echo $this->escape($val['error_remark']);}else if($this->escape($val['error_remark'])!='' and $this->escape($val['aadhar_validate']==0)){echo $this->escape($val['error_remark']);}else{ echo "";}
+			?>
+		</td>
+		<?php $cmiurl = $this->url(array('controller' => 'schemeowner',
+                                         'action' => 'nonseededbenficiaryedit'
+                                         ))."?id=".base64_encode($this->escape($val['id']));
+
+			
+			$par = "?id=".base64_encode($this->escape($val['id']))."&scheme_id=".base64_encode($this->escape($schemename[0]->id))."&uuid=".base64_encode($val['uniq_user_id'])."&scmtype=".base64_encode($this->escape($val['scheme_type']))."&min_id=".$_GET['min_id']."&status=".$_GET['status'];
+			$editurl="&statecode=".base64_encode($this->escape($val['state_code']))."&districtcode=".base64_encode($this->escape($val['district_code']))."&blockcode=".base64_encode($this->escape($val['block_code']))."&villcode=".base64_encode($this->escape($val['village_code']));
+        ?>
+                                       
+          <td>
+			<a href="<?php echo $viewurl.$par;?>" class="menu1">View Details</a> /<a href="<?php echo $cmiurl.'&'.$paramid.$editurl;?>" class="menu1">Edit</a>
+
+			
+			<!--<a href="<?php //echo $cmiurl1.$par;?>" class="menu1">Add Transaction</a>
+
+				<a class="btn btn-warning id_attr_check" href="javascript:void(0);"  id="delete_benficiary" rel="<?php //echo base64_encode($this->escape($val['id']));?>" title="Delete" onclick="return confirm('Are you sure you want to delete?');">Delete</a>-->
+
+			</td>
+		
+		
+		</tr>
+		<?php ++$i;
+		}
+		}?>
+		</tbody> 
+			</table>
+<?php if($Count>0){ ?>
+
+<div class="text-right">
+
+<input type="submit" class="btn btn-warning"  name="validate" value="NPCI validation for Aadhaar linked Bank Account" >
+<button class="btn btn-warning id_attr_check" name="validate" id="delete_benficiary"  title="Delete"  value="delete_click">Delete</button>
+</div>
+
+
+<?php }?>
+
+
+         </div>   
+		</form></div>
+</div></div></div>
+<div class="text-center">
+<?php
+    echo $this->paginate;
+    ?>
+</div>
+		</div>
+	</div>
+
+<script language="JavaScript">
+
+
+$(function () {
+    $("#tablecheck #checkall").click(function () {
+        if ($("#tablecheck #checkall").is(':checked')) {
+            $("#tablecheck input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
+            });
+
+        } else {
+            $("#tablecheck input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
+
+var checkboxes =  [].slice.call(document.getElementsByName('beneficiary_id[]')),
+    allCheckbox = document.querySelector('input[value="All"]');
+
+checkboxes.forEach(function(checkbox) {
+    checkbox.onchange = function() {
+        if (!this.checked) {
+            allCheckbox.checked = false;
+        }
+        else {
+            var checked = checkboxes.filter(function(check) {
+                return check.checked;
+            });
+            if (checked.length === checkboxes.length) {
+                allCheckbox.checked = true;
+            }
+        }
+    };
+});
+
+});
+  
+
+    $(document).ready(function() {
+		var yearval  = null;
+		yearval = new Date().getFullYear();
+    $("#to").datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'button',
+			yearRange: '1920:'+yearval,
+			defaultYear: yearval,
+			//maxDate: new Date(),
+            buttonImage: '<?php echo $this->baseUrl("images/calendar-blue.png"); ?>'
+        });
+    });
+</script>

@@ -1,0 +1,972 @@
+
+<noscript>
+    <style type="text/css">
+        .webform-client-form {display:none;}
+    </style>
+    <div class="noscriptmsg">
+    You don't have javascript enabled.  Good luck with that.
+    </div>
+</noscript>
+
+<?php 
+    $userid = new Zend_Session_Namespace('userid');
+    $unme= $userid->userid;
+    $role = new Zend_Session_Namespace('role');
+	$captchanew = new Zend_Session_Namespace('captchanew');
+	    $captchanew->captchanew = session_id();
+	$paramdata = "?scheme_id=".safexss($_GET['scheme_id'])."&min_id=".safexss($_GET['min_id'])."&scm_type=".safexss($_GET['scm_type'])."&status=".safexss($_GET['status']);
+	$scmId = safexss(base64_decode($_GET['scheme_id']));
+?>
+
+<script type="text/javascript">
+function sub(){
+    var name,namelength,name_regex,email,emaillength,dob,doblength,dobregex,gender,aadharnum,aadhar_regex,bank_account,mobile_num,scheme_specific_unique_num,schemespecificfamilynum_regex,scheme_specific_family_num,state_name,district_name,block_name,village_name,home_address,homedress_regex,pincode,pincodelength,vercode,email_regex,scm_type,ration_card_num,tin_family_id,home_addresslength,bank_name,beneficiary_type;
+    name = $('#name').val();
+	email = $('#email_id').val();
+	dob = $('#dob').val();
+	gender = $('#gender').val();
+	aadharnum = $('#aadhar_num').val();
+//alert(aadharnum);
+	state_name = $('#state_name').val();
+	district_name = $('#district_name').val();
+	block_name = $('#block_name').val();
+	village_name = $('#village_name').val();
+	home_address = $('#home_address').val();
+	bank_account = $('#bank_account').val();
+	mobile_num = $('#mobile_num').val();
+	scheme_specific_unique_num = $('#scheme_specific_unique_num').val();
+	ifsc = $('#ifsc').val();
+	scheme_specific_family_num = $('#scheme_specific_family_num').val();
+	pincode = $('#pincode').val();
+	vercode = $('#vercode').val();
+	scm_type = $('#scheme_type').val();
+//alert(scm_type);
+	ration_card_num = $('#ration_card_num').val();
+	tin_family_id = $('#tin_family_id').val();
+	bank_name = $('#bank_name').val();
+	beneficiary_type = $('#beneficiary_type').val();
+	atpos = email.indexOf("@");
+	dotpos = email.lastIndexOf(".");
+    namelength = $.trim(name).length;
+    bank_namelength = $.trim(bank_name).length;
+	emaillength = $.trim(email).length;
+	doblength = $.trim(dob).length;
+	home_addresslength = $.trim(home_address).length;
+	pincodelength =  $.trim(pincode).length;
+	aadharlength =  $.trim(aadharnum).length;
+	mobilelength =  $.trim(mobile_num).length;
+	name_regex = /^[a-zA-Z0-9\.\_\,\'\- ]+$/;
+	//aplha_regex=/[^a-zA-Z]+/;
+	dobregex = /^[0-9\-]+$/;
+	aadhar_regex = /^[0-9]+$/;
+    schemespecificfamilynum_regex =/^[a-zA-Z0-9]+$/; 
+	
+	homedress_regex = /^[a-zA-Z0-9\~\`\!\@\#\$\^\*\(\)\-\_\:\"\'\,\.\?\n ]+$/;
+	//homedress_regex = /^[a-zA-Z0-9~`!@#$^*()-_:"',.?n ]+$/;
+	
+	email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+	//alert(scm_type);
+	if(name == '' || name == null)
+	{
+		$("span#name-error").text("Name can\'t be empty." );
+		$("#name").focus();
+		return false;
+	}
+	else if(namelength ==0)
+	{
+		$("span#name-error").text( "White space are not allowed in Name." );
+		$("#name").focus();
+		return false;
+	}
+	else if(!name.match(name_regex))
+	{
+		$("span#name-error").text("Name field is allowed only alpha-numeric input.");
+		$("#name").focus();
+		return false;
+	}
+    else{
+		$("span#name-error").text(" ");
+
+	}
+
+/* start of Email */
+	if(email != '' )
+	{
+		 if(emaillength ==0)
+		{
+			$("span#email-error").text( "White space are not allowed in Email." );
+			$("#email_id").focus();
+			return false;
+		}
+		/* else if (atpos < 1 || ( dotpos - atpos < 2 )) 
+		{
+			$("span#email-error").text( "Please enter valid Email-ID." );
+			$("#email_id").focus();
+			return false;
+		} */
+		else if(!email.match(email_regex))
+		{
+		$("span#email-error").text( "Please enter valid Email-ID." );
+			$("#email_id").focus();
+			return false;
+		}
+		else
+		 {
+			$("span#email-error").text(" ");
+		 }
+	} //  end of if(email != '' )
+	
+/* End of Email */
+
+/* Start of Date of Birth */ 
+
+
+	if(dob == '' || dob == null)
+	{
+		$("span#dob-error").text( "DOB can\'t be empty." );
+		$("#dob").focus();
+		return false;
+	}
+	else if(!dob.match(dobregex))
+	{
+		$("span#dob-error").text("Please enter valid date format.");
+		$("#dob").focus();
+		return false;
+	}
+	else
+       {
+		$("span#dob-error").text(" ");
+	}
+
+/* End of  Date of Birth */ 
+
+/* Start of Gender */
+
+if(gender == 0)
+	{
+		$("span#gender-error").text( "Gender can\'t be  empty." );
+		$("#gender").focus();
+		return false;
+	}
+	else
+    {
+		$("span#gender-error").text(" ");
+	}
+/*  End of  Gender */
+
+/* Start Bank */
+
+	if(scm_type == 1 || scm_type == 3)
+	{
+		if(bank_account == '' || bank_account == null)
+		{
+			$("span#bankaccount-error").text("Account Number can\'t be empty.");
+			$("#bank_account").focus();
+			return false;
+		}
+		else if(!bank_account.match(aadhar_regex))
+		{
+		$("span#bankaccount-error").text("Account field is allowed only numeric input.");
+		$("#bank_account").focus();
+		return false;
+		}
+		 else
+		{
+		 $("span#bankaccount-error").text(" ");
+		}
+	}
+	if(bank_account!='')
+	{
+		if(!bank_account.match(aadhar_regex))
+		{
+		$("span#bankaccount-error").text("Account field is allowed only numeric input.");
+		$("#bank_account").focus();
+		return false;
+		}
+		 else
+		{
+		 $("span#bankaccount-error").text(" ");
+		}
+	}
+	
+//ifsc code validation
+if(scm_type == 1 || scm_type == 3)
+	{
+			
+		if(ifsc!=''){
+			if(!ifsc.match(schemespecificfamilynum_regex)){
+			$("span#ifsc-error").text("IFSC field allowed only alpha-numeric input.");
+			$("#ifsc").focus();
+			return false;
+			}
+			else{
+				$("span#ifsc-error").text(" ");
+			}
+		}else if(ifsc=='' || ifsc== null){
+		$("span#ifsc-error").text("IFSC field can\'t be  empty.");
+			$("#ifsc").focus();
+			return false;
+			}else{
+			 $("span#ifsc-error").text(" ");
+			}
+	}
+//mobile number validation		
+	
+	if(mobile_num!='')
+	{
+		if(!mobile_num.match(aadhar_regex))
+		{
+		$("span#mobilenum-error").text("Mobile Number field is allowed only numeric input.");
+		$("#mobile_num").focus();
+		return false;
+		}
+	//alert(mobilelength);
+		else if(mobilelength<10)
+		{
+		$("span#mobilenum-error").text("Mobile Number field should be of 10 digit.");
+		$("#mobile_num").focus();
+		return false;
+		}
+		else
+		{
+		 $("span#mobilenum-error").text(" ");
+		}
+	}
+	if(mobile_num=='' || mobile_num== null)
+	{
+		$("span#mobilenum-error").text("Mobile Number field can\'t be  empty.");
+		$("#mobile_num").focus();
+		return false;
+	}
+
+/* End of bank */
+
+
+			
+
+	
+if(aadharnum == '' || aadharnum == null)
+	{
+		$("span#aadharnum-error").text("Aadhaar Number field can\'t be empty." );
+		$("#aadhar_num").focus();
+		return false;
+	}
+	else
+	{
+		$("span#aadharnum-error").text(" ");
+	}
+	if(aadharnum!=''){
+		var errorcalling = null;
+		if(!aadharnum.match(aadhar_regex)){
+		$("span#aadharnum-error").text("Aadhaar Number field is allowed only numeric input.");
+		errorcalling = 1;
+		$("#aadhar_num").focus();
+		return false;
+		}
+		else if(aadharlength != 12){
+		$("span#aadharnum-error").text("Aadhaar Number field should be of 12 digit.");
+		errorcalling = 1;
+		$("#aadhar_num").focus();
+		return false;
+		}
+		else if(aadharlength == 12 && errorcalling != 1){
+			  errorcall = '';
+		//Validation for the Unique Aadhaar Number Insert one time in database start here
+				var urldata = aadhaar_num = scheme_id = ad_num = errorcall = null;
+				ad_num = $("#aadhar_num").val();
+				if(ad_num != ""){
+				scheme_id = "<?php echo $scmId; ?>";
+				urldata = "<?php echo $this->baseUrl('audit/checkaadhaar');?>";
+				$.ajax({
+					url : urldata,
+					data : {aadhaar_num: ad_num, scheme_id:scheme_id},
+					type : "POST",
+					success: function(response){
+						console.log(response);
+						//alert(response);
+						if(response == 1){
+							$("#aadharnum-error").html("This Aadhaar number has already exist.");
+							errorcall = 1;
+							return false;
+						}else{
+							errorcall = 0;
+							$("#aadharnum-error").html("");
+						}
+					},
+					error: function(e){
+						//console.log(e);
+					}
+					
+				});
+			}
+		//Validation for the Unique Aadhaar Number Insert one time in database end here
+		if(errorcall == 1){
+			return false;
+		}
+		}
+		else
+		{
+		  $("span#aadharnum-error").text(" ");
+		}
+	}
+	
+
+
+if(bank_name == '' || bank_name == null)
+	{
+		$("span#bank_name-error").text("Bank name can\'t be empty." );
+		$("#bank_name").focus();
+		return false;
+	}
+	else if(bank_namelength ==0)
+	{
+		$("span#bank_namelength-error").text( "White space are not allowed in Name." );
+		$("#bank_namelength").focus();
+		return false;
+	}
+	else if(bank_name!=null && !bank_name.match(name_regex))
+	{
+		$("span#bank_name-error").text("Bank name field is allowed only alpha-numeric input.");
+		$("#bank_name").focus();
+		return false;
+	}
+    else{
+		$("span#bank_name-error").text(" ");
+	}
+	
+if(beneficiary_type == '' || beneficiary_type == null)
+	{
+		$("span#beneficiary_type-error").text("Beneficiary Type can\'t be empty." );
+		$("#beneficiary_type").focus();
+		return false;
+	}
+	else if(beneficiary_type ==0)
+	{
+		$("span#beneficiary_type-error").text( "White space are not allowed in Beneficiary Type." );
+		$("#beneficiary_type").focus();
+		return false;
+	}
+	else if(!beneficiary_type.match(name_regex))
+	{
+		$("span#beneficiary_type-error").text("Beneficiary Type field is allowed only alpha-numeric input.");
+		$("#beneficiary_type").focus();
+		return false;
+	}
+    else{
+		$("span#beneficiary_type-error").text(" ");
+	}
+
+	if(scheme_specific_unique_num!='')
+	{
+		if(!scheme_specific_unique_num.match(schemespecificfamilynum_regex))
+		{
+		$("span#schemespecificuniquenum-error").text("Scheme specific unique number field is allowed only alpha-numeric input.");
+		$("#scheme_specific_unique_num").focus();
+		return false;
+		}
+		else
+		{
+		 $("span#schemespecificuniquenum-error").text(" ");
+		}
+	}else{
+		$("span#schemespecificuniquenum-error").text(" ");
+		}
+	if(scheme_specific_family_num!='')
+	{
+		if(!scheme_specific_family_num.match(schemespecificfamilynum_regex))
+		{
+		$("span#schemespecificfamilynum-error").text("Scheme specific family number field is allowed only alpha-numeric input.");
+		$("#scheme_specific_family_num").focus();
+		return false;
+		}
+		else
+		{
+		 $("span#schemespecificfamilynum-error").text(" ");
+		}
+	}else{
+			 $("span#schemespecificfamilynum-error").text(" ");
+		}
+	
+if(ration_card_num!='')
+	{
+		if(!ration_card_num.match(aadhar_regex))
+		{
+		$("span#rationcardnum-error").text("Ration card number field is allowed only numeric input.");
+		$("#ration_card_num").focus();
+		return false;
+		}
+		else
+		{
+		 $("span#rationcardnum-error").text(" ");
+		}
+	}else{
+		$("span#rationcardnum-error").text(" ");
+		}
+	
+	
+if(tin_family_id!='')
+	{
+		if(!tin_family_id.match(aadhar_regex))
+		{
+		$("span#tinfamilyid-error").text("TIN Family number field is allowed only numeric input.");
+		$("#tin_family_id").focus();
+		return false;
+		}
+		else
+		{
+		 $("span#tinfamilyid-error").text(" ");
+		}
+  }else{
+		$("span#tinfamilyid-error").text(" ");
+		
+		}
+  
+  
+   if(state_name == 0)
+	{
+		$("span#statename-error").text("State can\'t be  empty.");
+		$("#state_name").focus();
+		return false;
+	}
+	else
+	  {
+		$("span#statename-error").text(" ");
+	}
+ if(state_name != 0)
+	{
+		if(district_name == 0)
+		{
+			$("span#districtname-error").text("District can\'t be  empty.");
+			$("#district_name").focus();
+			return false;
+		}
+		else
+		{
+			$("span#districtname-error").text(" ");
+		}
+	}
+ // if(block_name == 0)
+		// {
+			// $("span#blockname-error").text("Block can\'t be  empty.");
+			// $("#block_name").focus();
+			// return false;
+		// }
+		// else
+		// {
+			// $("span#blockname-error").text(" ");
+		// }
+	// if(village_name == 0)
+	// {
+		// $("span#villagename-error").text("Village can\'t be  empty.");
+		// $("#village_name").focus();
+		// return false;
+	// }
+	// else
+	// {
+		// $("span#villagename-error").text(" ");
+	// } 
+	
+	if(home_address == '' || home_address == null){
+		$("span#homeaddress-error").text("Home Address can\'t be empty." );
+		$("#home_address").focus();
+		return false;
+	}
+	else if(home_addresslength == 0){
+		$("span#homeaddress-error").text( "White space are not allowed in Home Address." );
+		$("#home_address").focus();
+		return false;
+	}
+	else if(!home_address.match(homedress_regex)){
+		$("span#homeaddress-error").text("Home Address field is allowed only specific input");
+		$("#home_address").focus();
+		return false;
+	}
+    else{
+		$("span#homeaddress-error").text("");
+	}
+//pin code validation start from here	
+	if(pincode == '' || pincode == null){
+		$("span#pincode-error").text("Postal Code can\'t be empty." );
+		$("#pincode").focus();
+		return false;
+	}
+	else if(pincodelength ==0){
+		$("span#pincode-error").text("White space are not allowed in Postal Code.");
+		$("#pincode").focus();
+		return false;
+	}
+	else if(!pincode.match(aadhar_regex))
+	{
+		$("span#pincode-error").text("Postal Code field is allowed only numeric input.");
+		$("#pincode").focus();
+		return false;
+	}else{
+		$("span#pincode-error").text(" ");
+	}
+//pin code validation end here	
+	if(vercode == '' || vercode == null){
+		$("span#captcha-error").text("Captcha can\'t be empty." );
+		$("#vercode").focus();
+		return false;
+	}
+	else if(vercode != '' || vercode != null){
+			$.ajax({
+			type:"POST",
+			data:{vercode:vercode},
+			url:"<?php echo $this->baseUrl('schemeowner/checkvercode');?>",
+			dataType:"JSON",
+			async: false,
+			success:function(response){
+			//alert(response+"ccc");
+			if(response == "failed"){
+				tempvar="stop";
+				$("span#captcha-error").text("Please enter a valid Captcha code.");
+				$("#vercode").focus();
+				return false;
+			 }else if(response == "successful"){
+				tempvar="successful";
+				$("span#captcha-error").text("");
+				//return false;
+				}
+			}
+		});
+		}
+		if(tempvar == "stop"){
+			return false;		
+		}
+}
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function(){
+//Validation for the Unique Aadhaar Number Insert one time in database end here
+	//vallidation for submit function
+    $("#reset_button").click(function(){
+        var urlwillfor;
+        $("#district").html("<option value='0'>--Select District--</option>");
+        $("#block_name").html("<option value='0'>--Select Block--</option>");
+        $("#village_name").html("<option value='0'>--Select Village--</option>");
+        $.ajax({
+                url : "schemeowner/"+urlwillfor,
+                type : "GET",
+                success:function(response){
+                    //alert(response);
+                    $("#scheme_report").html(response);
+                }
+            });
+    });
+    //this code is when user click on scheme from all scheme fund then he will redirect here
+	
+	function resetAll(status){
+		if(status == 'state'){
+			$("#district").html("<option value='0'>==Select District==</option>");
+			$("#block_name").html("<option value='0'>==Select Block==</option>");
+			$("#village_name").html("<option value='0'>==Select Village==</option>");
+		}
+		if(status == 'district'){
+			$("#block_name").html("<option value='0'>==Select Block==</option>");
+			$("#village_name").html("<option value='0'>==Select Village==</option>");
+		}
+		if(status == 'block'){
+			$("#village_name").html("<option value='0'>==Select Village==</option>");
+		}
+	}
+	var ministry,scheme,urlwill;
+
+
+//finding here district behalf of states
+    var state_code;
+        $("#state_name").change(function(){
+        state_code = $(this).val();
+			$.ajax({
+				type: "POST",
+				url: "districtfind",
+				data: { state_code: state_code},
+				success: function(msg) {
+				  resetAll("state");
+				  //console.log(msg);
+				  $("#district_name").html(msg);
+				},error:function(e){
+					//console.log(e);
+				}
+			})
+		});
+		
+		
+		$("#district_name").change(function(){
+        district = $(this).val();
+			$.ajax({
+				type: "POST",
+				url: "districtwiseblock",
+				data: { district: district},
+				success: function(msg) {
+					resetAll("district");
+					$("#block_name").html(msg);
+				},error:function(e){
+					//console.log(e);
+				}
+			})
+		});
+
+    var district;
+//finding here panchayat behalf of district
+    var block;
+    //block = $("#block_name").val();
+    if((district != "" || district != null) && (state_code != "" || state_code != null)){
+        $("#block_name").change(function(){
+        block = $(this).val();
+        //alert(block);
+        $.ajax({
+            type: "POST",
+            url: "blockwisevillage",
+            data: { block: block },
+			success: function(msg){
+				console.log(msg);
+				$("#village_name").html(msg);
+			},
+			error:function(e){
+				console.log(e);
+			}
+            })
+        });
+      }//finding here panchayat behalf of district end
+      else{
+        $("#panchayat").html("<option value='0'>--Select Panchayat--</option>");
+        $("#village_name").html("<option value='0'>--Select Village--</option>");
+      }
+	  errorcall = '';
+//Validation for the Unique Aadhaar Number Insert one time in database start here
+	$("#aadhar_num").blur(function(ef){
+		ef.preventDefault();
+		var urldata = aadhaar_num = scheme_id = ad_num = errorcall = null;
+		ad_num = $("#aadhar_num").val();
+		
+		if(ad_num != ""){
+		
+		scheme_id = "<?php echo $scmId; ?>";
+		urldata = "<?php echo $this->baseUrl('audit/checkaadhaar');?>";
+		$.ajax({
+			url : urldata,
+			data : {aadhaar_num:ad_num,scheme_id:scheme_id},
+			type : "POST",
+			dataType : "HTML",
+			success: function(response){
+				
+				if(response == 1){
+					$("#aadharnum-error").html("This Aadhaar number has already exist.");
+					errorcall = 1;
+					return false;
+				}else{
+					errorcall = 0;
+					$("#aadharnum-error").html("");
+				}
+			},
+			error: function(e){
+				//console.log(e);
+			}
+			
+		});
+	}
+	});
+//Validation for the Unique Aadhaar Number Insert one time in database end here
+});
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('schemeowner/schemeview'); ?>">Scheme List</a></li>
+   <li><a href="<?php echo $this->baseUrl('schemeowner/beneficiarydatalist'.$paramdata); ?>">Beneficiaries Record</a></li>
+   <li class="active">Add Manual Beneficiaries</li>
+</ol>
+	<?php if($this->errorMessage){?>
+	<div class='require'><span><?php echo $this->errorMessage; ?></span></div>
+	<?php } ?>
+<div class="row"><div class="col-sm-9 col-xs-12"><h2><?php $schemename= $this->scheme_id; 
+if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 1){
+			$type = " (In Cash)";
+		}else if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 2){
+			$type = " (In Kind)";
+		}else if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 3){
+			$type = " (In Others)";
+		}else{
+			$type = "";
+		}
+echo "Scheme Name : ".$schemename[0]->scheme_name.$type."&nbsp;&nbsp; Scheme Code: ".$this->scheme_code[0]['scheme_codification'];
+
+//    echo "Scheme Name : ".$schemename[0]->scheme_name;
+     $min_id = $this->min_id;
+	  $scm_type = $this->scm_type;
+	?>
+    
+</h2></div>
+ <div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Beneficiary-v1.pdf'); ?>"  target="_blank">Help?</a></div></div> 		
+<?php $postUrl = $this->url(array(
+                'controller' => 'schemeowner',
+                //'action'  => 'index?scheme_id='.$this->schemeid
+                )); 
+                ?>
+<div class="webform-client-form">
+<form role="form" method="post" action="<?php echo $postUrl; ?>?scheme_id=<?php echo safexss(base64_encode($schemename[0]->id)); ?>&min_id=<?php echo safexss(base64_encode($min_id)); ?>&scm_type=<?php echo safexss(base64_encode($scm_type)); ?>&status=1" name="schememanualdataform" id="schememanualdataform" onsubmit = "return sub()">
+		
+        <?php if((@$_GET[actmsg] =='rpt')||($this->actmsg=='exist')){?>
+        <div class='require'><?php echo "This record is already Exists."; ?></div>
+        <?php } ?>
+			
+			
+			  <?php if($this->mess){?>
+        <div class='require'><span><?php echo $this->mess; ?></span></div>
+        <?php } ?> 
+        <div class="panel panel-warning">
+         <div class="panel-heading">Personal Details</div>
+                <div class="panel-body">
+        <div class="row">
+			<div class="form-group col-sm-6">
+                <label>Name Title </label>
+                <?php echo $this->form->beneficiary_title?>
+				<span class="require" id="beneficiary_title-error"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>Name<sup class="require">*</sup> </label>
+                <?php echo $this->form->name?>
+				<span class="require" id="name-error"></span>
+            </div>
+			
+            
+			</div>
+			<div class="row">
+				 <div class="form-group col-sm-6">
+                <label>Email-ID</label>
+                <?php echo $this->form->email_id?>
+				<span class="require" id="email-error"></span>
+            </div>
+            <div class="form-group col-sm-6 date">
+                <label>DOB<sup class="require">*</sup> </label>
+                <?php echo $this->form->dob; ?>
+				<span class="require" id="dob-error"></span>
+            </div>
+            
+			</div>
+			<!--<div class="row">
+				 <div class="form-group col-sm-6">
+                <label>Relation</label>
+                <?php //echo $this->form->relation_indicate?>
+				<span class="require" id="relation_indicate-error"></span>
+            </div>
+            <div class="form-group col-sm-6 date">
+                <label>Relation Name </label>
+                <?php //echo $this->form->relation_name; ?>
+				<span class="require" id="relation_name-error"></span>
+            </div>
+            
+			</div>
+			<div class="row">
+				 <div class="form-group col-sm-6">
+                <label>Category</label>
+                <?php //echo $this->form->category_name?>
+				<span class="require" id="category_name-error"></span>
+            </div>
+			 <div class="form-group col-sm-6">
+                <label>Agency Code</label>
+                <?php //echo $this->form->agency_code?>
+				<span class="require" id="agency_code-error"></span>
+            </div>
+            
+			</div>-->
+			<div class="row">
+			<!--<div class="form-group col-sm-6 date">
+                <label>Agency Name </label>
+                <?php //echo $this->form->agency_name; ?>
+				<span class="require" id="agency_name-error"></span>
+            </div>-->
+            <div class="form-group col-sm-6 date">
+                <label>Beneficiary Regional Language </label>
+                <?php echo $this->form->beneficiary_regional_lang; ?>
+				<span class="require" id="beneficiary_regional_lang-error"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>Gender<sup class="require">*</sup> </label>
+                <?php echo $this->form->gender; ?>
+				<span class="require" id="gender-error"></span>
+            </div>
+			</div>
+			
+			<div class="row">
+			<div class="form-group col-sm-6">
+                <label>Bank Account Number <?php if(base64_decode($_GET['scm_type']) == 1 || base64_decode($_GET['scm_type']) == 3){ ?><sup class="require">*</sup> <?php } ?> </label>
+                <?php echo $this->form->bank_account; ?>
+					<span class="require" id="bankaccount-error"></span>
+            </div>
+			<div class="form-group col-sm-6">
+                <label>Bank IFSC <?php if(base64_decode($_GET['scm_type']) == 1 || base64_decode($_GET['scm_type']) == 3){ ?><sup class="require">*</sup> <?php } ?> </label>
+                <?php echo $this->form->ifsc; ?>
+				<span class="require" id="ifsc-error"></span>
+            </div>
+			
+			</div>
+			<div class="row">
+			<div class="form-group col-sm-6">
+                <label>Bank Account Seeded with Aadhaar</label>
+                <?php echo $this->form->aadhar_seeded; ?>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>Mobile Number<sup class="require">*</sup></label>
+                <?php echo $this->form->mobile_num; ?>
+				<span class="require" id="mobilenum-error"></span>
+            </div>
+            </div>
+<div class="row">
+			
+            <div class="form-group col-sm-6">
+                <label>Aadhaar Number<sup class="require">*</sup></label>
+                <?php echo $this->form->aadhar_num; ?>
+				<span class="require" id="aadharnum-error"></span>
+            </div>
+			<div class="form-group col-sm-6">
+                <label>Bank Name<sup class="require">*</sup></label>
+                <?php echo $this->form->bank_name; ?>
+				<span class="require" id="bank_name-error"></span>
+            </div>
+			</div>
+			<div class="row">
+			<div class="form-group col-sm-6">
+                <label>Beneficiary Type<sup class="require">*</sup></label>
+                <?php echo $this->form->beneficiary_type; ?>
+				<span class="require" id="beneficiary_type-error"></span>
+            </div>
+           
+            </div>
+            
+            </div>
+            </div>
+             <div class="panel panel-warning">
+         <div class="panel-heading">Scheme / Family Details</div>
+                <div class="panel-body">
+            <div class="row">
+			<div class="form-group col-sm-6">
+                <label>Scheme Specific Unique Number</label>
+                <?php echo $this->form->scheme_specific_unique_num; ?>
+				<span class="require" id="schemespecificuniquenum-error"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>Scheme Specific family Number</label>
+                <?php echo $this->form->scheme_specific_family_num; ?>
+				<span class="require" id="schemespecificfamilynum-error"></span>
+            </div>
+            </div>
+			<div class="row">	
+					
+			<div class="form-group col-sm-6">
+                <label>Ration card number</label>
+                <?php echo $this->form->ration_card_num; ?>
+				<span class="require" id="rationcardnum-error"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>TIN Family number</label>
+                <?php echo $this->form->tin_family_id; ?>
+				<span class="require" id="tinfamilyid-error"></span>
+            </div>
+            </div>
+            </div>
+            </div>
+         <div class="panel panel-warning">
+         <div class="panel-heading">Address Details</div>
+                <div class="panel-body">
+			<div class="row">
+			
+			<div class="form-group col-sm-6">
+                <label>State Name<sup class="require">*</sup> </label>
+                <?php echo $this->form->state_name; ?>
+					<span class="require" id="statename-error"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>District Name<sup class="require">*</sup> </label>
+                <?php echo $this->form->district_name; ?>
+				<span class="require" id="districtname-error"></span>
+            </div>
+            </div>
+			<div class="row">
+			
+			<div class="form-group col-sm-6">
+                <label>Block Name </label>
+                <?php echo $this->form->block_name; ?>
+				<span class="require" id="blockname-error"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label>Village Name </label>
+                <?php echo $this->form->village_name; ?>
+					<span class="require" id="villagename-error"></span>
+            </div>
+            </div>
+			<div class="row">
+			
+			<div class="form-group col-sm-6">
+                <label>Home Address<sup class="require">*</sup> </label>
+                <?php echo $this->form->home_address; ?>
+				<span class="require" id="homeaddress-error"></span>
+				
+            </div>
+            <div class="form-group col-sm-6">
+                <label>Postal Code<sup class="require">*</sup> </label>
+                <?php echo $this->form->pincode; ?>
+				<span class="require" id="pincode-error"></span>
+            </div>
+            </div>
+            </div>
+            </div>
+			<div class="row">
+			
+            <!-----------Add Captcha Code Script----->
+			<div class="form-group col-sm-6 col-xs-12 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>	
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();"
+						id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+													
+				</p>
+				<span class="require" id="captcha-error"></span>
+				
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+		   
+	<input type="hidden" name="scm_type" id="scm_type" value="<?php echo base64_decode($scm_type); ?>" />
+		   
+             <div class="form-group col-md-12 col-sm-12 text-center">
+                <input type="hidden" name="scheme_id" value=<?php echo $schemename[0]->id; ?> >
+				<input type="hidden" name="scheme_type" id="scheme_type" value=<?php echo $schemename[0]->scheme_type; ?> >
+				<input type="hidden" name="scheme_name" value=<?php echo str_replace(' ', '_', strtolower($schemename[0]->scheme_name)); ?> >
+                 <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton sechemSearchButtonnew">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton" onclick="goCancel();"><?php echo CANCEL; ?></button>
+            </div>
+        </div>
+     </form>
+</div>
+	<script type="text/javascript">
+    $(document).ready(function() {
+		var yearval  = null;
+		yearval = new Date().getFullYear();
+    $("#dob").datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            showOn: 'button',
+			yearRange: '1920:'+yearval,
+			defaultYear: yearval,
+			maxDate: new Date(),
+            buttonImage: '<?php echo $this->baseUrl("images/calendar-blue.png"); ?>'
+        });
+    });
+	
+</script>			
+

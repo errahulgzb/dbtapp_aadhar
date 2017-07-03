@@ -1,0 +1,120 @@
+
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+<!--<script src="//cdn.ckeditor.com/4.5.9/full/ckeditor.js"></script>-->
+<!--------------- end ---------------->
+
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function()
+{
+	jQuery("#frmTranslateScheme").submit(function()
+	{
+	   var schemedescript  = CKEDITOR.instances['editor1'].getData();
+		if(schemedescript == '')
+		 {
+			alert("Scheme Description <?php echo CANTEMPTY; ?>");
+			jQuery( "#editor1" ).focus();
+			return false;
+		 }
+		 if(jQuery('#vercode').val() == '')
+		{
+			alert("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+	});
+});
+</script>
+<?php  $cmidata = $this->cmidata;$postUrlUpdate = $this->url(array(
+        'controller' => 'scheme',
+        //'action'  => 'userview'
+        ))."?id=".$this->escape($cmidata['id']); ?>
+	
+<h2><?php echo Scheme_translate_hindi; ?></h2>	
+<form role="form" method="post" action="<?php echo $postUrlUpdate; ?>" name="frmTranslateScheme" id="frmTranslateScheme">
+    <?php 
+    if($this->errorMessage){
+    echo "<div class='error-msg'>".$this->errorMessage."</div>"; 
+    }
+    ?> 
+    <div class="row">
+            <div class="form-group col-sm-6">
+                <label>Language<sup class="require">*</sup> </label>
+                <?php echo $this->form->language?>
+            </div>	
+             <?php echo $this->form->lang?>
+
+             <div class="form-group col-sm-6">
+                <label>Scheme Name<sup class="require">*</sup> </label>
+                <?php echo $this->form->scheme_name?>
+            </div>
+         
+            <div class="form-group col-sm-12">
+              <label>Scheme Description<sup class="require">*</sup>  </label>
+             <?php echo $this->form->description; ?>
+        </div>
+		
+		<!-----------Add Captcha Code Script----->
+			 <div class="form-group col-sm-4">
+				<label>Captcha Code<sup class="require">*</sup></label>
+				<p>
+					<img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/>
+					<span><a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();" id="change-image" class="menu4 refresh pull-left" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a></span>									
+				</p>
+				<p class="text-left"><?php echo $this->form->vercode; ?></p>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+
+              <div class="form-group col-md-12 col-sm-12 text-center">
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton"><?php echo CANCEL; ?></button>
+            </div>
+     </div>
+</form>
+
+	 <!--- new script added to integrate ck editor on 29th june --->
+	 
+	 <script>
+CKEDITOR.replace( 'editor1', {
+	filebrowserBrowseUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/ckfinder.html',
+	filebrowserUploadUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+} );
+
+var editor = CKEDITOR.replace( 'ckfinder' );
+CKFinder.setupCKEditor( editor );
+
+CKFinder.setupCKEditor();
+CKEDITOR.replace( 'editor1' );
+
+
+/* var editor = CKEDITOR.replace( 'editor1' );
+CKFinder.setupCKEditor( editor, {
+    skin: 'jquery-mobile',
+    swatch: 'b',
+    onInit: function( finder ) {
+        finder.on( 'files:choose', function( evt ) {
+            var file = evt.data.files.first();
+            console.log( 'Selected: ' + file.get( 'name' ) );
+        } );
+    }
+} );
+
+
+var editor = CKEDITOR.replace( 'editor1' );
+CKFinder.setupCKEditor( editor, null, { type: 'Files' } );
+
+var editor = CKEDITOR.replace( 'editor1' );
+CKFinder.setupCKEditor( editor, null, { type: 'Files', currentFolder: 'http://192.168.100.37/dbt/archive/' } ); */
+
+</script>
+
+<!---- end ---------------------------------->
+

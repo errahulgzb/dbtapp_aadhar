@@ -1,0 +1,1636 @@
+@charset "utf-8";
+/* CSS Document */
+/*Global
+@import url(https://fonts.googleapis.com/css?family=Roboto+Condensed);*/
+
+@font-face {
+	font-family: 'Ubuntu';
+	src: url('../fonts/Ubuntu-Regular.eot');
+	src: url('../fonts/Ubuntu-Regular.woff') format('woff'), url('../fonts/Ubuntu-Regular.ttf') format('truetype'), url('../fonts/Ubuntu-Regular.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+body {font:normal 14px/1.5 'Ubuntu', sans-serif;color: #000;}
+header .form-inline button{border-radius:0 4px 4px 0}
+.navbar-brand{height:auto} 
+.navbar{min-height:auto} 
+.navbar-default{border:none} 
+.navbar a{text-transform:uppercase;} 
+.navbar .divider{padding-top:10px;color:#fff;  font-size: 14px!important;}
+.page-title{background:#d94833;padding:6px 12px;color:#fff;margin-top:0}
+a{ outline:none !important;}
+p{ text-align:justify;}
+.cntnt table .text-center { text-align:center !important;}
+label,input, select, textarea { font-size:12px !important;} 
+.margin_bottom10{ margin-bottom:10px !important;}
+.margin_bottom20{ margin-bottom:20px !important;}
+.margin_right10{ margin-right:10px !important;}
+.margin_left10{ margin-left:10px !important;}
+.margin_left15{ margin-left:15px !important;}
+.margin_top10 { margin-top:10px !important;}
+.margin_top20 { margin-top:20px !important;}
+.padding_top15{ padding-top:15px;}
+.padding_left0{ padding-left:0px;}
+.margin_top50 { margin-top:50px !important;}
+.margin-right-15{ margin-right:-15px;}
+.margin-left-15{margin-left:-15px;}
+.margin-left-30{margin-left: -30px;}
+.margin-left-100{margin-left:-100px;}
+.margin-left0{ margin-left:0px !important;}
+.display_inline_block{ display:inline-block;}
+.display_block{ display:block;}
+.border_left10 { border-left:10px solid #fff;}
+.border_right10 { border-right:10px solid #fff;}
+.broder-bottom{    border-bottom: 1px solid #666;
+    padding-bottom: 5px;
+    margin-top: 2px;}
+	.captch-code { width: 80%; float: left;}
+	#refresh{cursor: pointer;}
+	.captchain {width: 288px !important;margin-top:10px;float: left;}
+	.menu4  { background:#314D68;}
+	#captcha { height: 44px; width:244px;}
+	#admin-main-contain .captchain {width: 221px !important;margin-top:10px;float: left;}
+	#admin-main-contain .menu4  { background:#314D68;}
+	#admin-main-contain #captcha { height: 44px; width:177px;}
+	
+.type-of-scheme label, .digitized-beneficiary label, .mis-portal label, .payment-linked label{ width: 49%;}
+	 #save-element, #submit-element, #save-label, #submit-label{ display:inline;}
+.type-of-scheme input[type="radio"], .type-of-benefits input[type="radio"], .digitized-beneficiary input[type="radio"], .mis-portal input[type="radio"], .payment-linked input[type="radio"]{ margin-right:8px;}
+.as-is-process { line-height:7px; font-size:12px;}
+.captcha-refress {background: #000;float: left;width: 34px;margin-left: 10px;}
+#mainCaptchanew{width:177px; float:left; background: url(../images/captcha.png); background-size:cover;
+    height: 35px;
+    text-align: center;
+    line-height: 35px;}
+	#txtInput{width: 221px;}
+	/*#mainContant { min-height:396px;}*/
+	.white{color:#fff;}
+	.white:hover{color:#fff;}
+	.width200{width:200px !important;}
+ul.tabs { margin-bottom:0px;}
+.hide{ display:none;}
+.table > thead > tr > th{ vertical-align:top !important;}
+.table-responsive {overflow-x: visible; border: none;}
+.report .rupee-icon { position: relative; right:0px; bottom:0px; width: 11px; margin-top:-5px;}
+.report:hover img.rupee-icon {right:0px; bottom:0px;
+-moz-transform: scale(1); 
+-webkit-transform: scale(1); 
+-o-transform: scale(1); 
+transform: scale(1); 
+}
+.cross-box{ margin-top:30px;}
+.eligibility-type input[type="checkbox"]{ position:relative; bottom:-2px;}
+.beneficiaries { height:260px;}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus{ color: #fff !important;}
+.rupee-icon { margin-top:-6px;}
+.border_none{ border:none; box-shadow:none; padding:0px;}
+.breadcrumb{ margin-bottom:10px; margin-top:10px; background:#f2f2f2; border:1px solid #dadada; padding: 5px 15px 6px; border-radius:0px; text-transform:uppercase;}
+.error-msg{color:#fa2727; text-align:center;}
+.form-group { overflow:hidden; position: relative;}
+#about ul {padding-left:25px; clear:left;}
+.noscriptmsg{ padding: 10px; text-align: center; font-weight: 600; background:#ffcc00;}
+#admin-main-contain dd input[type="hidden"] {display: none;}
+.mfp-image-holder .mfp-content {max-width:50% !important;}
+.scheme-data #scheme_id-element { border:0px; display:none;}
+#importform .form-group { margin-bottom:0px;}
+ .beneficiaries-bridge ul.cash_container + ul { margin-top:-10px;}
+/*select{ width: 118% !important;}*/
+
+ul.pagination { display: block; text-align:center;}
+.pagination a { color:#1a3f59!important; float:none!important; display: inline !important;}
+.pagination>li>a:focus, .pagination>li>a:hover, .pagination>li>span:focus, .pagination>li>span:hover { background:#1a3f59!important; color:#fff!important;}
+.pagination li a{ border-radius:0px !important;}
+.admin-left-menu .nav-pills > li > a{ background: #1a3f59; border-radius:0px; color:#fff; padding: 7px 15px;}
+.admin-left-menu .nav > li > a:hover, .admin-left-menu .nav > li > a:focus, .admin-left-menu .nav > li > a.active {background-color: #092c45;}
+.breadcrumb li a { font-size:11px; font-weight:400; text-decoration:none;}
+.breadcrumb li.active { color:#1a3f59;font-size:11px; font-weight:400;}
+label { font-size:12px;}
+.breadcrumb > li + li:before{ color:#4c4c48;content: ">";    padding: 0 5px 0 0px; font-size:10px;}
+.form-control {border-radius: 0px !important;}
+/*.feedbackemail input { box-sizing:content-box; padding-right:0px; height:22px;}*/
+.feedbackdetail { margin-left:3px!important; margin-right:25px!important; clear:both;}
+h2{ text-align:left !important; font-size:18px !important; margin-top:10px; }
+h4{ font-weight:600; font-size:14px; }
+h2.btn { border-radius:0px;}
+h2.btn:active{ background:transparent !important; box-shadow:none;}
+h2.btn.btn-danger { background: transparent; border: none; color:#1a3f59; margin-left:-12px;}
+.btn-danger:active:hover,
+h2.btn-danger.active:hover,
+h2.open > .dropdown-toggle.btn-danger:hover,
+h2.btn-danger:active:focus,
+h2.btn-danger.active:focus,
+h2.open > .dropdown-toggle.btn-danger:focus,
+h2.btn-danger:active.focus,
+h2.btn-danger.active.focus,
+h2.open > .dropdown-toggle.btn-danger.focus {
+  color: #1a3f59;
+  background-color: #ac2925;
+  border-color: #761c19;
+}
+h2.col-sm-12{padding-left:0px;}
+#admin-main-contain h2.col-sm-12 {padding-left:15px;}
+.form-group .require { color: #fa2727;}
+.require { color: #fa2727;}
+.form-control {min-width:125px;}
+sup.error-msg{border: 0px solid #fa2727!important;
+    clear: none!important;
+    color: #fa2727!important;
+    font-size: 11px!important;
+    height: 10px!important;
+    line-height: 0!important;
+    position: relative!important;
+    text-align: left!important;
+    top: 0px!important;}
+select.form-control.border_none { background:url(../images/select-arrow.gif) right center no-repeat; margin-right:20px; /*width:125% !important;*/}
+.anchor-tag-export { float: right; margin-bottom:10px; margin-right:0px;}
+.anchor-tag-export a { color:#fff;}
+/*Skip To Main Content Box*/
+.skipContent { border-bottom:1px solid #dcdde1;}
+.skipContent ul { margin:5px -15px 0px 0px;}
+.skipContent ul li { padding-right:0px;}
+.skipContent a { color:#000;}
+.skipContent a:hover{ text-decoration:none;}
+.skipContent .small { font-size:14px;}
+.skipContent .normal { font-size:16px;}
+.skipContent .large { font-size:20px;}
+.skipContent .colorNormal { border: 1px solid #000; font-size:20px;padding:0px 5px;}
+.skipContent .colorBliend { font-size:20px; border: 1px solid #000; background:#000; padding:0px 5px; color:#fff;}
+.skipContent select { width:80px !important;}
+.skipContent form { margin-bottom:0px;}
+/*Header*/
+header .form-inline.pull-right{ margin-top:41px;}
+header .form-inline.pull-right button { background:#e2a139; color:#fff; margin-left:-10px;    border-color: #e2a139;}
+#languag{ margin-top:40px;}
+header .form-inline.pull-right select{ border:0px; box-shadow:none;}
+.navbar-brand { padding:10px 0px; margin-left:-15px;}
+.navbar-brand img { float: left; padding-right:20px;}
+.navbar-brand span { display:inline-block; padding:12px 0px 5px; font-size:30px; color:#593b19;}
+.navbar-brand small { font-size:18px; color:#3b3b3b;}
+.rightlogo{margin-right: 20px;padding-top: 0px !important;}
+
+.rightlogo small{ display:block;}
+.rightemblem { float:right !important; margin-right:-10px !important;  padding-right:20px !important;  padding-right:20px\9 !important;}
+a.emblembox { cursor:default;}
+/*Navigation*/
+
+
+#aadhaar-bridge-container .highchartscheme-container svg { /*height: 80%!important; position: absolute;*/} 
+.navbar-default { background:#1a3f59;}
+.navbar{ margin-bottom:0px; border-radius:0px; }
+.navbar-default .navbar-nav > li > a{color:#fff;}
+.navbar-default .navbar-nav > li > a:hover{color:#eba941;}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{ background-color: transparent; color:#eba941; }
+.navbar-collapse{ padding-left:0px;}
+/*Carousel*/
+#myCarousel { margin-top:1px;}
+#myCarousel .item{ background:#f6be38;}
+.carousel-control.left,.carousel-control.right{background-image: none;}
+.carousel-indicators li{ background:#fff; border:1px solid #fff; box-shadow:0 0 5px #666;}
+.carousel-indicators li.active{ background:#3f2c2d; border:1px solid #3f2c2d;}
+#myCarousel .carousel-indicators { text-align: right; top:20px; width: 72%;}
+.carousel-control .glyphicon-chevron-right, .carousel-control .icon-next {margin-right: -45px;}
+.carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev { margin-left: -45px;}
+#myCarousel .item img{width:100%;}
+
+/*total fund transfer cumulative*/
+.fund-cumulative { color:#ffd916; margin-top:5px; background-color:#2273de; padding: 0px 20px 10px; font-size: 30px; }
+.fund-cumulative  a { float: right; color: #fff; font-size: 18px; text-decoration: underline; background:url(../images/arrow.png) right center no-repeat; /*padding-right:10px; */margin-top:40px;}
+.fund-cumulative span { padding-left: 50px; color: #fff; font-size: 40px;}
+.fund-cumulative span img{ margin-top:-7px; width:19px;}
+/*Main Contant*/
+/*22-7-2016*/
+.fundTransfer{padding:6px 20px; min-height:173px; position: relative;}
+.fundTransfer .rupee-icon { margin-top:-5px; width:13px;}
+.fundTransfer h2 { color:#fff!important; font-size:22px!important; font-weight:400; text-transform:uppercase;}
+/*.fundTransfer a {color: #fff;text-align: center;background: rgba(0,0,0, .2); display: block;margin: -6px -20px 0px;position: absolute;width: 100%; bottom:0px;}*/
+.fundTransfer a {font-size:18px; text-transform:none;text-decoration:underline !important; color: #fff;text-align: right;display: block;padding-right: 30px;position: absolute;width: 100%; bottom:10px;}
+/*.fundTransfer h2 a { font-size:14px; color:#fff; text-transform:none; text-decoration:underline !important; text-align: right; float:right; background: url(../images/arrow.png) right center no-repeat; padding-right:10px;}*/
+.fundTransfer h3 { font-size:27px; color:#fff; padding-top:15px;}
+fundTransfer h2.trans{ text-transform:none;}
+.fundTransfer h2 small { display: block; color:#fff !important;  font-size: 22px; margin-top: 10px;}
+.fundTransfer.blue{ background:#07529f; }
+.fundTransfer.pink{ background:#e30573; }
+.fundTransfer.green{ background:#349910; overflow: hidden; }
+.fundTransfer.yellow{ background:#f9a20a; }
+.scheme-right-border {width: 1px; background:#fff; height:20px; position: absolute; left:-7px;}
+#funds .india-map { /*border-top: 5px solid #1674b7;border-bottom: 5px solid #1674b7; background:url(../images/maph-home-bg.jpg) no-repeat; background-size:cover;*/ position: relative; margin: auto; text-align: center; width:757px;}
+#funds .india-map .map-img { width: 603px; height:626px; margin: 17px auto 0px;}
+#funds .india { background: #f7f3e8; height:39px;line-height:39px; text-transform:uppercase; font-size: 18px; text-align: right; color:#8b4973; font-weight:600; margin-bottom:0px; padding-right:20px;}
+
+.statdatapopup.kashmir .arrow{border-bottom: rgba(255,255,255, .9);border-right: transparent;border-left: transparent;border-top: transparent;border-width: 6px;border-style: solid;position: absolute;bottom: 102px;left: 50%;margin-left: -10px;}	
+	
+	 
+	
+	
+#funds .india-map .kashmir{top: 73px; left:125px;}
+#funds .india-map .himanchal{left:132px; top:-12px;}
+#funds .india-map .punjab{top: 10px;left: 102px;}
+#funds .india-map .uttrakhand{top: 25px;left: 176px;}
+#funds .india-map .haryana{top: 45px;left: 115px;}
+#funds .india-map .newDelhi{top: 61px;left: 133px;}
+#funds .india-map .uttarPradesh{top: 92px;left: 218px;}
+#funds .india-map .bihar{top: 117px;left: 318px;}
+#funds .india-map .sikkim{top: 78px;left: 367px;}
+
+#funds .india-map .arunachalPradesh{top: 60px;left: 500px;}
+#funds .india-map .assam{top: 104px;left: 440px;}
+#funds .india-map .nagaland{top: 109px;left: 495px;}
+#funds .india-map .meghalaya{top: 124px;left: 430px;}
+#funds .india-map .manipur{top: 138px;left: 478px;}
+#funds .india-map .tripura{top: 152px;left: 441px;}
+#funds .india-map .mizoram{top: 165px; left: 459px;}
+#funds .india-map .westBengal{top: 155px; left: 359px;}
+
+
+#funds .india-map .jharkhand{top: 155px;left:304px;}
+#funds .india-map .rajsthant{top: 95px;left: 63px;}
+#funds .india-map .gujarat{top: 172px;left: 36px;}
+#funds .india-map .madhyaPradesh{top: 172px;left: 153px;}
+#funds .india-map .chhattisgarh{top: 200px;left: 236px;}
+#funds .india-map .odisha{top: 220px;left: 288px;}
+#funds .india-map .maharashtra{top: 242px;left: 109px;}
+#funds .india-map .telengana{top: 279px;left: 176px;}
+#funds .india-map .goa{top: 327px;left: 70px;}
+#funds .india-map .andhraPradesh{top: 320px;left: 186px;}
+#funds .india-map .karnataka{top: 341px;left: 100px;}
+#funds .india-map .tamilnadu{top: 420px;left: 158px;}
+#funds .india-map .keral{top: 436px;left: 119px;}
+#funds .india-map .daman-and-diu {top: 213px;left: 37px;}
+#funds .india-map .chandigirth{top: 10px;left: 145px;}
+#funds .india-map .dadra-and-nagar-haveli{top: 227px;left: 54px;}
+#funds .india-map .puducherry{top: 420px;left: 188px;}
+#funds .india-map .lakshadweep{top: 424px;left: 60px;}
+#funds .india-map .andaman-and-nicobar{top: 385px;left: 458px;}
+
+
+#scheme_wise_fund{position: absolute;right: 35px;background: rgba(255,255,255, .5);padding: 0px 15px 10px;border-radius: 5px;box-shadow: 0px 0px 7px #333;top: 30px;}
+#scheme_wise_fund p{margin-bottom:0px}
+#scheme_wise_fund .schTitle{width:90px;display:inline-block}
+
+
+
+.aadhar-payment-bridge { background:#f9fdcc;/* border-bottom:2px solid #c3e7a4;*/ text-align: center; position: relative; padding:10px 20px; height:310px;}
+.aadhar-payment-bridge-graph {height:248px;}
+.aadhar-payment-bridge h2 { margin-top:20px; color:#b4446e; text-transform:uppercase; font-weight: 600; font-size:16px !important;} 
+.aadhar-payment-bridge h2 img{ margin-top:-3px; height:19px;}
+.aadhar-payment-bridge .highcharts-title { display: none;}
+.aadhar-payment-bridge h2 span{ color:#146db9;font-size: 25px; display: block; text-transform: capitalize;padding-top: 10px;}
+.beneficiaries-bridge {border-bottom:2px solid #dc4c4c;min-height:260px; padding:5px 20px;}
+.beneficiaries-bridge .border-right{ width:1px; background:#f6f6f6; min-height:260px; position: absolute; right: 0px; top: 0px;}
+.beneficiaries-bridge h2 {font-size: 18px;text-transform: uppercase; font-weight:600; color:#dc4c4c;}
+.beneficiaries-bridge small, .aadhar-payment-bridge small{ display:inline-block; vertical-align:top; margin-right: 15px; width:19px; height:19px; margin-bottom:5px; margin-top:2px;}
+.aadhar-payment-bridge .addar-indicater { margin-left:-15px;}
+.beneficiaries-bridge ul.cash_container { margin-bottom:50px; visibility:hidden;}
+.beneficiaries-bridge .beneficary-graph { padding-top:15px; width:300px; height:280px; position:absolute; margin-right:-65px;}
+
+#seeded, #seeded-category{ padding-bottom:29px;}
+.beneficiaries-bridge p{width:135px; margin-bottom:0px; text-transform:uppercase;}
+.beneficiaries-bridge p small { font-size: 14px; width:70px;}
+.beneficiaries-bridge p span { color: #0e8f82; padding-left:10px;text-align: right;}
+.beneficiaries-bridge p+p span { color: #1c8ad1;}
+.beneficiaries-bridge p+p+p span { color: #b1a523;}
+.beneficiaries-bridge .incash{background:#13b4a4;}
+.beneficiaries-bridge .inkind{background:#51bbff;}
+.beneficiaries-bridge .inothers{background:#f1df17;}
+
+.aadhar-payment-bridge .incash{background:#13b4a4;}
+.aadhar-payment-bridge .inkind{background:#51bbff;}
+.aadhar-payment-bridge .inothers{background:#f1df17;}
+.noofscheme { height:161px;}
+.noofscheme a { bottom:4px; padding-right:20px;}
+.department-box { /*border-bottom:2px solid #c3e7a4;min-height:260px; padding:5px 20px; position: relative; height:85px;*/ 
+background: #206d05;
+    height: 173px;
+       margin-top: -6px;
+    margin-bottom: -6px;
+    right: -5px;
+    position: relative;
+}
+ul.thumb-box li{    width: 13.5%; text-align: center;}
+.thumb{ cursor:pointer;}
+.department-box h2 { margin-top:16px;}
+.department-box h2{ color:#12b2d6; font-size: 18px;/*text-transform: uppercase;*/}
+.department-box h3 { font-size: 25px; /*color:#b5b18c; padding-top: 50px;*/}
+.department-box p { position: absolute; bottom:-10px; left:0px; background:#fbfaed; height:50px; width:100%;}
+
+.beneficary-graph .highcharts-title { display: none;}
+
+/*22-7-2016*/
+
+
+.aadharbasepayment{ background: url(../images/aadhar_base_payment_bg.jpg) left top no-repeat; background-size: cover; height:464px; }
+.aadharbasepayment h2 {font-size:26px !important; color:#4c4c48; text-transform:uppercase; float: left; padding-top: 28px; text-align:center !important; }
+.aadharbasepayment h2 span { display: block; padding: 35px 0px 50px;}
+.aadharbasepayment .adbfundTransfer { text-align: center; color:#4c4c48; margin-top:-100px;}
+.aadharbasepayment .adbfundTransfer span { color:#0ead99; font-size:50px; display: block;}
+.aadharbasepayment .zerotohundred { text-align: left; padding-left:130px;}
+.aadharbasepayment .zerotohundred span  { padding-left:315px;}
+.beneficary{
+   background: #e3ecf7;
+  background: -webkit-radial-gradient(#ffffff, #e5eef8);
+  background: -o-radial-gradient(#ffffff, #e5eef8);
+  background: -moz-radial-gradient(#ffffff, #e5eef8); 
+  background: radial-gradient(#ffffff, #e5eef8); 
+  padding-top:50px;height:463px; color:#4c4c48; }
+.beneficary .othersInpercent { text-align: center; color:#4c4c48;font-size:17px;  margin-top:-220px; text-transform:uppercase;}
+.beneficary .othersInpercent span { color:#0ead99; font-size:33px; font-weight:400; padding-right:20px; display: block;}
+.beneficary ul{ margin-top:-125px;}
+.beneficary ul a { color:#4c4c48 !important;}
+.beneficary small{ display:inline-block; vertical-align:top; margin-right: 15px; width:19px; height:19px; margin-bottom:5px;}
+.beneficary .inkind{background:#e3a711; }
+.beneficary .incash{background:#832d50; }
+.beneficary .inothers{background:#27ae61; }
+.saving{ background: url(../images/saving_bg.jpg) left top repeat-x; font-size:40px; color:#fff;height:217px; line-height: 217px; }
+.saving p { padding-left:17px;}
+.saving span { background:#48647c url(../images/border_3.jpg) right top no-repeat; width: 270px; padding:44px 0px 0px 34px; font-size:30px;margin-left: -15px; height:215px; float: left; line-height:30px;}
+.department{ background:#297fb8; height:108px; line-height:108px; color:#fff!important; font-size:48px; text-align:center; }
+.department span {color:#fff; background:#3598db url(../images/border_1.jpg) right center no-repeat !important;text-transform: uppercase; width:385px; font-size:30px; font-weight:400; float:left; margin-left:-15px;}
+.department span img { margin-top: -10px;}
+.scheme{ background:#fe7d60; height:108px; line-height:108px; color:#fff!important; font-size:30px; text-align:center; }
+.scheme span {color:#fff; background:#e84b3a url(../images/border_4.jpg) right center no-repeat !important;text-transform: uppercase; width:276px; font-size:48px; font-weight:400; float:left; margin-left:-15px; padding-left:29px; text-align:left;}
+
+/*home*/
+#container-speed{    position: absolute; margin-top: 85px;}
+#container-speed{    position: absolute;
+    margin-top: 85px;}
+span.shown-figures{font-size: 14px; float: left;padding-left: 20px;color: #333;text-transform: none;font-weight: 400;}
+.highcharts-data-labels>div>span>div {    text-align: center !important;
+    color: #4c4c48 !important;
+    margin-top: -100px !important;}
+
+/*.highcharts-data-labels>div>span>div span {    color: #0ead99 !important;
+    font-size: 50px !important;
+    display: block !important;}*/
+	.aadharbasepa { color: #0ead99 !important;}
+.aadharbase{text-align: center!important;;color: #4c4c48!important;;font-size:14px!important;font-weight: 400;}
+
+/*scheme*/
+#scheme h3 { border-bottom:1px solid #666; padding-bottom:5px; margin-top:2px; font-size: 15px; text-transform:capitalize;}
+#scheme .btn {text-align: left;}
+#scheme ul {padding-left:25px;}
+/*Scheme Report*/
+ .border-box input,.border-box select{padding:1px 2px;border:1px solid #aaa;margin-right:10px;border-radius:0}
+.border-box .btn{border-radius:0}
+.top-head{background:#fbfbfb;padding: 5px;font-weight:600;border-bottom:1px solid #ddd;color:#585f69;} .box-space{padding:5px;} .box-space label{font-weight:400;margin-right:5px;margin-bottom:0}
+.toHide{display:none}
+#blk-1{display:block}
+/*scheme report state*/
+#scheme_report_state_wise h2{ font-size:18px;}
+/*scheme detail */
+#scheme_detail ul li a:hover{ text-decoration: none;}
+.breadcrumbschemedetail { margin-bottom:3px;}
+.scheme_detail_fundtransfer { background:#832d50; color:#fff; padding:13px 0px 12px; text-align: center; text-transform:uppercase;font-size:12px;}
+.scheme_detail_fundtransfernumber { background:#993861; color:#fff; padding:11px 0px; text-align: center;margin-left: -1px;}
+.scheme_detail_beneficiary { background:#0fae9a; color:#fff; padding:6px 0px; text-align: center; margin-left:1px;text-transform:uppercase;font-size:12px;}
+.scheme_detail_beneficiary span { display:block; font-size:9px;}
+.scheme_detail_beneficiarynumber { background:#1bc4af; color:#fff; padding:11px 0px; text-align: center;margin-right:1px;}
+.scheme_detail_beneficiarylast{ background:#297fb8; color:#fff; padding:6px 0px; text-align: center;text-transform:uppercase;font-size:12px;}
+.scheme_detail_beneficiarylast span { display:block; font-size:9px;}
+.scheme_detail_beneficiarylastnumber { background:#3598db; color:#fff; padding:11px 0px; text-align: center;margin-left: -1px;}
+.schemedetail_beneficiary p{ text-align:left;}
+#scheme_detail_box p { text-align:left;}
+/*Report*/
+.report { height:163px; padding:20px 0px 0px 25px; overflow:hidden; -moz-border-radius:10px;-ms-border-radius:10px;-o-border-radius:10px;-webkit-border-radius:10px; border-radius:10px; color:#fff; position:relative;}
+.report h2{ font-size:20px!important; padding-bottom:10px;position:relative; z-index:1;}
+.report p { font-size:16px; position:relative; z-index:1; text-align:left;}
+.report p span { display: block; font-size: 12px;}
+.report a { color:#fff; position: absolute; bottom:0px; left:0px; display:block; width:100%; text-align: center;}
+.report.state_re{ padding-left:0px;}
+.report.state_re h2{ padding-left:20px;font-size:20px!important; text-align:center !important;}
+.report.state_re h2 span {font-size:28px!important;}
+.report.state_re p{ padding-top:5px; width:49%; text-align:center; display: inline-block; background:#e88b11; font-size:14px;}
+.report.state_re p+p{ float:right;}
+.report.state_re p span{ display: block;padding:0px 0px 10px;  font-size:17px;}
+.report.fund_re{ background:#dc4c4c; margin-left:-15px;}
+.report.fund_re a{background:#d14848 url(../images/arrow_circle.png) 69% center no-repeat; }
+.report.bene_re{ background:#77b9db;}
+.report.bene_re a{background:#71b0d0 url(../images/arrow_circle.png) 69% center no-repeat; }
+.report.scheme_re{ background:#b7c18d;}
+.report.scheme_re a{background:#aeb786 url(../images/arrow_circle.png) 69% center no-repeat; }
+.report.state_re{ background:#f49212;}
+.report.state_re a{background:#e18711 url(../images/arrow_circle.png) 69% center no-repeat; }
+.financialyear { border-radius:5px; background:#dcf0fa; display: inline-block; color:#1a3f59; padding:10px 25px; margin:0px auto 10px;}
+.report img { position: absolute; right:25px; bottom:25px; z-index:0;
+-webkit-transition:all 500ms ease-in ; 
+-moz-transition:all 500ms ease-in ; 
+-o-transition:all 500ms ease-in ; 
+-ms-transition:all 500ms ease-in ; 
+transition:all 500ms ease-in ; 
+}
+.report:hover img { right:40px; bottom:35px;
+-moz-transform: scale(1.5); 
+-webkit-transform: scale(1.5); 
+-o-transform: scale(1.5); 
+transform: scale(1.5); 
+}
+
+.report_graph #scheme_wise_fund {  right: -10px;top: 13px;}
+div.report_graph.margin-left-15 { overflow-x:auto;}
+.reporcchart .col-md-6.col-sm-12.margin_top10:last-child div.report_graph.margin-left-15 { overflow: visible;}
+
+.report_graph { background:#fbf6f3; border:1px solid #e2e2e2; text-align: center;}
+.report_graph p.india { margin-top:-10px;}
+.report_graph p.india span.shown-figures{ margin-top:-15px;}
+.report_graph p { text-align:center;}
+.report_graph h2{ padding:0px 0px 10px 20px; border-bottom:1px solid #e2e2e2; text-align: left; font-size: 16px !important;}
+.report_graph h2 span {font-size: 11px;float: right;margin-right: 10px;}
+.mapbox { width:441px; height:458px; margin:auto; position: relative;}
+.statdatapopup { border-radius:5px; background:rgba(255,255,255, .9); box-shadow:0px 1px 18px #000; padding:10px; width:265px; height:102px; position:absolute; display:none; z-index:100;}
+.statdatapopup h3 { font-size:15px; text-align: left; margin-top:0px; font-weight:600;}
+.statdatapopup p { font-size: 11px; text-align: left;}
+  .statdatapopup .arrow  {border-top: rgba(255,255,255, .9);border-right: transparent;border-left: transparent;border-bottom: transparent;border-width: 6px;border-style: solid;position: absolute;bottom: -12px;left: 50%;margin-left: -10px;}
+  .mapouter { overflow-x: auto;background: url(../images/maph-home-bg.jpg) no-repeat;
+    border-top: 5px solid #1674b7;
+	border-bottom: 5px solid #1674b7;
+    background-size: cover;
+}
+  
+.report_graph .kashmir{top: 57px;}
+.report_graph .himanchal{left:10px; top:-35px;}
+.report_graph .punjab{top: -22px;left: -15px;}
+.report_graph .uttrakhand{top: -11px;left: 38px;}
+.report_graph .haryana{top: 4px;left: -6px;}
+.report_graph .newDelhi{top: 17px;left: 7px;}
+.report_graph .uttarPradesh{top: 37px;left: 65px;}
+.report_graph .bihar{top: 56px;left: 142px;}
+.report_graph .sikkim{top: 28px;left: 178px;}
+.report_graph .arunachalPradesh{top: 12px;right: -94px;}
+.report_graph .assam{top: 47px;right: -52px;}
+.report_graph .nagaland{top: 50px;right: -96px;}
+.report_graph .meghalaya{top: 60px;right: -34px;}
+.report_graph .manipur{top: 70px;right: -87px;}
+.report_graph .tripura{top: 80px;right: -52px;}
+.report_graph .mizoram{top: 92px; right: -67px;}
+.report_graph .westBengal{top: 84px; right: 4px;}
+.report_graph .jharkhand{top: 85px;left: 134px;}
+.report_graph .rajsthant{top: 40px;left: -43px;}
+.report_graph .gujarat{top: 97px;left: -65px;}
+.report_graph .madhyaPradesh{top: 94px;left: 22px;}
+.report_graph .chhattisgarh{top: 116px;left: 82px;}
+.report_graph .odisha{top: 130px;left: 120px;}
+.report_graph .maharashtra{top: 148px;left: -9px;}
+.report_graph .telengana{top: 175px;left: 39px;}
+.report_graph .goa{top: 209px;left: -38px;}
+.report_graph .andhraPradesh{top: 204px;left: 47px;}
+.report_graph .karnataka{top: 220px;left: -17px;}
+.report_graph .tamilnadu{top: 274px;left: 28px;}
+.report_graph .keral{top: 285px;left: -3px;}
+.report_graph .daman-and-diu {top: 123px;left: -63px;}
+.report_graph .chandigirth{top: -24px;left: 17px;}
+.report_graph .dadra-and-nagar-haveli{top: 136px;left: -55px;}
+.report_graph .puducherry{top: 276px;left: 49px;}
+.report_graph .lakshadweep{top: 278px;left: -53px;}
+.report_graph .andaman-and-nicobar{top: 250px;left: 245px;}
+
+  
+  
+/*multimedia*/
+.multimedia ul li { margin-bottom:30px; list-style:none;}
+.multimedia ul li a{ color:#fff; overflow:hidden; display:block; position: relative;-moz-border-radius: 7px;-ms-border-radius: 7px;-o-border-radius: 7px;-webkit-border-radius: 7px;border-radius: 7px;}
+.multimedia ul li a img { vertical-align:bottom;width:100%; height:225px;}
+.multimedia ul li a span { position: absolute; bottom:-1px; left:0; font-size:16px; padding:5px 10px; background: rgba(12,38,56,0.7); text-align: center; width:100%;}
+.mfp-gallery .mfp-image-holder .mfp-figure {background: #fff; padding: 0px 10px !important; border-radius: 10px;}
+.mfp-title {color:#000!important;    padding-left: 10px !important;}
+.mfp-counter{color:#000!important;    padding-right: 10px !important;}
+.mfp-image-holder .mfp-close, .mfp-iframe-holder .mfp-close{color: #000!important;;right: 5px!important;;}
+ul#photogallery { padding:0px !important;}
+/*Table*/
+.cntnt form { clear:both;}
+
+.cntnt table { border: 1px solid #ddd; width: 100%; margin-bottom: 10px; clear: both; font-size:14px;}
+.cntnt table caption { font-weight: 700; margin-bottom: 10px; text-align: left; color: #333;}
+.cntnt table th { border-bottom: 1px solid #ddd; vertical-align:top; border-right: 1px solid #eee; border-top: medium none; font-weight:400; background-color: #dbdada; text-align: left; padding: 3px 5px; color: #444;}
+.cntnt table th a { color: #fff; text-decoration: none;}
+.cntnt table td { border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; border-top: medium none; padding: 3px 5px;}
+.cntnt table td { /*-ms-word-break: break-all; word-break: break-all; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto;*/}
+.cntnt table td a { color: #00aeff; text-decoration: none;}
+.cntnt table a:hover, .cntnt table a:visited { color: #00aeff; text-decoration: underline;}
+.cntnt tr:nth-child(odd) { background-color: #fbfbfb;}
+.cntnt tr:nth-child(even) { background-color: #fff;}
+.cntnt table ul { margin-bottom: 0; margin-left: 15px; list-style: disc outside;}
+.cntnt table li { line-height: 18px; margin-bottom: 5px; word-wrap: break-word;}
+.cntnt .odd { background-color: #fbfbfb!important;}
+.cntnt .even { background-color: #fff!important;}
+.cntnt fieldset { margin-bottom: 20px;}
+.cntnt table.margin_none{ margin-bottom:0px;}
+.cntnt table table { border: none;  margin-bottom:0px;}
+.cntnt th.grupcolumn{ padding:0px;}
+.cntnt table table > thead >tr + tr th { border-top:1px solid #ddd;border-bottom:none;}
+.cntnt table table > thead th:last-child {border-right:none;}
+
+/*document*/
+h2.broder-bottom { display: none;}
+.document .panel-body{ min-height:170px;}
+.circular .panel-body{ min-height:545px;}
+
+/*Login
+------------------------------------*/
+.login-sec #login-form{
+	   width:340px;
+	   height:auto;
+	   background-color: #f7f7f7;
+	   margin:90px auto;
+	   padding: 50px 0 50px 10px;
+ }
+
+ .login-sec .form-item span { top: 25px;
+    position: absolute;
+    width: 100%;}
+ .login-container{
+	margin:0 auto;
+	width:95%;
+	height:auto;
+  }
+  
+ .login-container h1{
+	 font-size:30px;
+	 font-weight:600;
+	 margin-top:15px;
+   }
+.login-sec .form input[type="submit"] {
+  background: #314D68;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  width: 290px;
+  border:none;
+  border-bottom: 3px solid #4a6886;
+}
+.login-sec .form{
+  width: 306px;
+  margin:0 auto;
+}
+.login-sec .form input[type="text"], .login-sec .form input[type="password"] {
+  color: #606468;
+  margin-bottom: 1em;
+  padding: 0 16px;
+  width: 250px;
+}
+.login_sec p:last-child{
+	margin-bottom:0;
+}
+.login-sec .form input {
+  height: 40px;
+}
+.login-sec a:hover{
+	color:#4ea5da;
+}
+.login-sec .form span {
+  background:#314D68;
+  display: block;	
+  float: left;
+  height: 40px;
+  line-height: 44px;
+  text-align: center;
+  width: 40px;
+}
+.icon{
+	background:url(..images/icons.png)  no-repeat 0px 0px !important;
+	height:30px;
+	width:30px;
+	display: block;
+	float:left;
+	margin:0 0 0px 0px
+}
+.user{
+	background: url(../images/icons.png) no-repeat 12px 11px !important;
+}
+.lock{
+	background: url(../images/icons.png) no-repeat -17px 11px !important;
+	
+}
+.login-sec #mainCaptcha,.login-sec #mainCaptchanew{ height:40px; width: 80%; margin-bottom: 10px; text-align:center;border: medium none;color: #4a6886;font-size: 20px !important; float: left;}
+.login-sec #refresh{ width:40px; height:40px; cursor: pointer; margin-top:-5px; line-height:none !important}
+.login-sec #txtInput { width:285px;} 
+
+/*---------------------Login end-------------------------*/ 
+/*footer*/
+footer { padding:10px 0px;  background:#dbdada; font-size:12px; margin-top:10px; width:100%; display:inline-block;}
+footer ul { margin-top:10px;}
+footer ul li a{  color:#1d1d1d;}
+footer p{ display:inline-block;}
+
+/*highchart*/
+.highcharts-grid { display: none;}
+.highcharts-grid+.highcharts-grid{ display: block;}
+ text { text-shadow:none !important;}
+ .aadhar-payment-bridge-graph text {font-size: 130% !important;}
+.report_graph text{ font-weight: 400 !important;font-size: 10px !important; }
+.beneficary .highcharts-tooltip path{ fill: transparent !important;}
+#aadhaar-bridge-container .highcharts-container { height:90% !important; width:90% !important; position: absolute; }
+#scheme-chart-container { padding: 29px 0px;}
+#text42::after {content: "%";}
+/*admin*/
+
+.success-msg, #admin-main-contain .success { border:1px solid #016f0c;margin-bottom:10px;color:#016f0c; clear:left; font-size:17px; height:45px; line-height:45px; text-align: center;}
+#admin-main-contain .record_box { border:1px solid #ddd; margin:10px 0px; padding: 5px 10px; }
+#admin-main-contain .error-msg, .error-msg{ border:1px solid #fa2727; position:relative; top:-10px;color:#fa2727; clear:left; font-size:17px; height:45px; line-height:45px; text-align: center;}
+#admin-main-contain label sup.error-msg { line-height:0px;}
+.no-data {color:#fa2727;text-align: center;}
+ul.errors { list-style: none;color:#fa2727; padding-left:0px;}
+span.usrname{ cursor:pointer;}
+ul.uasername li{display:inline-block;}
+ul.user-detail { float:right; width:150px; text-align: left; position:absolute; right:0px; z-index: 1; display: none;}
+ul.user-detail .show { display:block;}
+ul.user-detail li { background:rgba(26,63,89, 0.7); padding: 5px; margin-bottom:1px; display: block; }
+ul.user-detail li a { color:#fff;}
+ul.menu_1g { list-style: none; padding-left:0px;}
+ul.menu_1g li { display:inline-block; vertical-align: top;}
+#photo{ text-align:right; margin-bottom:10px;}
+#photo img {border: 5px solid #fff;box-shadow: 0px 0px 10px;border-radius: 5px;}
+div#info { margin-bottom:0px;}
+div#info p:nth-of-type(odd) { background: #dbdada;}
+div#info p span:first-child{ font-weight:600;}
+div#info p span{ padding-left:1%; width:49%; display: inline-block; line-height: 30px; vertical-align: top;}
+#admin-main-contain dt { display: none;}
+/*#admin-main-contain*/ dd { float:left; margin-right:5px; width:100%;border:1px solid #ccc; height:35px;}
+.fileborder{border:1px solid #ccc; height:35px;}
+/*#admin-main-contain */input[type="file"] {box-shadow: none; padding-left:0px; padding-top:0px;position: absolute;
+    opacity: 0;
+    z-index: 2;
+    top: 20px;
+    left: 10px; height:37px;
+    right: 0;
+    bottom: 0; cursor:pointer;}
+	.fileborder input[type="file"]{    top: 0px !important; left: 10px !important;}
+/*#admin-main-contain */a.filebrowse {    background-color: #092c45;
+    height: 34px;
+    line-height: 34px; float:left;
+    padding: 0px 10px;
+    color: #fff; margin-right:10px;}
+	#filename{ float: left; line-height:34px;}
+#admin-main-contain #scheme_report .error-msg{position: absolute;width: 100%;margin-top: 100px; border: none;}
+#admin-main-contain #importform dt { display: block;}
+#admin-main-contain #importform dt#importfile-label { display: none;}
+#admin-main-contain #importform  dd { float:left; margin-right:5px;/* width:25%;*/}
+#admin-main-contain #frmfeedback table th{ border-bottom:1px solid #fff!important;}
+/*ul.skipContentHide { display: none !important;}*/
+ul.uasername {margin: 10px -15px 0px 25px !important;padding-bottom: 10px;}
+.changpass .row{ width: 255px; margin:auto;}
+
+#admin-main-contain .report.fund_re a{background: #d14848 url("../images/arrow_circle.png") no-repeat scroll 75% center;}
+#admin-main-contain .report.bene_re a {
+    background: #71b0d0 url("../images/arrow_circle.png") no-repeat scroll 75% center;
+}
+#admin-main-contain .report.scheme_re a {
+    background: #aeb786 url("../images/arrow_circle.png") no-repeat scroll 75% center;
+}
+#admin-main-contain .report.state_re a {
+    background: #e18711 url("../images/arrow_circle.png") no-repeat scroll 75% center;
+}
+
+.admin .col-sm-12.col-md-9 .container-fluid, .admin .col-sm-12.col-md-9 .mainContant, .admin .container-fluid, .admin #mainContant #about { margin: 0px -15px;}
+.admin .multimedia, .admin .reporcchart, .admin #userinfo {padding-left: 0px;padding-right: 0px;}
+
+.schemeadmin .col-sm-12.col-md-9 .container-fluid, .schemeadmin .col-sm-12.col-md-9 .mainContant, .schemeadmin .container-fluid{ margin: 0px -15px;}
+.schemeadmin .col-sm-12.col-md-9 .feedback{ margin:auto;}
+.schemeadmin .multimedia {padding-left: 0px;padding-right: 0px;}
+
+.admin #admin-main-contain .reporcchart {padding-left: 15px;padding-right: 15px;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .fundTransfer h2, .schemeadmin .col-sm-12.col-md-9 .container-fluid .fundTransferspan h2 {font-size: 30px!important;padding: 20px 0px 0px 15px;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .fundTransfer span, .schemeadmin .col-sm-12.col-md-9 .container-fluid .fundTransfer .fundTransferspan span { width:180px; padding-left:18px !important; font-size:16px;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .aadharbasepayment h2 { font-size:18px !important;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .beneficary .highcharts-container { margin-top:-35px;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .beneficary .highcharts-tooltip {transform: translate(170px, 160px);}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .beneficary ul { margin-top: -35px;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .aadharbasepayment .highcharts-container svg{ margin-left:-11%;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .aadharbasepayment .highcharts-data-labels.highcharts-series-0 {left:-9% !important;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .aadharbasepayment{background-size: 100% 100%;}
+.schemeadmin .col-sm-12.col-md-9 .container-fluid .scheme, .schemeadmin .col-sm-12.col-md-9 .container-fluid .department span { font-size:25px;}
+.aadhar-payment-bridge-graph .highcharts-container { position: relative !important;}
+.aadhar-payment-bridge-graph .highcharts-container svg{ width:100% !important;}
+.document .panel-info {min-height:255px;}
+@-moz-document url-prefix() { 
+
+ .aadhar-payment-bridge-graph {margin-left: -80px !important; position: relative;}
+.beneficiaries-bridge .beneficary-graph { margin-top:-15px;}
+}
+
+
+
+
+.cntnt table a.btn { color: #fff; min-width: 80px;}
+.cntnt table a.btn:hover { text-decoration: none;}
+.cntnt table tr td .assessment-schemes {border: 1px solid #ddd;}
+.cntnt table tr td .assessment-schemes  tr{background:#ffffff;}
+marquee{ padding:10px 0px 5px;}
+
+
+
+
+
+/*###########################  17-9-2016      #################################*/
+
+ 
+   /*29-8-2016*/
+ .videothumb{/*border: 1px solid #ccc;*/
+    border-radius: 5px;
+        padding: 0px 15px;}
+.videotitle {overflow:hidden; margin-bottom:10px;}
+.videotitle span{ display:block;
+    bottom: -1px;margin-top: -6px;
+    left: 0;color:#fff;
+    font-size: 16px;
+    padding: 5px 10px;
+    background: rgba(12,38,56,0.7);
+    text-align: center;
+    width: 100%;}
+video {background:#000;}
+/*start success stories*/
+.greyline:nth-of-type(odd) { background: #ececea;display: inline-block; width: 100%; padding: 10px 0px; margin-top:10px}
+.info strong.posted-by { font-size:12px;}
+.info small {font-size:80%;    padding-bottom: 5px;    display: inline-block;}
+.width100{width:100px !important;}
+ul.thumb-box { background:#e1e8f7; margin-top: 20px; padding: 15px; text-align: center; margin-left:0px;}
+/*end success stories*/
+.success-story-read-box .panel-body { min-height:190px;}
+.success-story-read-box .panel-heading span.author-detail { display:block; font-size:10px;}
+.success-story-read-box .success-story-read-more {
+    position: absolute;
+    bottom: 25px;
+    width: 91%;
+}
+
+ /*UT-and-states*/
+.overflow-hidden{ overflow:hidden;}
+.utbanner img{ width:100%;}
+.utbenefits .border{ border-bottom:1px solid #e5e5e5; clear:left; margin:0px 15px;}
+.utbenefits h2 { font-size:22px; text-transform:uppercase; min-height:32px; margin-left:-15px;margin-right:-15px;}
+.utbenefits h2 span { display: block; font-size: 13px;}
+.utbenefits .uttransfer { padding:20px 15px 0px; margin:10px -15px 0px; box-sizing:border-box; min-height:200px; border-right:10px solid #fff; }
+.utbenefits .last{ border-right:0px !important;}
+.utbenefits .uttransfer h3 { font-size:35px; color:#fff; margin:0px;}
+.utbenefits .uttransfer .utbadge{ position:absolute; right:15px; bottom:10px; z-index:1;}
+.utbenefits .uttransfer .globe{ position:absolute; right:-22px; bottom:55px; z-index:1;}
+.utbenefits .uttransfer img[src="images/rupee-symbol.png"]{ margin-top:-7px;}
+.utbenefits .uttransfer a { color:#fff; height:45px; line-height:45px; margin:0px -15px; padding:0px 15px; position: absolute; bottom:0px; z-index:0; width:100%; border-right:10px solid #fff;}
+.utbenefits .uttransfer-blue { background: url(../images/ut-scheme-bg-1.jpg) no-repeat; background-size: cover; }
+.utbenefits .uttransfer-pink { background: url(../images/ut-scheme-bg-2.jpg) no-repeat; background-size: cover;}
+.utbenefits .uttransfer-green { background: url(../images/ut-scheme-bg-3.jpg) no-repeat; background-size: cover;}
+.utbenefits .uttransfer-yellow { background: url(../images/ut-scheme-bg-4.jpg) no-repeat; background-size: cover; overflow:hidden;}
+.utbenefits .uttransfer-blue a { background:#4397d2; }
+.utbenefits .uttransfer-pink a { background:#dd539a; }
+.utbenefits .uttransfer-green a { background:#acb747; }
+.utbenefits .uttransfer-yellow a { background:#bfa118; }
+.utgraph { background:#f9fdcc; padding-top:40px; border-right:10px solid #fff;}
+.utgraph-heading { background:#f1f5c4; padding:20px 0px; margin:30px -15px 0px; display:inline-block; vertical-align:bottom;}
+.utgraph-heading .green{ background:#11b4a3; width:20px; height:20px; margin-right:10px; margin-bottom:20px; float: left;}
+.utgraph-heading .sky{ background:#11b4a3; width:20px; height:20px; margin-right:10px; margin-bottom:20px;float: left;}
+.utgraph-heading h4{color:#cb3c85; font-size:20px; padding:0px 20px;}
+.utmap { background: url(../images/maph-home-bg.jpg) no-repeat; background-size:cover;}
+.utmap .utmap-heading{ min-height:75px; background-color:#f2e6ee; padding:20px; margin:0px -15px; border-bottom:1px solid #f7f3e8;}
+.utmap .utmap-heading h4 { color:#8b4973; font-size:22px;}
+.utmap .undmanmap{ width:172px;margin:30px auto 0px;}
+.utmap h5 { color:#8b4973; font-size:24px; position:absolute; right:25px; bottom:20px;}
+
+.central-and-stat{ padding-bottom: 10px;}
+.central-and-stat ul { padding:10px 0px 1px 0px; /*background-color:#f6f8f8;*/ border-bottom:1px solid #d2dada; margin-bottom:0px; border-bottom:1px solid #ddd;}
+.central-and-stat ul li {display: inline-block; vertical-align:top;}
+.central-and-stat ul li a{ background-color: #dcdfdf; text-decoration:none; color:#000; padding: 0px 20px;font-size:18px; text-align: center; line-height:35px; min-height:35px; font-weight:400; margin-right:1px; display: inline-block; border-radius:5px 5px 0px 0px;}
+.central-and-stat ul li a.active{background-color: #1a3f59;  color:#fff;}
+.central-and-stat .rediobuttonBox {background-color:#f6f8f8;padding:10px 0px 10px 20px;}
+
+
+
+
+#map{position:relative;z-index:1;width:500px;left:50%;margin:25px 0 25px -250px;float:left;}
+ul.dbtmap{margin-bottom:0; list-style:none;}
+ul.dbtmap li{position:absolute;padding:0 0 0 15px;font-size:10px;line-height:100%;font-weight:bold;margin-bottom:0;}
+#map ul.dbtmap li a, #map ul li a:visited{display:block;text-decoration:none;text-decoration:none; color:#000;}
+
+.biharMap{background:url(../images/bihar.gif) no-repeat;min-height:350px;}
+.rajasthanMap{background:url(../images/rajasthan.gif) no-repeat;min-height:450px;}
+.upMap{background:url(../images/uttarPradesh.gif) no-repeat;min-height:490px;}
+.andhraMap {background: url(../images/andhra-pradesh.png) no-repeat; height:425px;}
+.arunachalMap {background: url(../images/arunachal-pradesh.png) no-repeat;height: 264px;}
+.assamMap {background: url(../images/assam.png) no-repeat; height:352px;}
+.himachalMap {background: url(../images/himachal-pradesh.png) no-repeat; height:503px;}
+.chhattisgarhMap {background: url(../images/chhattisgarh.png) no-repeat;height:583px;}
+.gujaratMap {background: url(../images/gujarat.png) no-repeat; height:385px;}
+.goaMap {background: url(../images/goa.png) no-repeat;height:583px;}
+
+
+
+
+
+
+.haryanaMap {background: url(../images/haryana.png) no-repeat; height:583px;}
+.jkMap {background: url(../images/jammu-kashmir.png) no-repeat; height:347px;}
+.delhiMap {background: url(../images/delhi.png) no-repeat; height:553px;}
+.manipurMap {background: url(../images/manipur.png) no-repeat; height:581px;}
+.tripuraMap {background: url(../images/tripura.png) no-repeat; height:571px;}
+.jharkhandMap {background: url(../images/jharkhand.png) no-repeat; height:417px;}
+.mpMap {background: url(../images/madhya-pradesh.png) no-repeat; height:369px;}
+.maharashtraMap {background: url(../images/maharashtra.png) no-repeat; height:420px;}
+.karnatakaMap {background: url(../images/karnataka.png) no-repeat; height:583px;}
+.keralaMap {background: url(../images/kerala.png) no-repeat; height:583px;}
+
+
+
+.punjabMap {background: url(../images/punjab.png) no-repeat; height:575px;}
+.ukMap {background: url(../images/uttarakhand.png) no-repeat;height: 456px;}
+.sikkimMap {background: url(../images/sikkim.png) no-repeat; height:583px;}
+.meghalayaMap {background: url(../images/meghalaya.png) no-repeat; height:209px;}
+.nagalandMap {background: url(../images/nagaland.png) no-repeat; height:496px;}
+.mizoramMap {background: url(../images/mizoram.png) no-repeat; height:583px;}
+.wbMap {background: url(../images/westBengal.png) no-repeat; height:583px;}
+.orisaMap {background: url(../images/orisa.png) no-repeat; height:415px;}
+.damanMap {background: url(../images/daman.png) no-repeat; height:337px;}
+.dadraMap {background: url(../images/dadra.png) no-repeat; height:474px;}
+.telanganaMap {background: url(../images/telangana.png) no-repeat; height:259px;}
+.tamilnaduMap {background: url(../images/tamilnadu.png) no-repeat; height:583px;}
+.nicobarMap {background: url(../images/nicobar.png) no-repeat; height:401px;}
+
+h2.states-name {position: absolute; display: none;
+        bottom: 0px;
+    right: 15px;
+    font-size: 50px !important;}
+#css-transfer-amount-graph, #ut-transfer-amount-graph,#css-beneficiaries-graph,#ut-beneficiaries-graph { width:100% !important;}
+.scheme_wise_fund_box{width: 230px;position: absolute;right: 225px;margin-top: 10px;}
+.scheme_wise_fund_box #scheme_wise_fund { position:static; padding-top:5px;}
+.scheme_wise_fund_box #scheme_wise_fund + p{ margin-top:5px;}
+.stats-not-to-scale { float: left;width: 100%;text-align: center;}
+	#funds .india span { font-size:14px; text-transform:none;}
+/*UT-and-states*/
+
+
+.navbar-nav li +li +li +li +li +li +li+li+li+li a {
+    text-transform: uppercase !important;
+}
+
+
+.navbar-nav li +li +li +li +li +li +li+li a {
+    text-transform: none !important;
+}
+
+.dropdown-menu {
+    background: #1a3f59;
+    /* background-color: rgba(2,84,141,.8); */
+    border: 0px;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    color: #1a3f59 !important;
+}
+
+.dropdown-menu > li > a {
+    color: #fff !important;
+}
+
+.navbar-default .navbar-nav > .open > a {
+    background: none !important;
+    /* background: #02548d !important; */
+    color: #fff;
+}
+.fundTransfer span img { position: absolute;/*right: 10px;bottom: 25%; */ right: 10px;bottom: 40px; z-index:1; /*transition: all 500ms ease-in; opacity:0.1; -moz-opacity:0.1;-webkit-opacity:0.1;*/}
+
+.noofscheme span img {right:0px !important;bottom: 45px !important;}
+
+
+
+
+.export-button>button{border: 0px;}
+.export-button ul.dropdown-menu {background:#ec971f; margin-top:-14px;position: absolute;z-index:1;}
+
+  /*29-8-2016*/
+
+ /*17-10-2016*/
+#scheme h3 span {text-transform: initial;}
+ul.applicablen {border: 1px solid #dadada;}
+
+  /*19-10-2016*/
+  /*.samikshsnav {/*background: #1a3f59;*/ /* border:1px solid #ccc;}
+ .samikshsnav .navbar-nav > li > .dropdown-menu {background: #fff; margin-top:1px;}
+  .samikshsnav .dropdown-menu > li > a {    color: #1a3f59 !important;
+    border-bottom: 1px solid #ccc;
+    padding-top: 10px;
+    padding-bottom: 10px;}
+	.samikshsnav .dropdown-menu > li:last-child  > a {border-bottom:0px;}*/
+	.samikshsnav .navbar-nav > li > .dropdown-menu {margin-left:-60px;}
+.samikshsnav .nav > li > a:hover, .samikshsnav .nav > li > a:focus {background-color: transparent !important;}
+
+  /*20-10-2016*/
+span.inrtext {font-size: 12px;}
+/*21-10-2016*/
+#ebdyContainer .selectpicker {min-width: auto!important; height:35px; padding-left: 5px;}
+.print{ cursor:pointer;}
+
+
+/****** By Braj *****/
+.story-list.row.panel-body ul li {width:48%;float:left;padding-right:2%;list-style: none;}
+.story-list.row.panel-body .read-more {text-align:right;font-size:90%;}
+.story-list.row.panel-body ul li p{margin:0px;}
+h2.btn {cursor: auto;}
+.btn-warning.ut-pages{}
+.assam .scheme_wise_fund_box {right:170px;}
+.applicablenew { color: #337ab7; text-decoration: none;}
+.codifytxt { width:230px !important;}
+.margin_top40 { margin-top:40px !important;}
+#scheme h3 span {text-transform: initial;}
+ul.applicablen {border: 1px solid #dadada;}
+td.ut-name {vertical-align:middle!important;}
+tr.total-val {font-weight:bold;}
+.title-left{float:left;}
+span.inrtext {
+    font-size: 12px;
+}
+.prev-audit-log {padding: 6px 12px;}
+
+/***************************/
+.tooltiparea {
+    position: relative;
+    display: block;
+    /* border-bottom: 1px dotted black; */
+}
+
+.tooltiparea .tooltiptext {
+    visibility: hidden;
+/*     width: 120px; */
+    background-color: #555;
+    color: #fff;
+  /*   text-align: center; */
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 40px;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s;
+}
+.tooltiplabel .tooltiparea .tooltiptext {
+	bottom: 25px;
+}
+/* .tooltiparea .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+} */
+
+.tooltiparea:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+.tooltiplabel {
+	float: left;
+    width: 100%;
+}
+.tooltiplabel label {
+    float: left;
+    margin-right: 5px;
+}
+.tooltip-icon span.label-text {
+	border: 1px solid #1a3f59;
+    padding: 0px 4px;
+    border-radius: 10px;
+    color: #1a3f59;
+    font-size: 11px;
+	cursor:pointer;
+}
+
+/***************************/
+.onboarding-monitoring .green{background:green;text-align:center;}
+.onboarding-monitoring .red{background:red;text-align:center;}
+.onboarding-monitoring .score-row {background:#F9F6A2!important;font-weight:bold;}
+.onboarding-monitoring .arrow-up {
+	background: url(../images/arrow_up.png) center no-repeat;
+	background-size: 22px;
+}
+.onboarding-monitoring .arrow-down {
+	background: url(../images/arrow_down.png) center no-repeat;
+	background-size: 22px;
+}
+.onboarding-monitoring .arrow-right {
+	background: url(../images/arrow_right.png) center no-repeat;
+    background-size: 22px;
+}
+
+
+
+/****scorecard*****/
+.infrastructure.checkbox dd {
+	border: none;
+}
+#scorecardaddeditform .checkbox dd {
+	border: none;
+    height: 20px;
+}
+
+
+/****** By Deepak *****/
+
+.dashboard_box{border: solid 1px #598c59; padding: 11px 13px 3px 12px; margin-bottom: 10px;}
+.head_bg{background: #3d6888 !important; color: #fff !important;}
+/* .highlight_bg{ background-color:#40755c !important; color:#fff !important;} */
+.highlight_bg{ background-color:#999999 !important; color:#fff !important;}
+.score_helight_left{text-align:right; text-align: right; padding-top: 12px;font-size: 20px;}
+.score_helight_right{float:left;  font-size: 20px; padding: 10px 20px;}
+/* .btm_highlight{ background-color:#40755c; color:#fff; } */
+.btm_highlight{ background-color:#999999; color:#fff; }
+.blueBg{background:#305496;}
+.greenBg{background:#00b050;}
+.redBg{background:#c00000;}
+
+
+
+
+
+
+
+
+/*Responsive start*/
+
+ @media (max-width: 1024px) {
+	 
+	
+	 .aadhar-payment-bridge h2 img {height: 14px;margin-top: -2px;}
+	 .scheme-right-border{left: 4px;}
+	 .beneficiaries { height:190px;}
+.fundTransfer h2 { font-size:18px !important;}
+.fundTransfer h2 small {font-size:17px;}
+.fund-cumulative  a { margin-top:30px;}
+	 .fund-cumulative { font-size:22px;}
+	 .fund-cumulative span img { margin-top: -3px;width: 13px;}
+	 .fund-cumulative span{ font-size:25px; padding-left:25px;padding-top: 10px;
+    display: inline-block;}
+	 .csvdownloadlink { margin-left:0px !important; margin-top: 5px; display:table;}
+	 .navbar-default .navbar-nav > li > a {font-size: 12px;padding-left: 10px;padding-right: 10px;}
+	 .navbar .divider {color: #fff;padding-top: 10px;}
+	 .fundTransfer span, .fundTransferspan span {/* width: 195px; */font-size:18px;}
+	 .aadharbasepayment h2 { font-size:18px !important;}
+	 #container-speed #highcharts-0 { left:-65px!important;}
+	 #highcharts-2 { top:-30px !important;}
+	 .beneficary ul {margin-top: -77px !important;}
+	 .saving span { width:175px; padding-left:10px; font-size:20px}
+	 .saving p {padding-left: 4px;}
+	 .department span { width:270px;font-size: 20px;}
+	 .list-inline > li {display: inline-block;padding-left: 3px;padding-right: 3px;}
+	 header .form-inline{margin-bottom:5px} 
+	 .aadharbasepayment { background-size:100% 100%;}
+	 
+	 .beneficiaries-bridge ul.cash_container + ul{ width:110px;}
+	 .beneficiaries-bridge .beneficary-graph {padding-top:15px; width:320px; height:218px; margin-top:30px; margin-right:-65px;}
+	.aadhar-payment-bridge h2 {
+    display: block;
+    font-size: 14px !important;
+    margin-left: -25px;
+    width: 240px;
+}
+	 .aadhar-payment-bridge h2 span {font-size:18px }
+	 
+	 .aadhar-payment-bridge-graph {
+  /*  height: 194px;
+    margin-left: -120px;
+    margin-top: -12px;
+    position: relative;height:200px; position:absolute;*/}
+	.aadhar-payment-bridge, .beneficiaries-bridge, .department-box { min-height:160px;}
+	.beneficiaries-bridge .beneficary-graph {width:250px; position:absolute;}
+	.department-box h3 { padding-top:0px;}
+	.beneficiaries-bridge .beneficary-graph { margin-top:-2px;}
+	.beneficiaries-bridge h2, .department-box h2 { font-size:15px !important;}
+	.beneficiaries-bridge ul.cash_container + ul { margin-top: -60px;}
+	.beneficiaries-bridge .border-right { min-height:190px;}
+	
+	
+.report h2 { font-size:18px !important;}
+.report.fund_re a,.report.bene_re a,.report.scheme_re a,.report.state_re a { background-position: 75%;}
+ .aadhar-payment-bridge h2.margin_top50{ margin-top:10px !important;}
+.aadhar-payment-bridge ul.addar-indicater li { float: left;}
+.aadhar-payment-bridge .addar-indicater { margin-left:-62px;}
+.aadhar-payment-bridge .addar-indicater li { font-size:12px;}
+.beneficiaries-bridge small, .aadhar-payment-bridge small { margin-right:5px;}
+	 } 
+	  @media (max-width:980px) {
+		   .document .panel-info {min-height:336px;}
+		  #captcha {width: 172px;}
+		  .captchain {width: 216px;}
+	  .aadhar-payment-bridge h2 img {
+    height: 19px;
+    margin-top: -4px;
+}
+		  	.aadhar-payment-bridge h2 {
+    display: block;
+    font-size: 18px !important;
+    margin-left: auto;
+    width: auto;
+}
+.aadhar-payment-bridge h2 span {
+    font-size: 27px;
+}
+		  .navbar-default .navbar-nav > li > a {font-size: 10px;padding: 7px 3px;}
+		  .navbar .divider { color: #fff; padding-top: 5px;}
+		  .fund-cumulative {  font-size: 17px;}
+		  .fund-cumulative span { font-size:18px;}
+		  .fund-cumulative span img {margin-top: -3px;width: 9px;}
+		  .fund-cumulative a {margin-top: 20px;}
+		  }
+		  @media (max-width: 900px) 
+		  {
+			  .circular .panel-info{min-height: 970px;}
+			  }
+	 @media (min-width: 768px) {
+		 
+		/*  .skipContent ul li {padding-left: 0px;}
+		  .skipContent a { font-size:12px;}*/
+		  
+		 .navbar-nav > li > a {    padding-top: 11px;padding-bottom: 10px;}
+		 }
+ @media (max-width: 768px) { 
+ 
+ @-moz-document url-prefix() { 
+ .aadhar-payment-bridge-graph {
+  
+    margin-left: -50px;
+    position: relative;
+}
+ .aadhar-payment-bridge-graph {
+    margin-left: -80px !important;}
+.beneficiaries-bridge .beneficary-graph { margin-top:-15px;}
+.aadhar-payment-bridge-graph { margin-left: auto;position: relative;right: 0px;}
+	.fund-cumulative { font-size:18px;}
+	/* .fund-cumulative span{ font-size:25px; padding-left:15px; display: inline-block;padding-top: 7px;}
+	 .fund-cumulative a { margin-top:5px;}*/
+}
+ 
+.fundTransfer h3 {padding-top:0px;}
+ .fundTransfer {min-height: 162px;}
+ .navbar-default .navbar-nav > li > a {padding-left: 2px;padding-right: 2px;}
+
+	.fundTransfer span, .fundTransferspan span { width: 248px; font-size:24px;}
+	.border_right10 {border-right: 0 solid #fff;}
+	.border_left10 {border-left: 0 solid #fff;}
+	.fundTransfer { margin-bottom:10px;}
+	#aadharbanaficary { margin:10px 0px !important;}
+	.aadharbasepayment h2 {font-size: 26px !important;}
+	.department { margin:10px 0px;}
+	.beneficary { margin-top:10px;}
+	 .beneficary .highcharts-tooltip {transform: translate(300px, 160px) !important;}
+	/*footer { margin-top:0px;}
+	#frmfeedback { margin-bottom: 10px;}*/
+	footer .list-inline > li {padding-left: 0px;padding-right: 0px;}
+	#container-speed #highcharts-0 {left: 60px !important;}
+	#myCarousel {margin-bottom: 10px !important;position: relative !important;top: 0px !important;}
+	#total-fund { margin-bottom: 10px;}
+	.report.bene_re{ margin: 0 -15px 10px;}
+	.report_graph { margin-left: 0px;}
+	.scheme.margin_bottom10 { margin-bottom:0px !important;}
+	/*.aadhar-payment-bridge h2 { width:140px; font-size:11px !important;}
+	.aadhar-payment-bridge h2 span {font-size: 13px;}*/
+	
+	.beneficiaries-bridge ul.cash_container + ul { margin-left:-15px;}
+	.beneficiaries-bridge small { margin-right:0px;}
+	.beneficiaries-bridge h2, .department-box h2 {
+    font-size: 12px !important;
+ 
+}
+.beneficiaries-bridge .beneficary-graph { margin-left: -60px;}
+.beneficiaries-bridge small,.aadhar-payment-bridge small { width:15px; height:15px;}
+.beneficiaries-bridge ul.cash_container + ul {margin-top: -32px;font-size: 10px;}
+	}
+  @media (max-width: 767px) {
+	  .report_graph h2 { min-height:40px;font-size: 12px !important;}
+	  #frmfeedback p.text-left { clear:left;}
+	  .sm-margin-top-10 { margin-top:10px;}
+	    .aadhar-payment-bridge h2 img {height: 16px;}
+	  .department-box { width:102%; left:-5px;}
+	  .noofscheme a {bottom: 15px;}
+	  .aadhar-payment-bridge ul.addar-indicater li { margin-right: 10px;}
+	  .beneficiaries-bridge small,.aadhar-payment-bridge small { width:15px; height:15px; margin-right:5px;}
+	  .form-inline button[type="submit"], .form-inline button[type="reset"] { margin-top:10px;}
+	  .rightemblem {
+    float: right !important;
+    margin-right: -15px !important;
+    padding-right: 0 !important;
+}
+	  #funds { margin-top:10px;}
+  #aadharbanaficary { margin:0px 0px 10px 0px!important;}
+	  .skipContent { display: none;}
+	  .skipContentHide { display: block !important;}
+	  .navbar li.divider { display:none;}.navbar-nav > li > a {padding:7px 5px}
+  #myCarousel{ margin-bottom:0px !important;position:relative; top:-10px;}
+	 .carousel-control .glyphicon-chevron-left, .carousel-control .icon-prev{ margin-left:-20px;}
+	 .carousel-control .glyphicon-chevron-right, .carousel-control .icon-next{margin-right:-20px;}
+	 #myCarousel .carousel-indicators{ width:79%; top:0px; height:20px;}
+	 div.margin_top20.margin_bottom20.clearfix { margin-top:0px !important;margin-bottom:10px !important;}
+		h2{ font-size:16px !important;}
+		#container-speed { position:relative;}
+		#container-speed #highcharts-0 { left:0px !important;}
+	    .beneficary .highcharts-tooltip {transform: translate(315px, 160px)}
+	   #funds .fundTransfer { height:auto; line-height:normal; margin-bottom:10px;}
+	   .fundTransfer span { font-size: 18px; height: auto; padding: 10px 0 !important; text-align: center; width: 111%; background:#0b588b !important;}
+	   #funds .fundTransfer h2 { font-size:26px !important;display: block;}
+	   
+		#funds .fundTransferspan  { height:auto; line-height:normal; margin-bottom:10px; overflow:hidden;}
+		.fundTransferspan  span { font-size: 18px; height: auto; padding: 10px 0 !important; text-align: center; width: 111%;  background:#755b17 !important;}
+		#funds .fundTransferspan  h2 { font-size:26px !important; padding:0px 0 5px 15px; display: block; text-align: center!important;}
+	   
+	   #funds .border_right10 { border-right:0px;}
+	   #funds .border_left10 { border-left:0px;}
+	   .beneficary { height:auto; padding-top: 20px;}
+	   .beneficary .othersInpercent{ margin-top: -217px;}
+	   .kindbox { padding: 30px 0px 10px;}
+	   
+	    .aadharbasepayment { overflow:hidden;height:auto; 
+	   background: #a6e5a5;
+	   background: -moz-linear-gradient(#d6f5d6 ,#a6e5a5);
+	   background: -o-linear-gradient(#d6f5d6 ,#a6e5a5);
+	   background: -ms-linear-gradient(#d6f5d6 ,#a6e5a5);
+	   background: -webkit-linear-gradient(#d6f5d6 ,#a6e5a5);
+	   background: linear-gradient(#d6f5d6 ,#a6e5a5);
+	   }
+	 .aadharbasepayment h2{ background: #3f120d;font-size: 18px !important; margin:0px -15px; color:#fff; padding-top: 13px; width: 111%;}
+	   .aadharbasepayment h2 span {background: #afe8b1 !important;font-size: 26px; color:#3f120d; margin: 15px -15px 0; padding: 10px 0;}
+	   .aadharbasepayment .zerotohundred { text-align: left; padding-left:23%; padding-bottom:10px;}
+.aadharbasepayment .zerotohundred span  { padding-left:59%;}
+	   
+.adbfundTransfer{ font-size:11px;}
+.saving { height:160px; line-height:normal;padding:58px 0px 15px 10px;}
+.saving span { background: none; height:auto; line-height:normal; padding:0px 15px 0px 0px; margin-top:-43px; margin-left:auto; width: auto;}
+.saving p { padding-left: 22px;}
+.department { height:auto; line-height:normal; margin:10px 0px; text-align:left;}
+.department span { background: none !important; font-size:25px; width:auto;  padding:16px 10px 0px 10px;}
+
+.scheme { height:60px; line-height:normal; font-size:25px; text-align:left;padding:16px 0px 0px 10px;}
+.scheme span  {background: none !important; margin:0px; font-size:48px; padding:0px;display:block; width:95%; position:absolute; top:0px; text-align: center;}
+.scheme a { padding-left:40px;}
+.scheme img { position:absolute; left:10px;}
+.report.fund_re { margin-right:-15px; margin-bottom:10px;}
+.report.scheme_re { margin-right:-15px; margin-left:-15px; margin-bottom:10px;}
+.aadhar-payment-bridge h2 { width:auto; font-size:18px !important;}
+/*.aadhar-payment-bridge-graph {margin-left: auto;margin-top: 17px; right:28px; position: relative;}*/
+.aadhar-payment-bridge h2 { margin-left:auto;}
+.beneficiaries-bridge h2, .department-box h2 {
+    font-size: 18px !important;
+    margin-left: auto;
+}
+
+.aadhar-payment-bridge h2 span { font-size:20px !important;} 
+ .beneficiaries-bridge ul.cash_container + ul { font-size:14px; margin-left: auto; width:auto; margin-top:-65px;}
+ .beneficiaries-bridge small {height: 19px;width: 19px;}
+.beneficiaries-bridge .beneficary-graph { margin-left:auto;}
+.beneficiaries-bridge .beneficary-graph {margin-top: -3%;}
+.aadhar-payment-bridge h2 { margin-left:-15px !important;}
+ul.skipContentHide { display: none !important;}
+
+	 .login-sec .form-item span { top:-50px; margin-left:-15px;}
+	  .aadhar-payment-bridge { height:240px;}
+	 .aadhar-payment-bridge-graph { height:200px;}
+	 .department-box { border-top:10px solid #fff;}
+	 .fund-cumulative { margin-top:10px;}
+	 .fund-cumulative.margin_bottom20 { margin-bottom:10px !important;}
+	 .aadhar-payment-bridge h2.margin_top50{ margin-top:20px !important;}
+ 	.mainContant { border-top:1px solid #dadada;}
+	 .navbar-nav {margin: 0px -15px;}
+	 .navbar-nav > .active{ background:#1a3f59;}
+	  .navbar-nav > li{ border-bottom:1px solid #fff;}
+	 .navbar-toggle,.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {background-color: #1a3f59; border:0; margin:0px 0px 10px;}
+
+	 .navbar-default { background: transparent;}
+	 #myNavbar{ background:rgba(26,63,89, 0.85); position: absolute; top:29px; width:100%; z-index:100;}
+
+.rightlogo {float:none !important; }
+.navbar-default .navbar-nav > li > a {font-size: 12px;padding: 7px 30px;}
+.score_helight_left{font-size: 12px;}
+
+	 }
+	  @media (max-width: 720px) {
+		  .beneficary .highcharts-tooltip {transform: translate(290px, 160px) !important;}
+		  .beneficiaries-bridge .beneficary-graph {margin-top: -4%;}
+		  }
+	  
+	  @media only screen and (max-width:640px) {  
+	  .fund-cumulative span img {margin-top: -2px;width: 7px;}
+	  .fund-cumulative{ font-size:14px;}
+	 .fund-cumulative span {font-size: 14px;padding-left: 5px;}
+	 .fund-cumulative a {font-size: 11px;}
+	  .fundTransfer.green { overflow:hidden;}
+	  .aadharbasepayment .zerotohundred{ padding-left: 18%;}
+	  .aadharbasepayment .zerotohundred span {padding-left: 67%;}
+	  .beneficary .highcharts-tooltip {transform: translate(255px, 160px) !important;}
+	  .beneficiaries-bridge .beneficary-graph {margin-top: -3%;}
+	 /* .aadhar-payment-bridge-graph {
+  margin-left: auto;
+    position: relative;
+    right: 23px;}*/
+	.aadhar-payment-bridge h2 {
+    font-size: 15px !important;}
+	  }
+	 
+	 @media only screen and (max-width:604px) {  
+	 
+	 .list-inline > li{ padding-left:0px;}
+	  .beneficary .highcharts-tooltip {transform: translate(235px, 160px) !important;}
+	  .fundTransfer h3 { padding-top:0px;}
+	  .aadhar-payment-bridge h2.margin_top50{ margin-top:10px !important;}
+	  .aadhar-payment-bridge h2 span {padding-top: 1px;}
+	  .beneficiaries-bridge .beneficary-graph {  margin-top: -2%;}
+	 }
+	 @media only screen and (max-width:600px) {  
+  .aadharbasepayment .zerotohundred { padding-left:13%;}
+  .aadharbasepayment .zerotohundred span { padding-left: 72%;}
+  }
+
+	 
+ @media (max-width: 540px) {
+	 .fund-cumulative { padding: 0 7px 10px;}
+	 .aadhar-payment-bridge h2 img {margin-top: -3px;}
+	.saving { height:auto;padding-top:15px; }
+	.saving span {display:block; width: 100%;margin-top:0px; }
+.department span { display:block; text-align:left; width:100% !important;}
+.scheme { height:110px; }
+.scheme span { top:45px; text-align:left;}
+.aadharbasepayment .zerotohundred {padding-left: 7%;}
+.aadharbasepayment .zerotohundred span {padding-left: 77%;}
+#footer ul li{ display:block; padding:2px 0px;}
+#footer ul li.divider{ display:none;}
+#footer a>img{ margin-bottom:10px;}
+.beneficary .highcharts-tooltip {transform: translate(205px, 160px) !important;}
+.aadhar-payment-bridge-graph {
+    right: -22px;}
+	.beneficiaries-bridge .beneficary-graph {
+    margin-left: -45px;}
+	.aadhar-payment-bridge h2.margin_top50 {
+    margin-top: 40px !important;
+}
+	.aadhar-payment-bridge h2 {
+    font-size: 15px !important;
+}
+.pagination > li > a, .pagination > li > span{padding:6px 5px;font-size: 11px;}
+	 }
+ @media (max-width: 504px) {
+	 .fund-cumulative, .fund-cumulative span {font-size: 12px;}
+.beneficary .highcharts-tooltip {transform: translate(185px, 160px) !important;}
+.aadhar-payment-bridge-graph {
+  
+    right: -52px;
+}
+.aadhar-payment-bridge h2.margin_top50 {
+    margin-top: 20px !important;
+}
+}
+
+ @media (max-width: 480px) {
+	
+	.fund-cumulative { padding: 0 5px 20px !important;}
+	fund-cumulative, .fund-cumulative span {font-size: 11px !important;}
+	 #funds .fundTransfer h2 { font-size:20px !important;}
+	 .beneficary .highcharts-tooltip {transform: translate(172px, 160px) !important;}
+	 .aadhar-payment-bridge-graph {
+right: -65px; top:-20px;
+}
+.aadhar-payment-bridge h2 {
+    font-size: 13px !important;
+}
+.aadhar-payment-bridge h2.margin_top50 {
+    margin-top: 35px !important;
+}
+ }
+ @media (max-width: 472px) {
+	 .aadhar-payment-bridge .addar-indicater { margin-right:-20px;}
+	 .aadhar-payment-bridge .addar-indicater { margin-left:inherit;}
+	 .fund-cumulative {
+    font-size: 12px;
+    line-height: 10px;
+    padding: 10px 20px 20px;
+}
+.fund-cumulative span { padding-left:0px;}
+ .aadhar-payment-bridge .addar-indicater {
+    margin-left: -20px;
+}
+}
+  @media (max-width: 400px) {#admin-main-contain .error-msg, .error-msg { font-size: 12px;}
+  .success-msg, #admin-main-contain .success { font-size:12px;}
+	  .login-sec #login-form { width:310px;}
+	  .login-sec .form input[type="text"], .login-sec .form input[type="password"] { width:205px;}
+		.login-sec .form input[type="submit"] { width:245px;}
+		.login_sec .captchain{width:245px !important;}
+		.login-sec #login-form {padding: 50px 20px;width: 283px;}
+		.login_sec #captcha { width:205px;}
+	  .aadhar-payment-bridge .addar-indicater {margin-left: -106px;}
+	  .fundTransfer .rupee-icon {margin-top: -3px;width: 8px;}
+	  .aadhar-payment-bridge h2 img {height: 9px; margin-top:-1px;}
+	 .department-box { width:104%;}
+	 .beneficary .highcharts-tooltip {transform: translate(133px, 160px) !important;}
+	 .aadharbase { font-size:12px !important; padding-left:3px;}
+	 .navbar-brand span { font-size:16px;}
+	 .navbar-brand small{ font-size:15px;}
+	 #funds .fundTransfer h2 {font-size: 15px !important;}
+	 .fundTransfer h2 a { font-size:10px;}
+	 .fundTransfer h3 {font-size: 15px;}
+	 .aadhar-payment-bridge h2 {font-size: 10px !important;}
+	 .aadhar-payment-bridge h2 span {font-size: 12px !important;}
+	 
+	 .beneficiaries-bridge .beneficary-graph {margin-left: -80px;}
+	 .aadhar-payment-bridge-graph {
+ 
+    right: -55px; top:-50px;
+}
+ul.addar-indicater li {float: left;margin-left: 6px;}
+
+ }
+ 
+ 
+	@media only screen and (max-width:390px) {
+		.aadharbasepayment .zerotohundred {padding-left: 5%;}
+.aadharbasepayment .zerotohundred span {padding-left: 75%;}
+		.beneficary .highcharts-tooltip {transform: translate(128px, 160px) !important;}
+		.beneficary .highcharts-series path { stroke-width:28px !important;}
+		}
+		
+				@media only screen and (max-width:390px) {
+					.beneficary .highcharts-tooltip {transform: translate(119px, 160px) !important;}
+					
+				}
+	@media only screen and (max-width:360px) {
+			
+.login-sec #login-form { margin-left: -10px;width: 285px;}
+		
+		.login-sec .form { width: auto;}
+		.login-sec { width: auto;}
+	
+		.aadharbase {
+    font-size: 11px !important;
+    padding-left: 8px;
+}.highcharts-data-labels > div > span > div { margin-top:-85px !important;}
+.beneficary .highcharts-tooltip {
+    transform: translate(112px, 160px) !important;
+}
+.aadharbase { padding-left:4px;}
+.navbar-brand span { font-size:15px;}
+	 .navbar-brand small{ font-size:13px;}
+
+.aadhar-payment-bridge-graph {
+ 
+    right: -50px;
+}
+		}
+		@media only screen and (max-width:346px) {
+			.login-sec #login-form { margin-left: -15px;}
+			.beneficary .highcharts-tooltip {
+    transform: translate(106px, 160px) !important;
+			.navbar-brand span { font-size:13px;}
+}
+	 .navbar-brand small{ font-size:12px;}
+			}
+			@media only screen and (max-width:320px) {
+				.login-sec #login-form { margin-left: -30px;}
+				.fund-cumulative a {font-size: 12px;margin-top: 4px;}
+				.fund-cumulative span { font-size:12px;}
+				.financialyear { font-size:15px !important;}
+				.beneficary .highcharts-tooltip text{ font-size:13px !important;}
+		.beneficary .highcharts-tooltip{ transform:translate(95px,160px) !important;}
+		.beneficary .highcharts-series path { stroke-width:23px !important;}
+		.aadharbasepa {display: inline-block;
+    font-size: 40px;
+    padding-top: 30px;}
+			.highcharts-data-labels > div > span > div {margin-top: -90px !important;}
+			.aadharbasepa { font-size:30px !important;}
+			
+			.aadharbase { font-size:10px !important; padding-left:2px;}
+			.navbar-brand span { font-size:11px;}
+	 .navbar-brand small{ font-size:10px;}
+	 #funds .fundTransfer h2 {
+    font-size: 12px !important;
+}.aadhar-payment-bridge h2 {
+    font-size: 10px !important;
+}.aadhar-payment-bridge h2 span {
+    font-size: 11px !important;
+}.beneficiaries-bridge h2, .department-box h2 {
+    font-size: 13px !important;
+}.beneficiaries-bridge .beneficary-graph {
+    margin-left: -100px;
+}
+.aadhar-payment-bridge-graph {
+ 
+    right: -50px;
+}
+			}
+			
+			
+			
+			
+			 @media all and (-ms-high-contrast:none)
+     {
+     .rightemblem {padding-right:20px !important;} 
+     *::-ms-backdrop, .rightemblem { padding-right:20px!important; } 
+     }
+@media only screen and (min-device-width: 1025px) and (max-device-width: 1200px){
+	
+.fund-cumulative{font-size: 25px;}
+.fund-cumulative span{font-size: 22px;}
+.fund-cumulative span img {
+   margin-top: -2px;
+    width: 11px;
+}
+.fund-cumulative a{margin-top: 15px;}
+	}
+@media (max-width:768px){#ui-datepicker-div {margin-left:0px!important;} #ebdyContainer .selectpicker{margin: 10px 0;}}
+@media (min-width: 768px){.modal-dialog {width: 800px!important;}}
+
+/*Responsive end*/
+
+/*contrast start*/
+		
+ body.contrast{background-color: #000; color:#fff;}
+.contrast .skipContent .colorNormal { background:#fff;}
+.contrast table th{    background: #1e1e1e !important;color: #fff!important;}
+.contrast table td{ background:#505050;}
+.contrast a,.contrast a:hover{color:#ffcc00!important;}
+.contrast .navbar-default .navbar-nav > li > a:hover,.contrast .navbar-default .navbar-nav > li > a:active{color:#4f4e4e}
+.contrast .navbar-nav li.active a{ color:#db9b00 !important;}
+.contrast .btn-warning { background:#1e1e1e; border-color:#4f4e4e}
+.contrast .btn-warning:focus,
+.contrast .btn-warning.focus {
+  color: #fff;
+  background-color: #000;
+  border-color: #4f4e4e;
+}
+
+.contrast .btn-warning:active,
+.contrast .btn-warning.active,
+.contrast .open > .dropdown-toggle.btn-warning {
+  color: #fff;
+   background-color: #000;
+  border-color: #4f4e4e;
+}
+
+.contrast .btn-warning:active:hover,
+.contrast .btn-warning.active:hover,
+.contrast .open > .dropdown-toggle.btn-warning:hover,
+.contrast .btn-warning:active:focus,
+.contrast .btn-warning.active:focus,
+.contrast .open > .dropdown-toggle.btn-warning:focus,
+.contrast .btn-warning:active.focus,
+.contrast .btn-warning.active.focus,
+.contrast .open > .dropdown-toggle.btn-warning.focus {
+  color: #fff;
+  background-color: #000;
+  border-color: #4f4e4e;
+}
+
+.contrast .btn-warning:hover{background:#000;border-color:#4f4e4e;}
+.contrast .border_left10 { border-left:10px solid #000;}
+.contrast .border_right10 { border-right:10px solid #000;}
+.contrast .navbar-default .navbar-nav > .active > a, .contrast .navbar-default .navbar-nav > .active > a:hover, .contrast .navbar-default .navbar-nav > .active > a:focus{ color:#979696;}
+.contrast h2.btn.btn-danger { color:#fff;}
+.contrast .breadcrumb {background: #1e1e1e;border: 1px solid #4f4e4e;}
+.contrast .breadcrumb li a,.contrast .breadcrumb > li + li:before{ color:#bbb9b9;}
+.contrast .breadcrumb li.active{ color:#fff;}
+.contrast .skipContent {border-bottom: 1px solid #363637;background: #1e1e1e;color: #fff;}
+.contrast .skipContent a {color: #fff;}
+.contrast select.form-control.border_none {background: #fff;}
+.contrast .navbar-default {background: #1e1e1e;}	
+.contrast .navbar-brand img { float: left; padding-right:20px;}
+.contrast .navbar-brand span, .contrast .navbar-brand small { color:#fff;}
+.contrast .fundTransfer span {    background: #3b3b3b url(../images/border_c.jpg) right center no-repeat !important;}
+.contrast .fundTransfer {background: #464646;}
+.contrast .fundTransfer h2 { color: #fff!important;}
+.contrast .fundTransferspan span {background: #3b3b3b url(../images/border_2_c.jpg) right center no-repeat !important;}
+.contrast .fundTransferspan {background: #464646;}
+.contrast .fundTransferspan h2 { color: #fff!important;}
+.contrast .aadharbasepayment, .contrast .beneficary,  .contrast .report_graph, .contrast .panel-default > .panel-heading {background: #1e1e1e;}
+.contrast .aadharbasepayment h2{ color:#fff;}
+.contrast .aadharbasepayment .zerotohundred { color:#fff;}
+.contrast .aadharbasepayment .adbfundTransfer span,.contrast .aadharbasepayment .adbfundTransfer, .contrast .beneficary .othersInpercent, .contrast .beneficary .othersInpercent span { color:#000;}
+.contrast .beneficary ul a { color: #fff !important;}
+.contrast .aadharbasepa, .contrast .aadharbase{ color:#fff !important;}
+.contrast .highcharts-axis-labels.highcharts-yaxis-labels text{ fill:#fff !important;}
+.contrast .saving span {background: #353535 url(../images/border_3_c.jpg) right top no-repeat;}
+.contrast .saving {background: url(../images/saving_bg_c.jpg) left top repeat-x;}
+.contrast .department span {background: #4a4a4a url(../images/border_1_c.jpg) right center no-repeat !important;}
+.contrast .department {background: #3d3d3d;}
+.contrast .scheme span {background: #343434 url(../images/border_4_c.jpg) right center no-repeat !important;}
+.contrast .aadharbasepayment p.adbfundTransfer, .contrast .aadharbasepayment p.adbfundTransfer span { color:#fff;}
+.contrast .scheme {background: #3f3f3f;}
+.contrast .login_sec h2 { color:#333 !important;}
+.contrast .login-sec .form span{ background:#1e1e1e;}
+.contrast .login-sec .form input[type="submit"]{ background:#1e1e1e;border-bottom: 3px solid #4f4e4e;}
+.contrast .report.fund_re, .contrast .report.bene_re, .contrast .report.scheme_re, .contrast .report.state_re { background:#1e1e1e;}
+.contrast .report.fund_re a, .contrast .report.bene_re a, .contrast .report.scheme_re a, .contrast .report.state_re a{background:#4f4e4e}
+
+.contrast .panel-info > .panel-heading {color: #fff !important;
+    background-color: #1e1e1e;
+    border-color: #fff;}
+.contrast .panel.panel-info p { color:#333;}
+.contrast text { fill:#fff !important;}
+ .contrast .report.state_re p { background:rgba(155,152,152, 0.20) !important;}
+.contrast .statdatapopup { color:#333;}
+ .contrast .panel-default > .panel-heading + .panel-collapse > .panel-body { background:#353535;}
+ .contrast .btn-danger .badge { color:#333;}
+.contrast footer {background: #1e1e1e;color: #fff;}
+.contrast footer ul li a{color: #fff;}
+.contrast footer ul li a:hover{color: #fff;}
+.contrast .aadhar-payment-bridge { background: #000;}
+.contrast .aadhar-payment-bridge h2, .contrast .aadhar-payment-bridge h2 span, .contrast .beneficiaries-bridge h2, .contrast .department-box h2 {
+    color: #fff;}
+	.contrast .fundTransfer {    border-bottom: 1px solid #fff;}
+.contrast .department-box, .contrast .fund-cumulative{ background:#464646;}
+.contrast #scheme_wise_fund { color:#000;}
+
+/*contrast End*/

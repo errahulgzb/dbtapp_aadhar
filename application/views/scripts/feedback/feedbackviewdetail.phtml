@@ -1,0 +1,87 @@
+
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+?>
+
+
+
+
+<?  $cmidata = $this->cmidata;$postUrlUpdate = $this->url(array(
+        'controller' => 'feedback',
+        //'action'  => 'userview'
+        ))."?id=".$this->escape($cmidata['id']); ?>
+
+
+<?php if(($userid->userid)&&($role->role==4)){ ?>
+<ul class="tabs">
+    <li><a href="<?php echo $this->url(array('controller' => 'location', 'action'  => 'locationview')); ?>" class="active" title="<?php echo "Scheme";?>"><?php echo "Scheme";?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'site', 'action'  => 'siteview')); ?>" title="<?php echo MANAGE_SITE;?>"><?php echo MANAGE_SITE;?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'assignengineer')); ?>" title="<?php echo MANAGE_ASSIGN_ENGINEER;?>"><?php echo MANAGE_ASSIGN_ENGINEER;?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'assignsupervisior')); ?>" title="<?php echo MANAGE_TRANSFER_ENGINEER;?>"><?php echo MANAGE_TRANSFER_ENGINEER;?></a></li>	
+	<li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'projectupdate')); ?>" title="<?php echo CUSTOMER_PROJECT_UPDATE;?>"><?php echo CUSTOMER_PROJECT_UPDATE;?></a></li>
+	<li><a href="<?php echo $this->url(array('controller' => 'Report', 'action'  => 'reportview')); ?>" title="<?php echo REPORT; ?>" ><?php echo REPORT; ?></a></li>
+</ul>
+<?php } ?>
+
+<div class="cntnt">
+	<h2 class="btn btn-block btn-danger col-sm-12 margin-left0"><?php echo VIEW_Feedback;?></h2>			
+				
+					<form  class="webform-client-form col-sm-12" method="post" accept-charset="UTF-8" action="<?=$postUrlUpdate?>" name="frmfeedback" id="frmfeedback" onsubmit="return validate();">
+							<?php 
+							if($this->errorMessage){
+							echo "<div class='error-msg'>".$this->errorMessage."</div>"; 
+							}
+							?>
+							
+							
+							
+
+			<table summary="view feedback">
+            <tr>
+						<th scope="row">Type:<sup class="errors">*</sup></th>
+						    <td> <?php
+                             if($this->escape($cmidata['type']) == 1)
+									 {
+										 echo "Complaint";
+									 }
+									 else if($this->escape($cmidata['type']) == 2)
+									  {
+										 echo "Feedback";
+									  }  
+									  else
+                                      {
+										  echo "Not Found"; 
+									  }	
+
+
+						        ?>
+                                </td>
+					</tr>
+					<tr>
+						<th scope="row">Name:</th>
+						<td><?= $this->escape($cmidata['name']) ?></td>
+					</tr>
+					<tr>
+						<th scope="row">E-mail:</th>
+						<td><?= $this->escape($cmidata['email']) ?></td>
+					</tr>
+					<tr>
+						<th scope="row">Mobile:</th>
+						<td><?= $this->escape($cmidata['mobile']) ?></td>
+					</tr>
+					<tr>
+						<th scope="row">Details:</th>
+						<td><?= $this->escape($cmidata['details']) ?></td>
+					</tr>
+					
+					<!--<div  class="form-item">
+						<input class="mlft" type="Submit" name="Submit" value="SUBMIT" />
+						<input type="reset" value="<?php //echo CANCEL; ?>" name="Reset" border="0"  onclick="goCancel();">
+					</div>  -->
+                    </table>
+				</form>
+	 </div>
+
+

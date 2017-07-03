@@ -1,0 +1,327 @@
+<noscript>
+    <style type="text/css">
+        .webform-client-form {display:none;}
+    </style>
+    <div class="noscriptmsg">
+    You don't have javascript enabled.  Good luck with that.
+    </div>
+</noscript>
+
+<?php 
+    $userid = new Zend_Session_Namespace('userid');
+    $unme= $userid->userid;
+    $role = new Zend_Session_Namespace('role');
+    $captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+
+<!--<script src="//cdn.ckeditor.com/4.5.9/full/ckeditor.js"></script>-->
+<!--------------- end ---------------->
+<script type="text/javascript" language="javascript">
+
+//captcha-code
+
+$(document).ready(function(){
+$("#vercode").val("");
+});
+
+jQuery(document).ready(function()
+{
+	jQuery("#add_new_scheme").submit(function()
+	{
+		if($('#ministry_id').val() == '0')
+		{
+			$('#ministry').text("Ministry <?php echo CANTEMPTY; ?>");
+			$('#ministry_id').focus();
+			return false;
+		} 
+		if($('#ministry_id').val() > '0')
+		{
+			$('#ministry').text('');
+		
+		} 
+		
+		var alphabetReg = /^[ A-Za-z0-9 \-\(\)\& ]*$/;
+		if (jQuery("#scheme_name").val() == '')
+		 {
+			$('#scheme-name').text("Scheme Name <?php echo CANTEMPTY; ?>");
+			jQuery( "#scheme_name" ).focus();
+			return false;
+		}
+		
+		if(!alphabetReg.test(jQuery("#scheme_name").val()))
+	    {
+			$('#scheme-name').text("Scheme Name field has some special characters. \nThese are not allowed.\n Please remove them and try again");
+			jQuery( "#scheme_name" ).focus();
+			return false;
+		}
+		
+	if (jQuery("#scheme_name").val() != ''){
+		var urldata = scheme_name =null;
+		schemename = jQuery("#scheme_name").val();
+		if(schemename != ""){
+		urldata = "<?php echo $this->baseUrl('audit/checkschemename');?>";
+		$.ajax({
+			url : urldata,
+			data : {schemename:schemename},
+			type : "POST",
+			dataType : "json",
+			async:false,
+			cache:false,
+			success: function(response){
+			//alert(response);
+				if(response == 1){
+					$('#scheme-name').text("Scheme name already exist,Pls try another scheme name.");
+					jQuery( "#scheme_name").focus();
+					errorcall = 1;
+					return false;
+				}else{
+					errorcall = 0;
+					$('#scheme-name').text("");
+				}
+			}
+			
+		});
+	}
+	if(errorcall==1){
+				return false;
+			}
+  }
+
+		if (jQuery("#scheme_codification").val() == '')
+		 {
+			$('#scheme-code').text("Scheme Code <?php echo CANTEMPTY; ?>");
+			jQuery( "#scheme_codification" ).focus();
+			return false;
+		}
+		if (jQuery("#scheme_codification").val() != '')
+		 {
+		//alert(jQuery("#scheme_codification").val());
+		var urldata = scheme_codification= null;
+		scheme_codification = jQuery("#scheme_codification").val();
+		if(scheme_codification != ""){
+		urldata = "<?php echo $this->baseUrl('audit/checkschemecode');?>";
+		$.ajax({
+			url : urldata,
+			data : {scheme_codification:scheme_codification},
+			type : "POST",
+			dataType : "json",
+			async:false,
+			cache:false,
+			success: function(response){
+		//alert(response);
+				if(response == 1){
+					
+					$('#scheme-code').text("Scheme Code already exist,Pls try another scheme code.");
+					jQuery( "#scheme_codification" ).focus();
+					errorcall = 1;
+					//$('.hide_submit').hide();
+					return false;
+				}else{
+					errorcall = 0;
+					$('#scheme-code').text("");
+					
+				}
+			}
+		});
+	}
+if(errorcall==1){
+			return false;
+		}
+		}
+		
+		if($('#scheme_type').val() == '0')
+		{
+			$('#bebefit-type').text("Benefit Type <?php echo CANTEMPTY; ?>");
+			$('#scheme_type').focus();
+			return false;
+		} 
+		if($('#scheme_type').val() > '0')
+		{
+			$('#bebefit-type').text("");
+		} 
+		if($('#scheme_group').val() == '0')
+		{
+			$('#scheme-type').text("Scheme Type <?php echo CANTEMPTY; ?>");
+			$('#scheme_group').focus();
+			return false;
+		}
+		if($('#scheme_group').val() > '0')
+		{
+			$('#scheme-type').text("");
+			
+		} 	
+		var schemedescript  = CKEDITOR.instances['editor1'].getData();
+
+		// if(schemedescript == '')
+		 // {
+			 // alert('desct');
+			// $('#scheme-description').text("Scheme Description <?php echo CANTEMPTY; ?>");
+			// jQuery( "#editor1" ).focus();
+			// return false;
+		// }
+		
+		if(schemedescript != '')
+		 {
+			  // alert('desct');
+			$('#scheme-description').text("");
+		}
+		
+		if(jQuery('#vercode').val() == '')
+		{
+			$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		}
+		
+		if(jQuery('#vercode').val() != '')
+		{
+			$('#captcha-code').text("");
+		} 
+
+	});
+ 
+});
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('scheme/schemeview'); ?>">Scheme List</a></li>
+   <li class="active">Add Scheme</li>
+</ol>
+
+<h2>Add New Scheme<a class="pull-right" href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Scheme.pdf'); ?>"  target="_blank">Help?</a></h2>	
+	
+    <?php $postUrl = $this->url(array(
+                    'controller' => 'scheme',
+                    //'action'  => 'userview'
+                    )); 
+    ?>
+    
+    
+    <?php if($this->errorMessage){?>
+        <div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+        <?php }elseif(@$_GET[actmsg] =='rpt'){ ?>
+        <div class='error-msg'><?php echo "This Scheme is already Exists."; ?></div>
+        <?php }elseif(@$_GET[actmsg] =='rptcode'){ ?>
+        <div class='error-msg'><?php echo "This Scheme code is already Exists."; ?></div>
+        <?php }elseif(@$_GET[actmsg] =='fileformaterror'){ ?>
+        <div class='error-msg'><?php //echo "This file format is not support!!! Please try another format."; 
+        echo "There is some error in add"; 
+        ?></div>
+        <?php } ?> 
+        
+        
+    <div class="webform-client-form">    
+    
+    <form role="form" method="post" action="<?php echo $postUrl; ?>" enctype="multipart/form-data"  name="addnewscheme"  id="add_new_scheme">
+        <div class="row">
+        
+        
+        <div class="form-group col-sm-6">
+            <label>Language<sup class="require">*</sup> </label>
+            <!--<select class="form-control">
+            <option value=''>--Select Type --</option>
+              <option selected>Complain </option>
+              <option>Feedback </option>
+            </select>-->
+            <?php echo $this->form->language?>
+            <span class="require" id="languages"></span>
+        </div>
+            <?php echo $this->form->lang?>
+        <div class="form-group col-sm-6">
+            <label>Ministry<sup class="require">*</sup> </label>
+            <!--<input type="number" class="form-control" placeholder="Mobile" />-->
+            <?php echo $this->form->ministry_id; ?>
+            <span class="require" id="ministry"></span>
+          </div>
+        
+        <div class="form-group col-sm-6">
+              <label>Scheme Name<sup class="require">*</sup>  </label>
+              <?php echo $this->form->scheme_name;?>
+              <span class="require" id="scheme-name"></span>
+        </div>
+		
+		
+		
+		<div class="form-group col-sm-6">
+            <label>Scheme Code<sup class="require">*</sup>  </label>
+            <?php echo $this->form->scheme_codification;?>
+            <span class="require" id="scheme-code"></span>
+        </div>
+            
+             <div class="form-group col-sm-6">
+                <label>Benefit Type<sup class="require">*</sup> </label>
+            <!--<select class="form-control">
+            <option value=''>--Select Type --</option>
+              <option selected>Complain </option>
+              <option>Feedback </option>
+            </select>-->
+            <?php echo $this->form->scheme_type;?>
+            <span class="require" id="bebefit-type"></span>
+             </div>
+             <div class="form-group col-sm-6">
+                <label>Scheme Type<sup class="require">*</sup> </label>
+				<?php echo $this->form->scheme_group;?>
+                <span class="require" id="scheme-type"></span>
+             </div>
+        <!--<div class="form-item">
+                <label>Upload File:<span class="errors">*</span></label>
+                <?php //echo $this->form->uploadscheme; ?>
+        </div>-->
+        
+        
+			<div class="form-group col-sm-6">
+				<label>PFMS Scheme Code</label>
+				<?php echo $this->form->pfms_scheme_code;?>
+				<span class="require" id="pfms-scheme-code"></span>
+			</div>
+            <div class="form-group col-sm-12">
+              <label>Scheme Description  </label>
+             <p id ="descript"><?php echo $this->form->description; ?></p>
+             <span class="require" id="scheme-description"></span>
+            </div>
+				<!-----------Add Captcha Code Script----->
+			 <div class="form-group col-sm-6 col-xs-12 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup></label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/>	</span>	
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();" id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>								
+				</p>
+				 <div class="clearfix"></div><span class="require" id="captcha-code"></span>
+                				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+            <div class="form-group col-md-12 col-sm-12 text-center hide_submit" >
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton">Cancel</button>
+               <!--<input class="mlft btn btn-default btn-warning text-center" type="Submit" name="Submit" value="SUBMIT" />
+                <input type="reset" value="<?php echo CANCEL; ?>" name="Reset" border="0"  onclick="goCancel();">-->
+            </div>
+        </div>
+        
+    </form>
+<div>
+		
+<script>
+	
+	
+
+
+
+CKEDITOR.replace( 'editor1', {
+	filebrowserBrowseUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/ckfinder.html',
+	filebrowserUploadUrl: '<?php echo $this->baseUrl(); ?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files'
+} );
+
+var editor = CKEDITOR.replace( 'ckfinder' );
+CKFinder.setupCKEditor( editor );
+
+CKFinder.setupCKEditor();
+CKEDITOR.replace( 'editor1' );
+
+
+
+</script>

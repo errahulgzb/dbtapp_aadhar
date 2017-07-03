@@ -1,0 +1,95 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+?>
+<h2 class="btn btn-block btn-danger col-sm-12">Manage Roles</h2>
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+// Atleast One checkbox should be selected.	
+ $("#frmrole").submit(function(){
+    var checked = $("#frmrole input:checked").length > 0;
+    if (!checked){
+        alert("<?php echo SELECT_ROLES_ACTIVATE_DEACTIVATE;?>");
+        return false;
+    }
+});
+
+
+});
+</script>
+<div class="cntnt">
+
+        <?php
+                $cmidata = $this->cmidata;
+                $Count = $this->counttotalcmireports;
+        ?>
+    <?php 
+        if($this->successMsg){
+            echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+        }
+    ?>
+    
+     <div class="col-sm-12 text-right">
+<!--<a class="btn btn-warning margin-right-15" href="<?php //echo $this->baseUrl(); ?>/role">Add New Role</a>--></div>
+    
+        <div class="col-sm-12 col-xs-6 text-center record_box"><?php echo $Count. " Role(s) Found.";?></div>
+        
+        
+        
+        <? $postUrl = $this->url(array(
+                'controller' => 'role',
+                'action'  => 'roleinactive'
+            )); 
+        ?>         
+        <form  class="form-inline webform-client-form" role="form" method="post" accept-charset="UTF-8" action="<?=$postUrl?>" id="frmrole">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>S. No.</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+                <?php if($Count==0)
+                      { ?>
+                        <tr>
+                            <td colspan="6" align="center" class="alert">No Record To Display!!</td>
+                        </tr>
+                <?php } else{ 
+                        $i=1;
+                        foreach ($cmidata as $key => $val)
+                        {
+                            ?>
+                            <tr>
+                                <td><input type="checkbox" name="roleid[<?php echo $val['id'];?>]" id="roleid"></td>
+                                <td><?php echo $i+$this->start;?></td>
+                                <td> <?php echo $this->escape($val['title']);?></td>
+                                <td> <?php echo ($this->escape($val['status']==1))?"Active":"Inactive";?></td>
+                                <?php $cmiurl = $this->url(array(
+                                     'controller' => 'role',
+                                     'action' => 'roleedit'
+                                    ))."?id=".$this->escape($val['id']); 
+                                ?>
+                                <td> <a href="<?php echo $cmiurl;?>" class="menu1">Edit</a></td>
+                               </tr>
+                            <?php ++$i; 
+                        }
+                   }?>
+            </tbody>    
+        </table>
+        <div class="status">
+            <select name="status" class="form-control" id="statusId">
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+            <button class="btn btn-default btn-warning text-center rolBtn" type="Submit" name="Submit">Submit</button>
+           <!-- <input class="rolBtn" type="Submit" name="Submit" value="Submit"/>-->
+        </div>
+    </form>
+    <?php echo $this->paginate; ?>
+</div>

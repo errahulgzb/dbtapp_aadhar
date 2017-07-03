@@ -1,0 +1,49 @@
+
+<?php 
+    $userid = new Zend_Session_Namespace('userid');
+    $role = new Zend_Session_Namespace('role');
+    $admname = new Zend_Session_Namespace('adminMname');
+    // if(($userid->userid)&&($role->role!=2)&&($role->role!=4)&&($role->role!=3)){
+?>
+
+<!--Start Footer-->
+<div  class="container-fluid">
+<footer id="footer">
+              <li><a href="#">RTI</a></li>          
+                        <div class="col-md-10 col-sm-12 text-center">
+                        <?php if(($userid->userid)&&($role->role!=1)){ ?>
+                            <ul class="list-inline">
+                                    <li><a href="<?php echo $this->baseUrl('/');?>">RTI</a></li>
+                                    <li class="divider">|</li>
+                                    <li><a href="<?php echo $this->baseUrl('/');?>">FAQs</a></li>
+                                    <li class="divider">|</li>
+                                    <li><a href="<?php echo $this->baseUrl('feedback');?>">Feedback</a></li>
+                                    <li class="divider">|</li>
+                                    <li><a href="#">Terms &amp; Conditions</a></li>
+                                    <li class="divider">|</li>
+                                    <li><a href="#">Website Policy</a></li>
+                                    <li class="divider">|</li>
+                                    <li><a href="#">Copyright Policy</a></li>
+                                    <li class="divider">|</li>
+                                    <li><a href="#">Hyperlinking Policy</a></li>
+                                    <li class="divider">|</li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        <?php } ?>
+		</div>
+             <div class="col-md-2 col-sm-12 text-right">
+			<a href="https://www.mygov.in/" target="_blank" title="My GOV"><img src="<?php echo $this->baseUrl('images/mygov.png');?>" alt="My GOV" /></a>
+		</div>
+                  
+		
+		<div class="col-md-10 col-sm-12 text-center">
+			<!--<p>&copy; Content owned, updated and maintained by the Direct Benefit Transfer Mission, Government of India.</p>-->
+            <p>&copy;2017 Designed, Developed by Direct Benefit Transfer (DBT) Mission and Maintained by Ministries / Departments, Government of India. 
+            
+            </p>
+		</div>
+        <div class="col-md-2 col-sm-12 text-right">
+			<a href="https://india.gov.in/" target="_blank"><img src="<?php echo $this->baseUrl('images/india-gov-logo.jpg');?>" alt="" /></a>
+		</div>
+</footer>
+</div>

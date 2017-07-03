@@ -1,0 +1,175 @@
+
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+?>
+
+<script type="text/javascript" language="javascript">
+// jQuery(document).ready(function(){
+	
+// 	jQuery("#customer").change(function(){
+// 	var customer_id = $(this).val();
+		
+// 		jQuery.ajax({
+// 			type: "POST",
+// 			url: "process",
+// 			data: { customer_id: customer_id}
+// 			})
+// 			.done(function( msg ) {
+// 			  jQuery("#projectname").html(msg);
+// 		});
+		
+// 	});
+	
+// });
+
+
+
+function validate()
+{
+	var 	iChars1 = "0123456789 ";
+	var 	iChars = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	//var 	iCharsCertian = "!#$%^&*()+=-[]\\\;/{}|\:<>~`";
+	var 	iCharsCertian = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";
+	
+	var  	reWhiteSpace = new RegExp(/^\s+$/);
+
+	// validation for customers
+	
+var ec = document.getElementById("customer");
+var strUserC = ec.options[ec.selectedIndex].value;
+//if you need text to be compared then use
+var strUser1 = ec.options[ec.selectedIndex].text;
+if(strUserC==0) //for text use if(strUser1=="Select")
+{
+alert("Please select a Customer.");
+document.frmfeedback.customer.focus();
+    return false;
+}
+	
+	
+	
+	
+ var e = document.getElementById("projectname");
+var strUser = e.options[e.selectedIndex].value;
+//if you need text to be compared then use
+var strUser1 = e.options[e.selectedIndex].text;
+if(strUser==0) //for text use if(strUser1=="Select")
+{
+alert("Please select a Project");
+document.frmfeedback.projectname.focus();
+    return false;
+}
+		  	
+ if(document.frmfeedback.title.value==''||document.frmfeedback.title.value==null)
+   {
+	   alert("Location can not be empty");
+	   document.frmfeedback.title.focus();
+	   return false;
+   }
+  			    
+	if(document.frmfeedback.title.value!='')
+	{
+		for (var i = 0; i < document.frmfeedback.title.value.length; i++) {
+		if (iChars.indexOf(document.frmfeedback.title.value.charAt(i)) != -1) {
+		alert ("Location field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+		document.frmfeedback.title.focus();
+		return false;
+		}
+	  }
+	}
+	if(document.frmfeedback.title.value!='')
+				{
+				for (var i = 0; i < 1; i++) {
+				if (iChars1.indexOf(document.frmfeedback.title.value.charAt(i)) != -1) {
+				alert ("Location Contain Space or Number.\nThese are not allowed.\n Please remove and try as valid Location!");
+				document.frmfeedback.title.focus();
+				return false;
+				}
+			  }
+     		}
+      if(document.frmfeedback.title.value!='')
+	{
+	   var tot = 0;	   
+	   for(var i=0;i<document.frmfeedback.title.value.length;i++)
+		{
+	      if (document.frmfeedback.title.value.charAt(i)== " ") { // if a space is found in str
+          tot++; //add 1 to total so far
+        }
+	    }
+		if(tot>1)
+		{	   
+	      alert("Location Name Can not take multiple space.\nThese are not allowed.\nPlease remove and try again!");
+		  document.frmfeedback.title.focus();
+		  return false;
+		}
+		
+	}
+	
+
+
+}
+
+</script>
+<?php if(($userid->userid)&&($role->role==1)){?>
+<ul class="tabs">
+
+	
+
+    <li><a href="<?php echo $this->url(array('controller' => 'user', 'action'  => 'userview')); ?>" title="<?php echo MANAGE_USER ?>" ><?php echo MANAGE_USER; ?></a></li>
+
+	<li><a href="<?php echo $this->url(array('controller' => 'role', 'action'  => 'roleview')); ?>" title="<?php echo MANAGE_ROLE; ?>"   ><?php echo MANAGE_ROLE; ?></a></li>
+
+	<li><a href="<?php echo $this->url(array('controller' => 'project', 'action'  => 'projectview')); ?>" title="<?php echo "Ministry" ?>"  ><?php echo "Ministry"; ?></a></li>
+
+	<li><a href="<?php echo $this->url(array('controller' => 'location', 'action'  => 'locationview')); ?>" title="<?php echo "Scheme" ?>" class="active" ><?php echo "Scheme"; ?></a></li>
+
+	<li><a href="<?php echo $this->url(array('controller' => 'Assignmanager', 'action'  => 'index')); ?>" title="<?php echo "Assign Scheme"; ?>"   ><?php echo "Assign Scheme"; ?></a></li>
+	
+    </ul>
+	<?php } ?>
+<?  $cmidata = $this->cmidata;$postUrlUpdate = $this->url(array(
+        'controller' => 'location',
+        //'action'  => 'userview'
+        ))."?id=".$this->escape($cmidata['id']); ?>
+
+
+<?php if(($userid->userid)&&($role->role==4)){ ?>
+<ul class="tabs">
+    <li><a href="<?php echo $this->url(array('controller' => 'location', 'action'  => 'locationview')); ?>" class="active" title="<?php echo "Scheme";?>"><?php echo "Scheme";?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'site', 'action'  => 'siteview')); ?>" title="<?php echo MANAGE_SITE;?>"><?php echo MANAGE_SITE;?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'assignengineer')); ?>" title="<?php echo MANAGE_ASSIGN_ENGINEER;?>"><?php echo MANAGE_ASSIGN_ENGINEER;?></a></li>
+    <li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'assignsupervisior')); ?>" title="<?php echo MANAGE_TRANSFER_ENGINEER;?>"><?php echo MANAGE_TRANSFER_ENGINEER;?></a></li>	
+	<li><a href="<?php echo $this->url(array('controller' => 'customer', 'action'  => 'projectupdate')); ?>" title="<?php echo CUSTOMER_PROJECT_UPDATE;?>"><?php echo CUSTOMER_PROJECT_UPDATE;?></a></li>
+	<li><a href="<?php echo $this->url(array('controller' => 'Report', 'action'  => 'reportview')); ?>" title="<?php echo REPORT; ?>" ><?php echo REPORT; ?></a></li>
+</ul>
+<?php } ?>
+
+<div class="cntnt">
+	<h2><?php echo EDIT_LOCATION;?></h2>			
+				
+					<form  class="webform-client-form" method="post" accept-charset="UTF-8" action="<?=$postUrlUpdate?>" name="frmfeedback" id="frmfeedback" onsubmit="return validate();">
+							<?php 
+							if($this->errorMessage){
+							echo "<div class='error-msg'>".$this->errorMessage."</div>"; 
+							}
+							?>
+
+					<div class="form-item">
+						<label>Ministry:<span class="errors">*</span></label>
+						<?=$this->form->projectname?>
+					</div>
+					<div class="form-item">
+						<label>Scheme:<span class="errors">*</span></label>
+						<?=$this->form->title?>
+					</div>
+					
+					<div  class="form-item">
+						<input class="mlft" type="Submit" name="Submit" value="SUBMIT" />
+						
+					</div>
+				</form>
+	 </div>
+
+

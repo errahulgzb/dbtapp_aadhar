@@ -1,0 +1,134 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+ $captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li class="active">User(s) List</li>
+</ol>
+<div class="row"><div class="col-sm-9 col-xs-12"><h2>Manage Users</h2></div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT_App_User_Manual_Manage_User_V3.pdf'); ?>"  target="_blank">Help?</a></div></div>
+
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+// Atleast One checkbox should be selected.	
+ $("#frmuser").submit(function(){
+    var checked = $("#frmuser input:checked").length > 0;
+    if (!checked){
+        alert("<?php echo SELECT_USERS_ACTIVATE_DEACTIVATE;?>");
+        return false;
+    }
+});
+});
+</script>
+    <?php
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalusers;
+    ?>
+    <?php 
+        if($this->successMsg){
+            echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+        }
+	else if($this->errorMessage){
+            echo "<div class='error-msg'>".$this->errorMessage."</div>"; 
+        }
+    ?>
+ 
+<div class="row">  
+
+<div class="col-sm-12 text-right">
+<a class="btn btn-warning" href="<?php echo $this->baseUrl('user/add'); ?>" title="Add New User">Add New User</a>
+<?php
+if($role->role != 4){
+	?>
+	<a class="btn btn-warning margin-right-15" href="<?php echo $this->baseUrl('/assignmanager'); ?>" title="Assign Scheme">Assign Scheme</a>
+	<?php }
+   //echo $this->checkschemecount;
+		if($role->role == 4 && $this->checkschemecount==1){
+	?>
+	<a class="btn btn-warning margin-right-15" href="<?php echo $this->baseUrl('/assignstateuser'); ?>" title="Assign State User">Assign State User</a>
+	<?php }?>
+</div>
+<div class="col-sm-12 text-center record_box">
+<?php echo $Count . " User(s) Found";?>
+</div>
+</div>
+
+    <? $postUrl = $this->url(array(
+                    'controller' => 'user',
+                    'action'  => 'userinactive'
+                    )); 
+		    
+    ?>
+    <form  class="form-inline webform-client-form" role="form" accept-charset="UTF-8" method="post" action="<?=$postUrl?>" id="frmuser">
+    <div class="table table-responsive">   
+        <table class="table" summary="user role">					 
+            <thead>
+                <tr>
+                    <th scope="col">#</th> 
+                    <th scope="col">S. No.</th>
+                    <th scope="col">User name</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Mobile Number</th>
+                    <th scope="col">Email Id</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Action</th>
+                    <!--<th>Delete</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                <?php if($Count==0){ ?>
+                        <tr>
+                            <td colspan="10" class='text-center'><?php echo RECORD_EMPTY;?></td></tr>
+                <?PHP }else{ ?>
+                                <?php
+				
+                                $i=1;
+                                foreach ($cmidata as $key => $val){	?>
+                                    <tr>
+                                        <td><input type="checkbox" name="roleid[<?php echo $val['uid'];?>]" id="roleid"></td>
+                                        <td><?php echo $i+$this->start;?></td>
+                                        <td><?php echo $this->escape($val['username']);?></td>
+                                        <td><?php echo $this->escape($val['firstname'])." ".$this->escape($val['lastname']);?></td>
+                                        
+                                        <td><?php echo $this->escape($val['mobile']);?></td>
+                                        <td><?php echo $this->escape($val['email']);?></td>
+                                        <td> <?php echo ($this->escape($val['userstatus']==1))?"Active":"Inactive";?></td>
+                                        <td><?php  echo $this->escape($val['title']);?></td>
+                                        <?php $cmiurl = $this->url(array(
+                                                'controller' => 'user',
+                                                'action' => 'useredit'
+                                                ))."?id=".$this->escape($val['uid']."&stateid=".base64_encode($val['stateid'])); 
+                                        ?>
+                                        <td><a href="<?php echo $cmiurl;?>" class="menu1">Edit</a></td>
+                                      <!--  <td><?php //$username= "'".$this->escape($val['username'])."'"; ?>
+                                            <a href="delete/id/<?php //echo $this->escape($val['uid']); ?>" onclick="return confirm('Are you sure you want to delete this user <?php  //echo addslashes($username);?> ?');" class="menu1">Delete</a>
+                                        </td>-->
+                                    </tr>
+                                    <?php ++$i; 
+                                }
+                        }?>
+            </tbody>
+        </table>
+        </div>
+        <div class="status">
+            <select class="form-control" name="status" id="statusId">
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+	     <input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+              <button class="btn btn-default btn-warning text-center rolBtn" type="Submit" name="Submit">Submit</button>
+           <!-- <input class="rolBtn" type="Submit" name="Submit" value="Submit"/>-->
+        </div>
+    </form>
+    <?php
+    echo $this->paginate;
+    ?>
+
+
+
+

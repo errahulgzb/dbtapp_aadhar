@@ -1,0 +1,159 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$transferengineer=$this->transferengineer;
+$searchUrl = $this->url(array(
+            'controller' => 'feedback',
+            'action'  => 'feedbackview'
+            )); 
+?>
+<script type="text/javascript" language="javascript">
+  jQuery(document).ready(function(){
+	jQuery(".rstbtn").click(function(){
+		
+		jQuery(".srch-box").val('');
+		window.location.href="<?php echo $searchUrl; ?>";
+	});
+});
+
+</script>
+<h2 class="btn btn-block btn-danger margin_bottom10 col-sm-12">Feedback</h2>
+
+    <?php
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalcmireports;
+        $language = $this->language;
+		//print_r($language);
+		
+        if($this->successMsg){
+            echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+        }
+		
+		
+    ?>
+   
+	  <div class="data-found">
+		
+		<div class="filterData">
+		<form class="form-inline" role="form" method="get" action="<?=$searchUrl.'?search='.$searchUrl?>">
+				<div class="col-md-9 col-sm-12">
+                    <div class="form-group margin-left-15">
+                        <label><?php echo SEARCH_BY; ?></label>
+                        <input class="form-control" type="text" placeholder="Name,Email" name="search" value="<?=$this->escape(@$_GET['search'])?>">
+						<!--<select name="searchtype">
+						<option value="0">Select type</option>
+		         <option value="1">Complaint</option>
+			    <option value="2">Feedback</option>
+						</select>-->
+                   		<button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" name="reset" id="sechemSearchButton">Cancel</button>
+                        <!--<input class="rolBtn" type="Submit" name="Submit" value="Search"/>
+                        <input class="rolBtn rstbtn" type="reset" name="reset" value="Reset"/> -->
+                 </div>
+                </div>
+                
+                <div class="col-md-3 col-sm-12 text-right">
+
+			<?php if($role->role==1){ ?>
+			<a class="btn btn-warning margin-right-15" href="<?php echo $this->baseUrl(); ?>/feedback" title="<?php echo Add_feedback; ?>"><?php echo Add_feedback; ?></a>
+
+
+			<?php }else if((($transferengineer)!= "")&&($role->role==4)){ ?>
+			<a class="btn btn-warning margin-right-15" href="<?php echo $this->baseUrl(); ?>/feedback" title="<?php echo Add_feedback; ?>"><?php echo Add_feedback; ?></a>
+			<?php } ?>
+		</div>
+				</form>
+
+        
+        </div>
+		   <div class="col-sm-12 col-xs-6 text-center record_box"><?php if($Count): echo '<span>'.$Count ." ".RECORD_FOUND.'</span>'; endif;?>
+    </div>
+	
+    <? $postUrl = $this->url(array(
+            'controller' => 'feedback',
+            'action'  => 'feedbackinactive'
+            ));
+        ?>
+        
+        <div class="table table-responsive">
+     
+	 <form  class="form-inline webform-client-form" role="form" method="post" accept-charset="UTF-8" action="<?=$postUrl?>">
+	 
+        <table class='table'>
+            <thead>
+                <tr>
+                   
+                    <th>S. No.</th>
+                    <th>Type</th>
+                    <th>Name</th>	
+                    <th>Email</th>	
+                    <th>Mobile</th>					
+                    <th>Action</th>
+                    <!--<th>Delete</th>-->
+                </tr>
+            </thead>
+            <tbody><?php if($Count ==0)
+                    { ?>
+                        <tr>
+                            <td colspan="8"><?php echo RECORD_EMPTY;?></td>
+                        </tr>
+                    <?php
+                    }else{
+                        $i=1;
+                        foreach ($cmidata as $key => $val)
+                        {
+							//print_r($val);
+						?>
+						<tr>
+						
+						 <td><?php echo $i+$this->start;?></td>
+                         <td><?php if($this->escape($val['type']) == 1)
+									 {
+										 echo "Complaint";
+									 }
+									 else if($this->escape($val['type']) == 2)
+									  {
+										 echo "Feedback";
+									  }  
+									  else
+                                      {
+										  echo "Not Found"; 
+									  }										  
+						            ?>
+							</td>
+					    <td><?php echo $this->escape($val['name']); ?></td>						
+						 <td><?php echo $this->escape($val['email']); ?></td>						
+						 <td><?php echo $this->escape($val['mobile']); ?></td>				
+                                    <?php $cmiurl = $this->url(array(
+                                         'controller' => 'feedback',
+                                         'action' => 'feedbackedit'
+                                        ))."?id=".$this->escape($val['id']); 
+                                    ?>
+									<?php $cmiurlview = $this->url(array(
+                                         'controller' => 'feedback',
+                                         'action' => 'feedbackviewdetail'
+                                        ))."?id=".$this->escape($val['id']); 
+                                    ?>
+                                <td> <a href="<?php echo $cmiurlview;?>" class="menu1">View</a> <!--|<a href="<?php //echo $cmiurl;?>" class="menu1">Edit</a> --> </td>
+						
+						
+						</tr>
+                            
+                            <?php ++$i;
+                        }
+                    }?>
+                </tbody> 
+        </table>
+      <!-- <div class="status">
+            <select name="status" class="form-control" id="statusId">
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>
+             <button class="btn btn-default btn-warning text-center rolBtn" type="Submit" name="Submit">Submit</button>
+        </div>-->
+    </form>
+    </div>
+    <?php echo $this->paginate; ?>
+</div>
+		

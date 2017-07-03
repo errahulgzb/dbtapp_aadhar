@@ -1,0 +1,78 @@
+<?php
+require_once 'Zend/Session.php';
+require_once 'Zend/Session/Namespace.php';
+require_once 'Zend/Auth.php';
+//safexss(data) This function is define in the function.inc file with bootstrap
+    $postUrl = $this->url(array('controller' => 'auth', 'action'  => 'logout')); 
+    $admname = new Zend_Session_Namespace('adminMname');
+
+	$url_all=explode('&colorid',$_SERVER['REQUEST_URI']);
+	$url_alias=explode('?',$_SERVER['REQUEST_URI']);
+
+	if($url_alias[1]==''){
+		$url=$url_all[0]."?";
+	}else{
+		$url=$url_all[0]."&";
+	}
+
+
+    $userid = new Zend_Session_Namespace('userid');
+    $unme= $userid->userid;
+    $role = new Zend_Session_Namespace('role');
+    $language = new Zend_Session_Namespace('language');
+		if($_POST['language_id']){
+			$language_id=$_POST['language_id'];
+			$_SESSION["LANGUAGE_ID"] = $language_id;
+            $language->language=$language_id;
+		}
+	$slang = new Zend_Session_Namespace('languageold');
+	$langid =   $slang ->language;
+	$scrnid = 62;//for the screent reader-- THis is the page content id which is created in Page Content
+	$pageRedirect = $this->baseUrl('page/frontcontentview/?id='.base64_encode($scrnid));
+?>
+<script type="text/javascript">
+		  $(document).ready(function(){
+			$( "#lng_change" ).change(function() {
+				var language = $("#lng_change").val();
+             var url = "<?php echo $this->baseUrl('page/pagelang'); ?>";
+				$.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'html',
+                    async: true,
+                    data: { language: language},
+                    success: function (data) {
+					   frmLanguage.submit();
+                       location.reload();					   
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert("Error: " + thrownError);
+                    }
+                });
+			});
+		});
+</script>
+
+<!--Start Skip To Main Content Box-->
+
+<div class="container-fluid">
+<div class="row">
+        <div class="col-md-12 text-right skipContent">
+                <ul class="list-unstyled list-inline font-zoom">
+                        <li><a href="#mainContant"><?php echo skip_main_content; ?></a></li>
+                        <li class="divider">|</li>
+						
+                        <li><a href="<?php echo safexss($pageRedirect);?> "><?php echo screen_reader_acess; ?></a></li>
+                        <li class="divider">|</li>
+                        <li class="round-icons"><a href="#" class="small round-icons a-minus clsDecrease">A</a></li>
+                        <li class="round-icons"><a href="#" class="normal round-icons a-normal clsNormal">A</a></li>
+                        <li class="round-icons"><a href="#" class="large round-icons a-plus clsIncrease" id="btnFontIncrease">A</a></li>
+                        <li class="divider">|</li>
+                        <li><a href="<?php echo safexss($url);?>colorid=<?php echo base64_encode("normal");?>" class="colorNormal">A</a></li>
+                        <li><a href="<?php echo safexss($url);?>colorid=<?php echo base64_encode("contrast");?>" class="colorBliend" name="colorBliendg">A</a></li>
+                       
+                </ul>
+        </div>
+	</div>
+    </div>
+<!--End Skip To Main Content Box-->

@@ -1,0 +1,127 @@
+<?php
+require_once 'Zend/Session.php';
+
+$admname = new Zend_Session_Namespace('adminMname');
+$role = new Zend_Session_Namespace('role');
+$this->controller_name = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+$this->method_name =  Zend_Controller_Front::getInstance()->getRequest()->getActionName();
+?>
+
+<?php 
+	$frontdata = $this->mainpage;
+		if(base64_decode($_GET['colorid'])=="contrast")
+		{
+			$_SESSION['colorcontrast']=base64_decode($_GET['colorid']);
+		}
+		else if(base64_decode($_GET['colorid'])=="normal")
+		{
+			$_SESSION['colorcontrast']="";
+			session_destroy($_SESSION['colorcontrast']);
+		}
+	//echo "<pre>";
+//	echo "count".count($showAllMenuTitle);
+	//echo "</pre>";
+	
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0">
+		<meta name="description" content="Direct Benefit Transfer : With the aim of reforming Government delivery system by re-engineering the existing process in welfare schemes for simpler and faster flow of information/funds and to ensure accurate targeting of the beneficiaries, de-duplication and reduction of fraud Direct Benefit Transfer (DBT) was started on 1st January, 2013.">
+		<meta name="keywords" content="DBT, DBT Portal, DBT Mission, DBT MIS, DBT GIS, DBT Bharat, DBT Bharat Portal, DBT India, Direct Benefit Transfer, Direct Benefit Transfer Mission, Direct Benefit Transfer Portal, Direct Benefit Transfer MIS">
+		<meta name="author" content="DBT Mission Director">
+        <title><?php echo 'DBT APP';?></title>
+		<script>
+		 var a=navigator.onLine;
+		 if(a){
+		 // alert('online');
+		 }else{
+		  alert('Scheme Management System is offline');
+			
+		  } 
+
+		  if (top != self) 
+		  { 
+			  top.location=self.location;
+		   }
+       </script>
+          
+        <!--
+        
+        <link rel="STYLESHEET" type="text/css" href="<?php //echo $this->baseUrl('css/print.css'); ?>" media="print">
+        <link rel="shortcut icon" href="<?php //echo $this->baseUrl('images/favicon.ico');?>" type="image/x-icon">
+        <script type="text/javascript" src="<?php //echo $this->baseUrl('js/jquery.min.js'); ?>"></script>
+        <script type="text/javascript" src="<?php //echo $this->baseUrl('js/jquery.passwordstrength.js'); ?>"></script>
+        <script type="text/javascript" src="<?php //echo $this->baseUrl('js/application.js'); ?>"></script>
+	<script type="text/javascript" src="<?php //echo $this->baseUrl('js/tinymce/tinymce.min.js'); ?>"></script>
+
+        <link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/style.css');?>">
+       
+        -->
+        
+        <?php /*$this->headScript()->appendFile($this->baseUrl('/js/jquery-ui.js'));*/
+        ?>
+        
+<!-- added for datepicker -->
+		<script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery-ui.js'); ?>"></script>
+		<link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/jquery-ui.css'); ?>" media="all" />
+
+        
+        <link rel="shortcut icon" href="<?php echo $this->baseUrl('images/favicon.ico');?>" type="image/x-icon">
+        <script type="text/javascript" src="<?php echo $this->baseUrl('js/jquery-1.11.3.min.js'); ?>"></script>
+		<script type="text/javascript" src="<?php echo $this->baseUrl('js/md5.js') ?>"></script>
+		<script type="text/javascript" src="<?php echo $this->baseUrl('js/sha/hmac-sha256.js') ?>"></script> 
+		<script type="text/javascript" src="<?php echo $this->baseUrl('js/sha/enc-base64-min.js') ?>"></script>
+        
+        <link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/bootstrap.css');?>">
+        <link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/style.css'); ?>" media="all" />
+        <link rel="STYLESHEET" type="text/css" href="<?php echo $this->baseUrl('css/animate.css'); ?>" media="all">
+
+          <!--[if lt IE 9]>
+            <script src="js/html5shiv.min.js"></script>
+            <script src="js/respond.min.js"></script>
+          <![endif]-->
+	 
+    </head>
+    <body>
+    <div id="wrap">
+    <noscript>
+		
+		<div class="noscriptmsg">
+		You don't have javascript enabled. 
+		</div>
+	</noscript>
+<!--[if lt IE 10]>
+    <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/" style="color:#ffcc00;">You are using an outdated browser. Some functionality may not be performed, upgrade for free today.</a></div>
+		<![endif]-->
+        <?php echo $this->render('topmenu.phtml');?>
+        <?php echo $this->render('header.phtml');?>
+        <?php //echo $this->render('navigation.phtml');?>
+        <?php echo $this->render('sites/navigation.phtml');?>
+        <?php  
+        if((($this->controller_name=='schemearchive')&&($this->method_name=='index'))||(($this->controller_name=='feedback')&&($this->method_name=='index'))||(($this->controller_name=='schemereport')&&($this->method_name=='index'))||(($this->controller_name=='schemeview')&&($this->method_name=='totalfundtransfer'))||($this->controller_name=='report')){
+            
+        }else{
+            echo $this->render('adminmenu.phtml');
+        }
+            ?>
+        <?php //echo $this->render('leftmenu.phtml');?>
+        
+        <!--Start Main Contant box-->
+        <section class="container-fluid mainContant admin" id="mainContant_id">
+            <?php echo $this->layout()->content; ?>
+        </section>
+        </div>
+        <?php //echo $this->render('footer.phtml');?>
+		 <?php echo $this->render('sites/footer.phtml');?>
+        <div class="clr"></div>
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+        <script src="<?php echo $this->baseUrl('js/bootstrap.js');?>"></script>
+        <!--All custom script file--> 
+
+             <script src="<?php echo $this->baseUrl('js/custom-script.js');?>"></script>       
+    </body>
+</html>

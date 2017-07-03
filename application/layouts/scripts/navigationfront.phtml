@@ -1,0 +1,149 @@
+<?php 
+	$url_arg = $this->userAgent()->getServerValue('request_uri'); 
+	$args = explode("/", $url_arg);
+	$role = new Zend_Session_Namespace('role');
+	
+	$slang = new Zend_Session_Namespace('languageold');
+		$langid =   $slang ->language;
+
+		//echo $langid;
+
+?>
+
+<!--Start Navigation Box-->
+<div  class="container-fluid">
+	<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+			<?php
+			//echo "SessionId=".$_SESSION["LANGUAGE_ID"];
+			$show_header_menu = new Application_Model_Auth;
+			$showAllMenuTitle = $show_header_menu->getHeaderMenu();
+			if(count($showAllMenuTitle)!=0)
+			{
+					
+				//echo "Count=".count($showAllMenuTitle);
+				$i=1;
+				$selected=false;
+				foreach($showAllMenuTitle as $cmsId=>$cmsValue)
+					{
+						
+
+								 if($langid  == 1) //if language is hindi then 
+								{
+									//echo "first";
+									$translation_id = $cmsValue['translation_id'];
+									//echo $tid;
+									// check if transalation id is exist means hindi transaltion is available for particular record then display other english will be displayed by default.
+									$obj = new 	Application_Model_Auth();
+									$valwithtranslation  = $obj->titleListByLang($translation_id,$cmsValue['cmsid']);
+									//return $valwithtranslation;
+									//print_r($valwithtranslation);
+								   $valwithtranslationhindi  = $obj->titleListByLanghindi($translation_id,$cmsValue['cmsid']);
+								//print_r($valwithtranslationhindi); die;
+									if($translation_id!=0)
+									{
+										$menuTtle = $valwithtranslation["title"];
+										$menuId = $valwithtranslationhindi["id"];
+									}
+									else
+									{
+										//echo "second";
+										$menuTtle= $cmsValue["title"];
+										$menuId=$cmsValue["cmsid"];
+									}
+									if($cmsValue['cmsid']==29)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('/');
+									}
+									else if($cmsValue['cmsid']==3)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('scheme/schemelist');
+									}
+									else if($cmsValue['cmsid']==43)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('report/reportchartview');
+									}
+									else if($cmsValue['cmsid']==41)
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('photogallery/multimedia');
+									}
+									else
+									{
+										$selected=true;
+										$pageRedirect = $this->baseUrl('page/frontcontentview/?id='.base64_encode($menuId));
+									}
+									//echo "select=".$selected;
+									?>
+									<li><a href="<?php echo $pageRedirect; ?>" <?php if($selected==true){ echo "selected";}?>><?php echo $menuTtle;?></a></li>
+									
+									<?php  if(count($showAllMenuTitle)!=$i){?>
+									<li class="divider">|</li>
+									<?php
+										}
+
+									//$val = 'abc';
+								}
+								else // it wil directly come to english.
+								{
+									//$cmsValue['cmsid'];
+
+									if($cmsValue['cmsid']==29)
+									{
+										$pageRedirect = $this->baseUrl('/');
+									}
+									else if($cmsValue['cmsid']==3)
+									{
+										$pageRedirect = $this->baseUrl('scheme/schemelist');
+									}
+									else if($cmsValue['cmsid']==43)
+									{
+										$pageRedirect = $this->baseUrl('report/reportchartview');
+									}
+									else if($cmsValue['cmsid']==41)
+									{
+										$pageRedirect = $this->baseUrl('photogallery/multimedia');
+									}
+									else
+									{
+										$pageRedirect = $this->baseUrl('page/frontcontentview/?id='.base64_encode($cmsValue[cmsid]));
+										//$this->url('page', array('action' => 'frontcontentview', 'id' =>$cmsValue[cmsid]));
+									}
+									?>
+									<li><a href="<?php echo $pageRedirect; ?>"><?php echo $cmsValue["title"];?></a></li>
+									<?php  if(count($showAllMenuTitle)!=$i){?>
+									<li class="divider">|</li>
+									<?php
+									}
+								
+								}
+			?>
+				
+				
+				<?php 
+					$i++;
+					}// end of foreach($showAllMenuTitle as $cmsId=>$cmsValue)
+								
+				} //end of if(count($showAllMenuTitle)!=0)
+				
+				?>
+
+			</ul>
+			
+		</div>	
+	</div>
+</nav>
+</div>
+<!--End Navigation Box-->

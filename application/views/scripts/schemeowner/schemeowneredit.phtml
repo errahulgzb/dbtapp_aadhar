@@ -1,0 +1,63 @@
+
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+?>
+
+<h2><?php $schemename= $this->scheme_id; 
+echo "Scheme Name : ".str_replace("_", " ", strtoupper(base64_decode($_GET['scheme_name'])));
+?></h2>
+
+<div class="cntnt">		
+				<?  $cmidata = $this->cmidata;$postUrlUpdate = $this->url(array(
+						'controller' => 'schememanualdata',
+						//'action'  => 'userview'
+						))."?id=".$this->escape($cmidata['id']).'&scheme_id='.$schemename[0]->id; ?>
+					<form  class="webform-client-form" method="post" action="<?php echo $postUrlUpdate; ?>" name="frmfeedback" id="frmfeedback" onsubmit="return validate();">
+							<?php 
+							if($this->errorMessage){
+							echo "<div class='error-msg'>".$this->errorMessage."</div>"; 
+							}
+							?>
+
+					<div class="form-item">
+						<label>Year:<span class="errors">*</span></label>
+						<?=$this->form->year?>
+					</div>
+					<div class="form-item">
+						<label>Month:<span class="errors">*</span></label>
+						<?=$this->form->month?>
+					</div>
+					<div class="form-item">
+						<label>Total No. of beneficiaries:<span class="errors">*</span></label>
+						<?=$this->form->no_of_beneficiries_in_scheme?>
+					</div>
+					<div class="form-item">
+						<label>Total No. of beneficiaries data seeded with Aadhaar:<span class="errors">*</span></label>
+						<?=$this->form->no_of_beneficiries_with_aadhar?>
+					</div>
+					<div class="form-item">
+						<label>Total Fund transferred:<span class="errors">*</span></label>
+						<?=$this->form->total_fund_transfer?>
+					</div>
+					<div class="form-item">
+						<label>Using Aadhar bridge payment:<span class="errors">*</span></label>
+						<?=$this->form->using_aadhar_bridge_payment?>
+					</div>
+					<div class="form-item">
+						<label>Without Aadhar bridge payment:<span class="errors">*</span></label>
+						<?=$this->form->without_aadhar_bridge_payment?>
+					</div>				
+					<div class="form-item">
+						<label>Saving:<span class="errors">*</span></label>
+						<?=$this->form->saving?>
+					</div>
+					<div  class="form-item">
+						<input class="mlft" type="Submit" name="Submit" value="SUBMIT" />
+						<input type="reset" value="<?php echo CANCEL; ?>" name="Reset" border="0"  onclick="goCancel();">
+					</div>
+				</form>
+	 </div>
+
+

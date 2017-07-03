@@ -1,0 +1,18 @@
+<?php
+$scm_name = "Scheme Name: ".$this->scheme_name;
+$scm_code = "Scheme Code: ".$this->scheme_codification;
+$header1 = array(0=> $scm_name, 1=> $scm_code);
+$header = array(0 => "Village Code",1 => "Village Name",2 => "Panchayat Code",3 => "Panchayat Name",4 => "Block Code",5 => "Block Name",6 => "District Code",7 => "District Name",8 => "State Code",9 => "State Name",10 => "benefit_transfer_mode",11 => "Amount",12=>"NoOfTransaction",13 => "AadharSeededTransaction",14 => "Transaction Date(dd/mm/yyyy)",15 => "Payment date(dd/mm/yyyy)");
+$fp = fopen('php://output', 'w');
+fputcsv($fp, $header1);
+fputcsv($fp, $header);
+$data = array_filter($this->schemerecord);
+foreach($data as $key=>$val){
+	fputcsv($fp, $val);
+}
+header('Content-type: application/csv');
+$filename = $this->scheme_name."_".date(strtotime('Y')).".csv";
+header('Content-Disposition: attachment; filename='.$filename);
+header("Expires: 0");
+exit;
+?>

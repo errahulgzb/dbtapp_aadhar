@@ -1,0 +1,213 @@
+<script>
+ $(document).ready(function(){
+    $("ul.pagination a").click(function(){
+         var urwill,start,ministry,scheme,state,district,block,village,lstart;
+         start = $(this).attr('id');
+         //alert(start);
+        
+		ministry = $("#ministry_name").val();
+        scheme = $("#scheme_name").val();
+        state_code = $("#state_code").val();
+		district_code = $("#district_code").val();
+		block_code = $("#block_code").val();
+		village_code = $("#village_code").val();
+		gender = $("#gender").val();
+		fund_transfer = $("#fund_transfer").val();
+		transfer_by = $("#transfer_by").val();
+		todate = $("#todate").val();
+		fromdate = $("#fromdate").val();
+		aadhar_num_status = $("#aadhar_num_status").val();
+		bank_account_status = $("#bank_account_status").val();
+		
+		//alert(transfer_by);
+        urlwilldata = '<?php echo $this->baseUrl("misreport/getschemedetails"); ?>';
+        $.ajax({
+            url : urlwilldata,
+			data : {scm_id:scheme,min_id:ministry,start:start,state_code:state_code,district_code:district_code,block_code:block_code,village_code:village_code,gender:gender,fund_transfer:fund_transfer,transfer_by:transfer_by,todate:todate,fromdate:fromdate,aadhar_num_status,bank_account_status},
+            type : "POST",
+            success:function(response){
+                $("#responseMethod").html("");
+                $("#responseMethod").html(response);
+            }
+        });
+        $("#"+start).addClass("is_visited");
+        //return false;
+    });
+    });
+	
+	
+	
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip({
+			container : 'body'
+		});
+	});
+</script>
+<?php 
+	/*
+	$mainheader = array_filter($this->mainheader);
+	if(!empty($mainheader)){
+		if($this->mainheader[0]['total_beneficiaries'] != ""){
+			$tb = $this->mainheader[0]['total_beneficiaries'];
+		}else{
+			$tb = "NA";
+		}
+		if($this->mainheader[0]['aadhaar_seeded'] != ""){
+			$asb = $this->mainheader[0]['aadhaar_seeded'];
+		}else{
+			$asb = "NA";
+		}
+		if($this->mainheader[1]['total_amount'] != ""){
+			$tft = $this->mainheader[1]['total_amount'];
+		}else{
+			$tft = "NA";
+		}
+		if($this->mainheader[1]['aadhaar_payment'] != ""){
+			$abpft = $this->mainheader[1]['aadhaar_payment'];
+		}else{
+			$abpft = "NA";
+		}
+	}else{
+		$tb = 0;
+		$asb = 0;
+		$tft = 0;
+		$abpft = 0;
+	}*/
+?><!--
+		<div class="schereport">
+            	<div class="row">
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="total-beneficiaries"><h2>Total Beneficiaries</h2>
+                    <p id="total_beneficiary"><?php //echo $this->escape($tb); ?></p></div></div>
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="aadhaar-seeded-beneficiaries"><h2>Aadhaar Seeded Beneficiaries</h2>
+                    <p id="aadhaar_beneficiary"><?php //echo $this->escape($asb); ?></p></div></div>
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="total-fund-transfer"><h2>Total Fund Transfer</h2>
+                    <p id="total_fund"><?php //echo $this->escape(currencyData($tft)); ?></p></div></div>
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="aadhaar-based-payment-fund-transfer"><h2>Aadhaar Based Payment Fund Transfer</h2>
+                    <p id="apb_based"><?php //echo $this->escape(currencyData($abpft)); ?></p></div></div>
+                </div>
+			</div>-->
+	<div>
+	<span><em>No. of Transaction</em></span>
+	<span class="badge pull-right"><?php echo ($this->startof+$this->setMet) ."-".($this->startof+$this->currpos)." of ".$this->escape($this->totalrecordcount); ?></span></div>
+    <div class="table table-responsive">
+        <table class="table">
+            <thead>	
+                <tr>
+                    <th width="5%">SNo.</th>
+                    <th data-toggle="tooltip" data-placement="left" data-container="body" title="User Unique Id">Unique&nbsp;ID</th>
+                    <th>Name</th>
+					<th>DOB</th>
+                    <th>Gender</th>
+                    <th>Aadhaar&nbsp;No.</th>
+					<th>Seeded&nbsp;With&nbsp;Aadhaar</th>
+                    <th>Amount</th>
+                    <th>Fund Transfer</th>
+                    <th>Transaction&nbsp;Date</th>
+                    <th>Transfer&nbsp;By</th>
+                    <th>Mobile&nbsp;No.</th>
+                    <th>Email-ID</th>
+                    <th>Scheme&nbsp;Specific&nbsp;Unique No.</th>
+                    <th>Scheme&nbsp;Specific&nbsp;Family No.</th>
+                    <th>Home&nbsp;Address</th>
+                    <th>Village&nbsp;Name</th>
+                    <th>Block&nbsp;Name</th>
+                    <th>District&nbsp;Name</th>
+                    <th>State&nbsp;Name</th>
+                    <th>Ration&nbsp;Card&nbsp;No.</th>
+                    <th>TIN&nbsp;Family&nbsp;ID</th>
+                    <th>Bank&nbsp;Account</th>
+                    <th>IFSC</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+	<?php
+		$filter_val = array_filter($this->schemerecord);
+	?>			
+	<?php 
+	if($this->indexof != 0){
+		$start = $this->indexof;
+	}else{
+		$start = 0;
+	}
+	$currentc = 0;
+	if(count($filter_val) == 0){
+			?>
+			<tr>
+				<td colspan='12' class='text-center'><span class="error">No record(s) found!</span></td>
+			</tr>
+			<?php
+	}else{
+		// echo "<pre>";
+		// print_r($filter_val);
+		// echo "</pre>";exit;
+		foreach($filter_val as $key=>$val){
+			?>
+			<tr>
+				<td><?php echo $start; ?></td>
+				<td><?php echo $this->escape(strcrs($val['uniq_user_id'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['name'])); ?></td>
+				<td><?php echo date("d/m/Y",strtotime($this->escape(strcrs($val['dob'])))); ?></td>
+				<td><?php 
+				if($this->escape(strcrs($val['gender'])) == "M"){
+					echo "Male";
+				}else if($this->escape(strcrs($val['gender'])) == "F"){
+					echo "Female";
+				}
+				?></td>
+				<td><?php echo $this->escape(strcrs($val['aadhar_num'])); ?></td>
+				<td><?php 				
+				echo $this->escape(strcrs($val['aadhar_seeded'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['amount'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['fund_transfer'])); ?></td>
+				<td><?php 
+				if($this->escape(strcrs($val['transaction_date'])) == "0000-00-00"){
+					echo $this->escape(strcrs($val['transaction_date']));
+				}else if($this->escape($val['transaction_date']) == ""){
+					echo "NA";
+				}else{
+					echo date("d/m/Y",strtotime($this->escape(strcrs($val['transaction_date'])))); 
+				}
+				?></td>
+				<td><?php echo $this->escape(strcrs($val['transfer_by'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['mobile_num'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['email_id'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['scheme_specific_unique_num'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['scheme_specific_family_num'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['home_address'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['village_name'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['block_name'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['district_name'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['state_name'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['ration_card_num'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['tin_family_id'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['bank_account'])); ?></td>
+				<td><?php echo $this->escape(strcrs($val['ifsc'])); ?></td>
+				
+			</tr>
+			<?php
+			$start +=1;
+			$currentc+=1;
+		}
+	}
+	?>
+            </tbody> 
+        </table>
+    </div>
+	<div class="text-right">
+	<span class="badge"><?php echo ($this->startof+$this->setMet) ."-".($this->startof+$this->currpos)." of ".$this->escape($this->totalrecordcount); ?></span></div>
+	<div class='text-center'>
+<?php 
+	if($this->pagination != ""){
+		echo $this->pagination;
+	}else{
+		
+	}
+	echo "</div>";
+//echo "<br />";
+//echo $this->schemerecordq;
+//echo "<pre>";
+//print_r($this->schemerecord);
+//echo "</pre>";
+exit;
+?>

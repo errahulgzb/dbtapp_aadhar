@@ -1,0 +1,120 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+
+?>
+
+
+
+
+<? //echo APPLICATION_PATH;?>
+<!--<script type="text/javascript" language="javascript">
+function validate()
+{
+	var 	iChars = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	//var 	iCharsCertian = "!#$%^&*()+=-[]\\\;/{}|\:<>~`";
+	var 	iCharsCertian = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";
+	
+	var  	reWhiteSpace = new RegExp(/^\s+$/);
+
+			  	
+ if(document.frmfeedback.name.value==''||document.frmfeedback.name.value==null)
+   {
+	   alert("Title Field cannot be empty");
+	   document.frmfeedback.name.focus();
+	   return false;
+   }
+  			    
+					if(document.frmfeedback.name.value!='')
+					{
+						for (var i = 0; i < document.frmfeedback.name.value.length; i++) {
+						if (iChars.indexOf(document.frmfeedback.name.value.charAt(i)) != -1) {
+						alert ("Title Field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+						document.frmfeedback.name.focus();
+						return false;
+						}
+				 	  }
+					}
+    if(document.frmfeedback.name.value!='')
+	{
+	      
+	   for(var i=0;i<1;i++)
+		{
+	      if (document.frmfeedback.name.value.charAt(i)== " ") 
+		   {
+              alert("Title contains special character.\nPlease Remove and try again!");
+			  document.frmfeedback.name.focus();
+			  return false;
+           }
+	    }
+	}
+   if(document.frmfeedback.name.value!='')
+	{
+	   var tot = 0;	   
+	   for(var i=0;i<document.frmfeedback.name.value.length;i++)
+		{
+	      if (document.frmfeedback.name.value.charAt(i)== " ") { // if a space is found in str
+          tot++; //add 1 to total so far
+        }
+	    }
+		if(tot>1)
+		{	   
+	      alert("Title cannot take multiple space.\nThese are not allowed.\nPlease remove and try again!");
+		  document.frmfeedback.name.focus();
+		  return false;
+		}
+		
+	}
+
+
+
+}
+
+</script>
+-->
+
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function()
+{
+	jQuery("#frmaddrole").submit(function()
+	{
+		var alphabetReg = /^[a-zA-Z ]*$/;
+		if (jQuery("#name").val() == '')
+		 {
+			alert("Title <?php echo CANTEMPTY; ?>");
+			jQuery( "#name" ).focus();
+			return false;
+		}
+		if(!alphabetReg.test(jQuery("#name").val()))
+	    {
+			alert("Title <?php echo ALPHABETSVALIDATION; ?>");
+			jQuery( "#name" ).focus();
+			return false;
+		}
+	});
+});
+</script>
+
+		<!--<h2 class="btn btn-block btn-danger margin_bottom10 col-sm-12">Add New Role</h2>-->				
+				<? $postUrl = $this->url(array(
+						'controller' => 'role',
+						//'action'  => 'userview'
+						)); ?>
+					<form class="form-inline webform-client-form" method="post" accept-charset="UTF-8" action="<?=$postUrl?>"  name="frmaddrole" id="frmaddrole" onsubmit="return validate();">
+
+					<?php if($this->errorMessage){?>
+						<div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+					<?php } ?>
+					<div class="col-sm-12">
+						<div class="form-group margin-left-15">
+							<label>Title:<sup class="require">*</sup> </label>
+							<?php echo $this->form->name?>
+						</div>						
+						<div class="form-group">
+							<button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="submitRoleButton">Submit</button>
+							<button type="reset" class="btn active text-center" id="cancleRoleButton"><?php echo CANCEL; ?></button>
+						</div>
+					</div>
+					</form>
+

@@ -1,0 +1,209 @@
+<? //echo APPLICATION_PATH;
+ $userid = new Zend_Session_Namespace('userid');
+ $admname = new Zend_Session_Namespace('adminMname');
+ $role = new Zend_Session_Namespace('role');
+	// echo "ROLE=".$role->role;
+    $captchanew = new Zend_Session_Namespace('captchanew');
+     $captchanew->captchanew = session_id();
+    
+?>
+
+
+<script type="text/javascript" language="javascript">
+
+function validate()
+{
+	var 	iChars = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	//var 	iCharsCertian = "!#$%^&*()+=-[]\\\;/{}|\:<>~`";
+	var 	iCharsCertian = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";
+	
+	var  	reWhiteSpace = new RegExp(/^\s+$/);
+	
+
+	 if(document.frmfeedback.firstname.value==''||document.frmfeedback.firstname.value==null)
+   {
+	   //alert("First name field cannot be empty");
+	  document.getElementById('first-name').innerHTML="First name field cannot be empty";
+	   document.frmfeedback.firstname.focus();
+	   return false;
+   }
+    	
+if(document.frmfeedback.firstname.value!='')
+					{
+						document.getElementById('first-name').innerHTML="";
+						
+						for (var i = 0; i < document.frmfeedback.firstname.value.length; i++) {
+						if (iChars.indexOf(document.frmfeedback.firstname.value.charAt(i)) != -1) {
+						 document.getElementById('first-name').innerHTML="First name field has special characters. \nThese are not allowed.\n Please remove them and try again.";
+						document.frmfeedback.firstname.focus();
+						return false;
+						}
+				 	  }
+					}
+
+
+  if(document.frmfeedback.lastname.value==''||document.frmfeedback.lastname.value==null)
+   {
+	    document.getElementById('last-name').innerHTML="Last name field cannot be empty";
+	   document.frmfeedback.lastname.focus();
+	   return false;
+   }
+
+	if(document.frmfeedback.lastname.value!='')
+					{
+						document.getElementById('last-name').innerHTML="";
+						for (var i = 0; i < document.frmfeedback.lastname.value.length; i++) {
+						if (iChars.indexOf(document.frmfeedback.lastname.value.charAt(i)) != -1) {
+						document.getElementById('last-name').innerHTML="Last name field has special characters. \nThese are not allowed.\n Please remove them and try again.";
+						document.frmfeedback.lastname.focus();
+						return false;
+						}
+				 	  }
+					}
+
+	   if(document.frmfeedback.mobile.value==''||document.frmfeedback.mobile.value==null)
+   {
+	   document.getElementById('mobile-no').innerHTML="Mobile no. field cannot be empty";
+	   document.frmfeedback.mobile.focus();
+	   return false;
+   }
+
+if(document.frmfeedback.mobile.value!='')
+					{
+						
+						
+					 var mobile = document.getElementById("mobile").value;
+        var pattern = /^[\s()+-]*([0-9][\s()+-]*){6,20}$/;
+		document.getElementById('mobile-no').innerHTML="";
+        if (!pattern.test(mobile)) {
+           document.getElementById('mobile-no').innerHTML="It is not valid mobile number";
+			document.frmfeedback.mobile.focus();
+            return false;
+        }
+        
+					}
+
+ if(document.frmfeedback.email.value==''||document.frmfeedback.email.value==null)
+   {
+	 document.getElementById('email-id').innerHTML="Email field cannot be empty";
+	   document.frmfeedback.email.focus();
+	   return false;
+   }
+
+if(document.frmfeedback.email.value!='')
+					{
+	
+   	var email = document.getElementById('email');
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	document.getElementById('email-id').innerHTML="";
+    if (!filter.test(email.value)) {
+    document.getElementById('email-id').innerHTML="Please provide a valid email address";
+    document.frmfeedback.email.focus();
+    return false;
+	}
+					}
+					
+	if(jQuery('#vercode').val() == '')
+		{
+			document.getElementById('captcha-code').innerHTML="Captcha code <?php echo CANTEMPTY; ?>";
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+		
+		if(jQuery('#vercode').val() != '')
+		{
+			document.getElementById('captcha-code').innerHTML="";
+			
+		} 
+	}
+
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('user/userview'); ?>">User(s) List</a></li>
+   <li class="active">User Edit</li>
+</ol>
+<div class="row">
+        <div class="col-sm-12" id="userinfo">
+    		<h2>Edit User</h2>
+                <?php 
+                    $cmidata = $this->cmidata;
+                    $postUrlUpdate = $this->url(array('controller' => 'user',)); 
+                ?>
+                <form action="<?=$postUrlUpdate?>" method="post" enctype="multipart/form-data" name="frmfeedback" id="frmfeedback" onsubmit="return validate();" >
+                        <?php if($this->errorMessage){?>
+                        <div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+                        <?php } ?>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label>First Name:<sup class="require">*</sup> </label>
+                                <?php echo $this->form->firstname?>
+                                <span class="require" id="first-name"></span>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>Last Name:<sup class="require">*</sup> </label>
+                                <?php echo $this->form->lastname?>
+                                <span class="require" id="last-name"></span>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label>Mobile Number:<sup class="require">*</sup> </label>
+                                <?php echo $this->form->mobile?>
+                                <span class="require" id="mobile-no"></span>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label>E-mail Address:<sup class="require">*</sup> </label>
+                                <?php echo $this->form->email?>
+                                <span class="require" id="email-id"></span>
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="form-group col-sm-6">
+                                <div class="fileborder"><input type="file" name="userprofileimg" id="userprofileimg" class="form-control"></div>
+                            </div> 
+                            <div id="profile-img" class="form-group col-sm-6">
+                                            
+                                <?php 
+                            
+                            if(empty($this->imgsource)){ ?>
+                            <img src="<?php echo $this->baseUrl('data/uploads/profileimage/dummy.png');?>" alt="profile image" height="100px;" width="100px;" />
+    
+                            <?php }	else{
+                                ?>
+                                <span class="profile-img"><img src="<?php echo $this->baseUrl('data/uploads/profileimage/').$this->imgsource;?>" alt="profile image" height="100px;" width="100px;" /></span>
+                                <?php }?>
+                                
+                                <!--<p><?php //echo ucfirst($userRecord->firstname)." ".ucfirst($userRecord->lastname); ?></p>-->
+                        </div>
+                     </div>
+                     
+                     <div class="row">
+            <!-----------Add Captcha Code Script----->
+                 <div class="form-group col-sm-6 captcha-inner">
+                    <label>Captcha Code<sup class="require">*</sup>  </label>
+                    <?php echo $this->form->vercode; ?>
+                   <p><span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>
+                        <a  onclick="
+                            document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+                            document.getElementById('vercode').focus();" id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>								
+                    </p>
+                   <div class="clearfix"></div><span class="require" id="captcha-code"></span>
+                    <input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+                </div>
+               <!--------------End Captcha Code------->
+               
+               
+               
+                             <div class="form-group col-md-12 col-sm-12 text-center">
+                                <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="updateProfileButton">Update Profile</button>
+                            </div>
+                        </div>
+                </form>
+                
+    
+    </div>
+</div>
+
+
+

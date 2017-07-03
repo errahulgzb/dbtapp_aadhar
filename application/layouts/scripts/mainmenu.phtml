@@ -1,0 +1,52 @@
+<?php 
+	$url_arg = $this->userAgent()->getServerValue('request_uri'); 
+	$args = explode("/", $url_arg);
+	$role = new Zend_Session_Namespace('role');
+	
+	$admname = new Zend_Session_Namespace('adminMname');
+	
+	 $userid = new Zend_Session_Namespace('userid');
+	 $unme= $userid->userid;
+	 
+	 $userid = new Zend_Session_Namespace('userid');
+		$userObj = new Application_Model_User;
+
+		$userRecord=$userObj->getUserName($userid->userid);
+		
+	  $usname = $userRecord['firstname'];
+      $lastname = $userRecord['lastname'];
+
+?>
+<!--Start Navigation Box-->
+<div class="container-fluid">
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				<li><a href="<?php echo $this->baseUrl('/');?>">Home</a></li>
+				<li class="divider">|</li>
+				<li><a href="<?php echo $this->baseUrl('/');?>">About us</a></li>
+				<li class="divider">|</li>
+				<li  class="active"><a href="<?php echo $this->baseUrl('scheme/schemeview');?>">Schemes</a></li>
+				<li class="divider">|</li>
+				<li><a href="<?php echo $this->baseUrl('/');?>">Report</a></li>
+				<li class="divider">|</li>
+				<li><a href="<?php echo $this->baseUrl('/');?>">Contact us</a></li>
+			</ul>
+			<div class="navWrap tnc">
+	
+			<!--<ul class="nav navbar-nav navbar-right">
+				<li><a href="<?php //echo $this->baseUrl('/auth/logout');?>">Logout</a></li>
+			</ul>-->
+		</div>	
+	</div>
+</nav>
+</div>
+<!--End Navigation Box-->

@@ -1,0 +1,1336 @@
+
+var ALL_BS_URL="";
+var formAct="Yes";
+//===================== variable
+'use strict';
+var getUdetailVal ,selectAttendee,selectAttendeeAll,assignWork,selectAssignWorkAll ,lastKey;
+var  totlUserObj=0; // total Object Count
+var   allUserDaHolder="Please Wait";
+var  maiLerAttend={};
+var actOwnerAttend={};
+var  dIdHolder={};
+
+ var   app=angular.module('myApp',['ngSanitize','ngMessages']).controller("esamikshaControler",['$compile','$scope', '$sce' ,'$http','giveServiceToAll',function($compile,$scope,$sce,$http,giveServiceToAll){
+	
+
+//============================= ########================ action Block =======================================	                     
+
+	                     $scope.getName=giveServiceToAll.getTextName();
+	                       var allFrmIds="No";
+	                        $scope.getUdetailVal=[];
+
+	                       $scope.getActVal=[];
+
+
+
+	                        selectAttendee=[];
+	                        selectAttendeeAll="No";
+	                        assignWork=[];
+	                        selectAssignWorkAll="No";
+//=========================== initialise userData ============================
+                        $scope.getUDetail=function(){
+
+
+                                                  //$scope.getUdetailVal=giveServiceToAll.makerUserData();
+                                                   //alert($scope.getUdetailVal);
+
+                                                   //giveServiceToAll.makerUserData();
+
+
+
+                                                   }
+//============================  call the attendee to add attendee =============================
+                   $scope.showTheAttendee=function(){
+                                                         giveServiceToAll.modalHeaderTitle("Add Attendees For Mail");
+                                                          giveServiceToAll.modalBdyWriter("Please Wait..., Preparing the related Contents...");
+
+                                                         $scope.getUdetailVal=giveServiceToAll.makerUserData();
+                                                          //  alert(totlUserObj);
+
+                                                           //console.log(JSON.stringify($scope.getUdetailVal['ud0']));
+
+
+                   	                                    getDynicContent=giveServiceToAll.getUdetailForShow($scope.getUdetailVal,"mattendee",selectAttendee,selectAttendeeAll);
+                   	                                   
+                                                       //alert(allUserDaHolder);
+
+
+                                                          getCompileCode= $compile(allUserDaHolder)($scope);
+
+                                                        //alert( getCompileCode);
+                                                          giveServiceToAll.modalHeaderTitle("Add Attendees For Mail ");
+                                                        // giveServiceToAll.modalBdyWriter(getCompileCode);
+
+                                                      //var element1= angular.element(allUserDaHolder);
+
+                                                       // alert(element1);
+
+                                                       // var getRef=document.getElementById("modlBody");
+                                                   
+                                                        var getRef=$("#modlBody");
+
+                                                            getRef.html(getCompileCode);
+
+                                                        
+
+                                                        
+
+                                                         
+
+
+                                                         // mdlHeader.html(getCompileCode);
+
+
+
+
+                   	                                   //=================------- writer the content ------------------ ===============
+                                             
+                                                         // giveServiceToAll.modalBdyWriter(getDynicContent);
+
+
+                                                  // console.log(JSON.stringify(getUdetail['ud0']));
+
+                                             }//  show attendee for Add
+
+//=================================== action data value ========================================
+$scope.actionTheAttendee=function(){
+
+                                giveServiceToAll.modalHeaderTitle("Add Attendees For Action");
+                                 giveServiceToAll.modalBdyWriter("Please Wait..., Preparing the related Contents...");
+
+                                $scope.getActVal=giveServiceToAll.makerUserData();;
+
+                                  getDynicContent=giveServiceToAll.getActForShow($scope.getActVal);
+
+
+
+                                                     
+
+
+                                                          getCompileCode= $compile(allUserDaHolder)($scope);
+
+                                                       
+                                                        // giveServiceToAll.modalBdyWriter(getCompileCode);
+
+                                                      //var element1= angular.element(allUserDaHolder);
+
+                                                       // alert(element1);
+
+                                                       // var getRef=document.getElementById("modlBody");
+                                                   
+                                                        var getRef=$("#modlBody");
+
+                                                            getRef.html(getCompileCode);
+
+                                                        
+
+                                                        
+
+                                                         
+
+
+                                                         // mdlHeader.html(getCompileCode);
+
+
+
+
+
+
+
+
+
+
+
+ }// end  alert.....
+
+
+
+
+
+
+
+
+
+
+//========================================= action Data Value ===============================================================
+
+
+
+
+
+
+
+
+
+
+
+//=========================== initialise user Data ================================
+
+
+
+	                       $scope.idMaker=function(idData){
+
+                                                          allFrmIds=giveServiceToAll.allFrmIds(idData);
+  
+                                                               
+	                                                      };// end of the idMaker
+                           $scope.callMeetinSub=function(formId){
+                                          
+                          	                        
+                          	                              //================== meeting creator form Submit ======================
+                          	                            if(formAct=="Yes")
+                          	                            {
+                                                              giveServiceToAll.submitCreatedFrmData(allFrmIds);
+
+
+                          	                             }else
+                          	                             {
+
+                                                           giveServiceToAll.formAlertMess()
+
+
+                          	                               }
+
+                                                     
+//
+                                                };//========= callMeetinSub =================
+                           $scope.callClear=function(formId){
+                           	                                  giveServiceToAll.errorMessHide();
+
+
+                                                  };// callForClear....   
+
+//==================================== close the modal ================================================================
+                  $scope.closeModal=function(){
+
+                                             giveServiceToAll.closeModal();
+
+                                         }// end of the closeModal()
+//========================================= getchk(this) ===================================
+$scope.getchk=function(refValId,value){
+
+	                   //======================== all reference data will come here =============================
+
+                            getDetailValue= $scope.getUdetailVal;
+
+
+
+	                         idMker="#"+refValId;
+
+
+                           var getChkRef=$(document).find(idMker);
+
+                           if(getChkRef.prop("checked"))
+                           	 {
+
+                               giveServiceToAll.setAttendeeValue(getDetailValue,value,refValId);
+
+     
+                           	     }else
+                           	    {
+
+                               giveServiceToAll.unSetAttendeeValue(getDetailValue,value,refValId);
+
+                           	  }
+
+
+	                        
+
+
+
+                  }// make check or uncheck ....................
+
+//=========================== getActchk(==========================================================
+$scope.getActchk=function(refValId,value){
+
+
+
+
+
+
+                            getDetailValue= $scope.getActVal;
+
+
+
+	                         idMker="#"+refValId;
+
+
+                           var getChkRef=$(document).find(idMker);
+
+                           if(getChkRef.prop("checked"))
+                           	 {
+
+                                 giveServiceToAll.setAttendeeValueAct(getDetailValue,value,refValId);
+
+     
+                           	     }else
+                           	    {
+
+                               giveServiceToAll.unSetAttendeeValueAct(getDetailValue,value,refValId);
+
+                           	  }
+
+
+	                        
+
+
+
+
+
+
+
+
+
+}// end of th egetActchk( 
+//=============================== date change ==============================
+   $scope.dChange=function(){
+
+
+                alert('some chage occurs');
+
+
+      }// end of dateChange
+
+
+
+
+//============================= ########================ action Block =======================================
+
+                               }]);// controller Registration...  with ng..
+
+
+
+
+
+
+
+
+ 
+//===================  MAKE THE FACTORY METHOD TO SERVER THE NEW sERVICE ====================== 
+ app.factory("allFMethods",['$http','$q',function($http,$q){
+
+
+	 
+	            var factory={};
+
+
+	              factory.allSubFrm=function(getData){
+	            	        
+
+	            	                  var target_url=getData.url;
+	            	                   getData.filestatus="No";
+
+	            	                       
+
+	            	                      	
+
+
+                              
+                                  var fUploader=document.getElementById("importfile");
+
+                                    
+                                  var formData = new FormData();
+
+                                //  console.log(fUploader.files[0].type);
+                                     var fileValue=fUploader.value;
+                                       fileValue=fileValue.trim();
+                                       alert( fileValue);
+
+                                      if(fileValue.length>4)
+                                      {
+
+                                               formData.append('file', fUploader.files[0]);
+                                                getData.filestatus="Yes";// Upload action Yes
+
+                                       }// end of the file check
+
+
+                                      var user_data=JSON.stringify(getData);
+
+                                      formData.append("otherD",user_data);
+
+
+                                    /*========================== */
+	            	                           return  $http(
+	            	                        		  
+	            	                          
+	            	                        		          {
+	            	                        			       method: 'POST',
+	            	                        			       url: target_url,
+	            	                        			       data: formData
+
+	            	                        			       ,
+	            	                        			          headers: { 'Content-Type': undefined}// this for image Uploading...
+	            	                        			        });
+	                      
+	                       		                    //================================= /*/
+
+                              
+
+	            	                 
+	            	                  // /*========================== */
+	            	                  //          return  $http(
+	            	                        		  
+	            	                          
+	            	                  //       		          {
+	            	                  //       			       method: 'POST',
+	            	                  //       			       url: target_url,
+	            	                  //       			       data: "getAllData=" + user_data,
+	            	                  //       			         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	            	                  //       			        });
+	                      
+	                       		      //               //================================= /*/
+	                       		   
+	            	               
+	            	
+	            	        
+	            	
+	                                 };// end of the course form....
+
+
+//===================================== initialse the value of the catched value =================================
+
+
+
+
+//===================================== initialse the value of the catched value =================================
+	 
+	 
+	 
+	 
+	 return factory;
+   }]) ;// end of the factory methos..
+ 
+ 
+
+ 
+ 
+//===================  MAKE THE FACTORY METHOD TO SERVER THE NEW sERVICE ====================== 
+ 
+ //=================== creating the service for the use =======================
+  app.service("giveServiceToAll",['allFMethods','$q',function(allFMethods,$q){
+
+  	         // var deferred = $q.defer(); //----deferred action ... 
+
+//==================== created form data  is submitted here ============================================
+          this.submitCreatedFrmData=function(allFrmIds){
+                                               var fValid="Ok";
+          	                           var getFNumber=document.getElementById('fnumber');
+          	                               getFNumberVal=getFNumber.value;
+//================================================ validation box =====================================
+                                              fValid=this.fileValidate(getFNumberVal,3);
+                                              if(fValid!="Ok")
+                                                 {
+                                                   this.errorMess("File No should be more than 2 characters !!!");
+                                                    return false;
+                                                 
+                                                  }
+                                               
+                                            
+//================================================ validation box =====================================
+          	                           var getMDate=document.getElementById('dPicker');
+          	                               getMDateVal=getMDate.value;
+//================================================ validation box =====================================
+                                              fValid=this.fileDvalid(getMDateVal);
+                                              if(fValid!="Ok")
+                                                 {
+                                                   this.errorMess("Please Select the Date!");
+                                                    return false;
+                                                 
+                                                  }
+                                               
+                                            
+//================================================ validation box =====================================
+
+          	                            var getchair=document.getElementById('selectCr');
+          	                                getchairVal=getchair.value;
+
+          	             //----------------- CKEDITOR VALUE  FOR  MESSAGE -----------------------------
+          	                         //  alert(CKEDITOR.instances.editor1.getData())
+
+                                          getMeetDescript=CKEDITOR.instances.editor1.getData();
+
+          	                          //============= NEED credit JS ..ADD THE EDITOR HERE ============================================
+
+          	                         // getMeetDescript=document.getElementById("editor1").innerHTML;//CKEDITOR.instances.editor1.getData();
+
+//====================================== get the added attendee list ====================================
+                                        getAttendeeList=maiLerAttend;
+                                        //console.log(JSON.stringify(getAttendeeList));
+                                        getActAttendee=actOwnerAttend;
+
+//===================================== valid the action date========================================
+                                       fValid=this.filedCheckCloseD();
+                                              if(fValid!="Ok")
+                                                 {
+                                                    this.errorMess("Please Provide the closed to all selected members !!!");
+                                                    return false;
+                                                 
+                                                  }
+
+ 
+
+
+
+
+
+
+
+
+
+
+//----------------- CKEDITOR VALUE  FOR  MESSAGE -----------------------------
+
+                                          var getmom=document.getElementById('momcr');
+          	                                  getmomVal=getmom.value;
+          	                                  var urlVal="http://localhost/dbt_live/esamiksha/mcreator";
+
+
+
+
+          	                 // allDataValue=getFNumberVal+"==="+ getMDateVal+"==="+getchairVal+"===="+ getMeetDescript +"===="+getmomVal;
+          	                     var  allDataValues=       {"url":urlVal,"fNumber":getmomVal,"mData":getMDateVal,"chair":getchairVal,"mess":getMeetDescript,"mom":getmomVal,"getAttendee":getAttendeeList};
+          	                
+          	                var getCall=this;
+                           alert("make the form action !!");
+                     /*/alert(allDataValues);
+                             this.formWaiterLoad();
+          	                //==============        
+                                    allFMethods.allSubFrm(allDataValues).success(function(data){
+
+                                                      alert(data);
+
+                                    	              getCall.reopenFrmAct();
+        	        	                   
+
+
+        	        	                      //  getCall.errorMess("DAta is Submetted For Form Creation !!!");
+        	    	     
+        	        	                     // deferred.resolve(data);
+        	    	   
+        	                            }).error(function(error){
+        	    	   
+        	                	    // deferred.reject('ERROR!!!')
+
+        	                	     alert("Error");
+
+        	                	            getCall.errorMess("Server Error In Creatoring  Meeting !!!");
+        	                	             getCall.reopenFrmAct();
+        	    	   
+        	    	   
+        	    	   
+        	                         });;
+
+                               // alert(allDataValues)//===============/*/;
+
+
+           };// created Form Data 
+
+
+
+//==================== created form data  is submitted here ============================================
+
+
+
+
+
+
+
+  	            this.getTextName=function(){
+
+
+
+
+                      return "Name From the service Action ...";
+
+  	              };// get Name value ..
+
+  	              this.allFrmIds=function(idData){
+
+                                 getIdArr=idData.split(":");
+
+                                    return getIdArr;
+
+  	                          };// get the Name of the 
+
+	//------------------------------- submit the meeting creator Form ---------------------------------
+
+	                  this.meetingCreator=function(allFrmIds){
+
+
+                                              // this.stringDchker(allFrmIds[2],4);
+
+                                              this.errorMess("Hello Value ..");
+
+
+	                                   };// end of the meetingCreator(allFrmIds)
+
+  //###################------------- string checker ------------------- #####################
+
+                    this.stringDchker=function(vlu,len){
+
+
+                                      alert(len);
+
+
+                               }// end of the    
+
+         this.errorMess=function(message){
+
+
+                             var getErrorBox=document.getElementsByClassName("default-samiksha-mess");
+                              var errorBox1=getErrorBox[0];
+                                var errorBox2=getErrorBox[1];
+
+                                   errorBox1.style.display="block";
+                             
+                                   errorBox1.innerHTML=message;
+                                 //---------------- error box bottom------------------------
+                                    errorBox2.style.display="block";
+                             
+                                   errorBox2.innerHTML=message;
+
+
+           };// end of th e
+
+
+         this.errorMessHide=function(){
+                            var getErrorBox=document.getElementsByClassName("default-samiksha-mess");
+                              var errorBox1=getErrorBox[0];
+                                var errorBox2=getErrorBox[1];
+
+                                   errorBox1.style.display="none";
+                             
+                                  
+                                 //---------------- error box bottom------------------------
+                                    errorBox2.style.display="none";
+                             
+                                  
+
+
+
+           };// end of th e
+  this.formWaiterLoad=function(){
+
+
+                   formAct="No";
+                    var getSubButtOnId=document.getElementById("SubmitCr");
+                         getSubButtOnId.innerHTML="<img src='/dbt_live/images/loaderImg/btn.gif' width='20'/>Please Wait..";
+
+                      //alert("block the Form Submit");
+
+
+
+
+
+            };
+
+       this.reopenFrmAct=function(){
+
+       	                     formAct="Yes";
+
+                          var getSubButtOnId=document.getElementById("SubmitCr");
+                            getSubButtOnId.innerHTML="Submit";
+
+
+
+
+
+
+
+             };
+       this.formAlertMess=function(){
+
+
+
+                  alert("Please Wait Process is On !!!");
+
+
+
+
+
+
+          };
+
+
+ //###################------------- string checker ------------------- ##################### 
+ //----------------------------------- user Data will be made Here -------------------------
+   this.makerUserData=function(){
+
+
+
+   	                 var getArrCount=0;
+
+
+                   var UholderRef=document.getElementById("udeltHolder");
+                   Uholder=UholderRef.value;
+                   UJsonObj=JSON.parse(Uholder);
+                  // uDetail=UJsonObj.uData;
+                  // uDetail=JSON.stringify(uDetail);
+                     var angVal=[];
+                     
+                      angular.forEach(UJsonObj,function(obj,key){
+
+                             if(obj['uData'] != "No")
+                             {
+                                 lastKey+="_"+key;
+                             	   var mkKey="ud"+key;
+                             	  // angVal["'"+mkKey+"'"]=obj['uData'];
+                             	 //  angVal.push(mkKey+":"+obj['uData']);
+
+                             	 angVal[mkKey]=obj['uData'];
+
+                                // console.log(lastKey);
+
+                            //  angVal.push("ud"+key+":"+obj['uData']);
+
+                               // console.log(JSON.stringify( angVal[mkKey]));
+                               }
+
+                               getArrCount++;
+
+
+                             })// 
+
+                       totlUserObj= getArrCount;
+
+                       // alert(JSON.stringify(angVal['ud0']));
+
+                       //console.log(JSON.stringify(angVal['ud0']));
+
+
+                       return angVal;
+
+   }// end of the makerUserData()
+
+
+
+//------------------------------  submit the meeting creator --------------------------------------- 
+
+
+//======================= -------------------- attendee maker ---------------------------- =============
+    this.getUdetailForShow=function(getUdetail,mattendee,selectAttendee,SelectAttendeeAll) {
+
+    	               //alert(getUdetailVal);
+
+    	               // console.log(JSON.stringify(getUdetail['ud0'][0]));
+
+ //============================= make the form of data ========================================
+                         this.modalHeaderTitle("Add Attendees For Mail");
+                         this.modalBdyWriter("Please Wait..., Preparing the related Contents....");
+                         var makFunName=mattendee+"chker";
+                         var tableData="<table class='table table-order'>";
+                         //alert(getUdetail.length);
+                         var getTotalUser=totlUserObj;
+                         var stCount=0;
+                         var coubntDwn=1;
+                         var condition=Object.keys(maiLerAttend).length;
+                         console.log(JSON.stringify(maiLerAttend));
+                         	var rowColor="";
+                         	 	var checkValue=""
+                               
+              
+                         tableData+="<tr><th>SNo.</th><th>Name</th><th>email</th><th>Cont.No</th><th>Select</th></tr>";
+                          var dtaTdHlder="";
+                         while(stCount<=getTotalUser)
+                         	 {
+
+                         	 
+                         	 	 mkKey="ud"+stCount;
+
+                         	 	 getCurrObject=getUdetail[mkKey];
+
+                         	 	 if(condition>0)
+                         	 	 	 {
+                                         if(maiLerAttend[mkKey]!=undefined)
+                                         	  {
+                                                
+
+                                                     rowColor="style='background-color:rgba(220, 188, 73, 0.22);'";
+                                                     checkValue="checked='checked'";
+ 
+
+                                                       console.log(rowColor);
+
+
+                                         	   }else
+                                         	   {
+
+
+                                                rowColor="";
+                                                  checkValue="";
+
+
+                                         	   }
+
+
+
+                         	 	 	 }
+
+                         	 	 if(getCurrObject!=undefined)
+                         	 	 {
+
+                                  	 indiObj= getCurrObject[0];
+
+                         	 	     //console.log(JSON.stringify( indiObj));
+
+                                          chkId="chk"+Math.random();
+                                           chkId= chkId.replace(".","");
+                                           rwId="rw"+chkId;
+
+
+
+                         	 	
+                         	 	   	 
+
+                                    
+                                          trMker="<tr id='"+rwId+"' "+rowColor+">";
+                                          sn=coubntDwn;
+                                           trMker+="<td>"+sn+"</td>";
+                                          
+                                             trMker+="<td>"+ indiObj.firstname+"</td>";
+                                             trMker+="<td>"+ indiObj.email+"</td>";
+                                             trMker+="<td>"+ indiObj.mobile+"</td>";
+                                             trMker+="<td><input type='checkbox'  ng-click='getchk(\""+chkId+"\",\""+mkKey+"\")' id=\""+chkId+"\"  "+checkValue+"/></td>";
+
+
+
+
+
+
+
+
+                                  
+
+                                          trMker+="</tr>";
+
+                                           dtaTdHlder+=trMker;
+                                             coubntDwn++;
+
+
+                         	     	}// end if ///
+
+                              
+                           
+
+
+                                 
+
+                                  stCount++;
+
+                         	    } // end of the while ////////=*/
+
+                               tableData+=dtaTdHlder;
+
+                       
+
+
+                            tableData+="</table>";
+
+                            allUserDaHolder= tableData;
+
+                            // this.modalHeaderTitle("Add Attendees For Mail");
+                            // this.modalBdyWriter(tableData);
+
+
+
+
+                   
+                        return tableData;
+//=============================================================================================
+
+
+                   } // end of the  show   
+
+//================================== getActForShow( ======================================
+this.getActForShow=function(actValue){
+
+	           getUdetail=actValue;
+
+
+
+	     var tableData="<table class='table table-order'>";
+                         //alert(getUdetail.length);
+                         var getTotalUser=totlUserObj;
+                         var stCount=0;
+                         var coubntDwn=1;
+                         var condition=Object.keys(actOwnerAttend).length;
+                         console.log(JSON.stringify(actOwnerAttend));
+                         	var rowColor="";
+                         	 	var checkValue=""
+ var disabledP="disabled";
+              
+                         tableData+="<tr><th>SNo.</th><th>Name</th><th>email</th><th>Cont.No</th><th>Select</th><th>Closed Date</th></tr>";
+                          var dtaTdHlder="";
+                         while(stCount<=getTotalUser)
+                         	 {
+
+                         	 
+                         	 	 mkKey="ud"+stCount;
+
+                         	 	 getCurrObject=getUdetail[mkKey];
+
+                         	 	 if(condition>0)
+                         	 	 	 {
+                                         if(actOwnerAttend[mkKey]!=undefined)
+                                         	  {
+                                                
+
+                                                     rowColor="style='background-color:rgba(220, 188, 73, 0.22);'";
+                                                     checkValue="checked='checked'";
+                                                         disabledP="";
+
+                                                       console.log(rowColor);
+
+
+                                         	   }else
+                                         	   {
+
+
+                                                rowColor="";
+                                                 checkValue="";
+                                                 disabledP="disabled";
+
+
+                                         	   }
+
+
+
+                         	 	 	 }
+
+                         	 	 if(getCurrObject!=undefined)
+                         	 	 {
+
+                                  	 indiObj= getCurrObject[0];
+
+                         	 	     //console.log(JSON.stringify( indiObj));
+
+                                          chkId="chk"+Math.random();
+                                           chkId= chkId.replace(".","");
+                                           rwId="rw"+chkId;
+
+
+
+                         	 	
+                         	 	   	 
+
+                                    
+                                          trMker="<tr id='"+rwId+"' "+rowColor+">";
+                                          sn=coubntDwn;
+                                           trMker+="<td>"+sn+"</td>";
+                                          
+                                             trMker+="<td>"+ indiObj.firstname+"</td>";
+                                             trMker+="<td>"+ indiObj.email+"</td>";
+                                             trMker+="<td>"+ indiObj.mobile+"</td>";
+                                             trMker+="<td><input type='checkbox'  ng-click='getActchk(\""+chkId+"\",\""+mkKey+"\")' id=\""+chkId+"\"  "+checkValue+"/></td>";
+
+                             trMker+="<td><input type='date' id=\"d"+chkId+"\"  "+disabledP+"  onchange='getDOnChange(\"d"+chkId+"\",\""+mkKey+"\")'/></td>";
+
+
+
+
+
+
+                                  
+
+                                          trMker+="</tr>";
+
+                                           dtaTdHlder+=trMker;
+                                             coubntDwn++;
+
+
+                         	     	}// end if ///
+
+                              
+                           
+
+
+                                 
+
+                                  stCount++;
+
+                         	    } // end of the while ////////=*/
+
+                               tableData+=dtaTdHlder;
+
+                       
+
+
+                            tableData+="</table>";
+
+                            allUserDaHolder= tableData;
+
+                            // this.modalHeaderTitle("Add Attendees For Mail");
+                            // this.modalBdyWriter(tableData);
+
+   //alert("action ateendee will come here !!");
+
+
+                   
+                        return tableData;
+//=============================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+  }// end of the getActForShow(
+//======================================= validation section =================================
+  this.fileValidate=function(getFNumberVal,minlenth){
+                      reData="No";
+                     getFile=getFNumberVal;
+                     getFile=getFile.trim();
+                     if(getFile.length>=minlenth)
+                      {
+
+                        reData="Ok";
+
+                     }
+
+
+          return reData;
+
+
+       }// end of theufileValidate(getFNumberVal,3)
+
+this.fileDvalid=function(getMDateVal){
+              reData="No";
+  var dateformat = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/; 
+
+            if(getMDateVal.match(dateformat))
+               {
+
+                 
+                  reData="Ok";
+                }
+
+         return reData;
+    
+
+  }// end of the fileDvalid(getMDateVal)
+this.filedCheckCloseD=function(){
+          redata="Ok";
+        getAttendee=actOwnerAttend;
+        getCloseD=dIdHolder;
+         angular.forEach(getAttendee, function(value, key) {
+
+             if(getCloseD[key]!=undefined)                    
+                 {
+                    redata="No";
+
+                  }
+
+
+
+         });// end of the foreach..
+
+
+
+  return  redata;
+
+
+
+
+
+}// end of the filedCheckCloseD()
+
+
+
+
+
+
+
+
+
+
+
+
+//======================= --- close the modal ------------=================================
+this.closeModal=function(){
+
+               this.modalHeaderTitle("Add Attendees For Mail");
+               this.modalBdyWriter("Please Wait..., Preparing the related Contents...");
+
+
+
+}// end of the closeModal()
+
+
+//======================== ----- modal Header Writter ----- ===========================
+    this.modalHeaderTitle=function(ttle){
+
+
+
+                               var mdlHeader=document.getElementById("modlHeader");
+                                mdlHeader.innerHTML=ttle;
+
+
+                }// end of the mdlHeader
+
+
+
+   this.modalBdyWriter=function(contentVal){
+
+
+                                  var mdlHeader=document.getElementById("modlBody");
+                                  mdlHeader.innerHTML=contentVal;
+
+
+                }// end of the mdlHeader
+
+//============================= setAttendeeValue(getDetailValue,value); ==============================
+this.setAttendeeValue=function(getDetailValue,value,refValId){
+
+
+                              getVal=getDetailValue[value][0]["userId"];
+                              if( getVal!=undefined)
+
+                              {
+
+                              	// dataValue=value+":"+getVal+",refId:"+refValId;
+                               //     mk_arr={dataValue};
+
+                                   maiLerAttend[value]=getVal;
+
+                             
+
+                                   //alert(mk_arr);
+
+
+
+
+
+
+
+
+
+                                   }
+
+
+
+
+                
+
+                     
+
+                 	// console.log("set the Value ...");
+
+                       //  console.log(JSON.stringify(maiLerAttend));
+                //=======================   selected row Value ====================== 
+
+                        rwId="#rw"+refValId;
+                        
+     	                getRef=$(document).find(rwId);
+     	                getRef.css("background-color","rgba(220, 188, 73, 0.22)");   
+                         
+
+
+
+
+
+
+
+    };// set the attende value .....................
+
+
+     this.unSetAttendeeValue=function(getDetailValue,value,refValId){
+     	              
+
+
+     	                   //console.log("Unset the Value ...");
+
+
+                       /// console.log(JSON.stringify(getDetailValue[value][0]));
+                       if(maiLerAttend[value]!=undefined)
+                       {
+
+                             delete maiLerAttend[value];
+                              // console.log(JSON.stringify(maiLerAttend));
+                              // console.log(Object.keys(maiLerAttend).length);
+
+
+
+//============================= Un select row value ===================================
+
+                          rwId="#rw"+refValId;
+     	                  getRef=$(document).find(rwId);
+     	                  getRef.css("background-color","#fff");
+
+                      
+
+
+                        }
+
+
+
+
+
+
+    };// Unset the attende value .....................
+
+
+
+
+//============================= setAttendeeValue(getDetailValue,value); ==============================
+this.setAttendeeValueAct=function(getDetailValue,value,refValId){
+
+
+                              getVal=getDetailValue[value][0]["userId"];
+                              if( getVal!=undefined)
+
+                              {
+
+                              	// dataValue=value+":"+getVal;
+                               //     mk_arr={dataValue};
+
+                                     actOwnerAttend[value]=getVal;
+                                     dIdHolder[value]=refValId;
+
+                                 // console.log(JSON.stringify(dIdHolder))
+
+                                   //alert(mk_arr);
+
+
+
+
+
+
+
+
+
+                                   }
+
+
+
+
+                
+
+                     
+
+                 	// console.log("set the Value ...");
+
+                       //  console.log(JSON.stringify(maiLerAttend));
+                //=======================   selected row Value ====================== 
+
+                        rwId="#rw"+refValId;
+                        dtId="#d"+refValId;
+     	                getRef=$(document).find(rwId);
+     	                getRef.css("background-color","rgba(220, 188, 73, 0.22)"); 
+                        dtIdRef= $(document).find(dtId);  
+
+                       dtIdRef.removeAttr("disabled");            
+
+
+
+
+
+
+
+    };// set the attende value .....................
+
+
+     this.unSetAttendeeValueAct=function(getDetailValue,value,refValId){
+     	              
+
+
+     	                   //console.log("Unset the Value ...");
+
+
+                       /// console.log(JSON.stringify(getDetailValue[value][0]));
+                       if(actOwnerAttend[value]!=undefined)
+                       {
+
+                             delete actOwnerAttend[value];             
+                             delete  dIdHolder[value];
+  
+                              // console.log(JSON.stringify(dIdHolder));
+                              // console.log(Object.keys(maiLerAttend).length);
+
+
+
+//============================= Un select row value ===================================
+
+                          rwId="#rw"+refValId;
+                           dtId="#d"+refValId;
+     	                  getRef=$(document).find(rwId);
+     	                   getRef.css("background-color","#fff");
+                          dtIdRef= $(document).find(dtId);  
+
+                         dtIdRef.attr("disabled","disabled");   
+
+                        }
+
+
+
+
+
+
+      };// Unset the attende value .....................
+
+
+
+
+
+            
+	 //end of ahamd code in couserLoadter service...
+//========############### end of the  service couserLoadter ##############======================	 
+	 
+       }]);;
+ 
+ 
+
+ //========############### end of the  service couserLoadter ##############======================
+
+//===================================== document action ========================================
+
+function getDOnChange(gId,uId)
+          {
+             getRef=document.getElementById(gId);
+             getD=getRef.value;
+             dIdHolder[uId]=getD;
+            //console.log(JSON.stringify( dIdHolder));
+
+            
+
+
+
+            }// end of the getD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+

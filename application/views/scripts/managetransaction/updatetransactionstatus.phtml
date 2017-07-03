@@ -1,0 +1,140 @@
+
+<?php 
+    $captchanew = new Zend_Session_Namespace('captchanew');
+	$captchanew->captchanew = session_id();
+    $userid = new Zend_Session_Namespace('userid');
+    $unme= $userid->userid;
+    $role = new Zend_Session_Namespace('role');
+	
+$paramdata = "?scheme_id=".safexss($_GET['scheme_id'])."&scheme_name=".safexss($_GET['scheme_name'])."&min_id=".safexss($_GET['min_id'])."&scm_type=".safexss($_GET['scm_type'])."&status=".safexss($_GET['status']);
+?>
+<script type="text/javascript" language="javascript">
+
+function validate()
+{
+	var iChars1 = "0123456789 ";
+	var iChars = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	var iCharsCertian = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";    
+}
+
+</script>
+
+
+
+<script type="text/javascript" language="javascript">
+jQuery(document).ready(function()
+{ 
+	jQuery("#importform").submit(function(){
+	var ext = $('#importfile').val().split(".");
+    ext = ext[ext.length-1].toLowerCase();      
+    var arrayExtensions = ["csv"];
+	if($('#importfile').val() == '')
+		{
+			$('#csv-file').text("Please upload a file");
+			$('#importfile').focus();
+			return false;
+		} 
+		
+
+    if (arrayExtensions.lastIndexOf(ext) == -1) {
+        $('#csv-file').text("Wrong extension type.");
+        $("#image").val("");
+		return false;
+    }
+	if($('#importfile').val() != '')
+		{
+			$('#csv-file').text("");
+		}
+	if(jQuery('#vercode').val() == '')
+	{
+		$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+		jQuery( "#vercode" ).focus();
+		return false;
+	} 
+	
+	if(jQuery('#vercode').val() != '')
+	{
+		$('#captcha-code').text("");
+	} 
+	
+	});
+	function removeSpacesnew(string){
+                    return string.split(' ').join('');
+                  }
+});
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('managetransaction/schemeview'); ?>">Scheme List</a></li>
+   <li><a href="<?php echo $this->baseUrl('managetransaction/beneficiarydatalist'.$paramdata); ?>">Beneficiaries Transaction</a></li>
+   <li class="active">Upload Bulk Transaction(s)</li>
+</ol>
+<?php
+if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 1){
+			$type = " (In Cash)";
+		}else if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 2){
+			$type = " (In Kind)";
+		}else if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 3){
+			$type = " (In Others)";
+		}else{
+			$type = "";
+		}
+?>		
+<div class="row">
+<div class="col-sm-9 col-xs-12"><h2>Scheme Name : <?php if($this->scheme_name){ 
+	echo $this->scheme_name.$type."&nbsp;&nbsp; Scheme Code: ".$this->scheme_code[0]['scheme_codification'];
+} ?></h2></div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Transactions.pdf'); ?>"  target="_blank">Help?</a></div></div>
+    			
+<?php $postUrl = $this->url(array(
+		'controller' => 'managetransaction',
+		'action'  => 'updatetransactionstatus'
+		)); 
+?>
+     <form  class="webform-client-form" method="post" enctype="multipart/form-data" action="<?php echo $postUrl; ?><?php echo $paramdata; ?>" name="importform" id="importform" onsubmit="return validate();">
+                        <?php if($this->errorMessage){?>
+                        <div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span>
+                        </div>
+                        <?php } else if($this->success){?>
+                        	 <div class='success-msg'><span class="success"><?php echo $this->success; ?></span>
+                        </div>
+                        	<?php } ?>
+        <div class="row">
+			<div class="form-group col-sm-6 scheme-data">
+                <label>Select CSV file:<sup class="require">*</sup> </label>
+                <?php echo $this->form->importfile;?>
+                <?php echo $this->form->scheme_id;?>
+                <span class="require" id="csv-file"></span>
+                
+                
+            </div>
+            <div class="form-group col-sm-6 ">&nbsp;</div>
+            </div>
+          
+				<p class="margin_left15 text-left"><?php echo UPLOAD_FILE_CSV_ONLY_INSTRUCTION ?><a href="<?php echo $this->baseUrl();?>/managetransaction/download?filename=DBT_bank_transaction_status.csv" download class="btn btn-warning margin-left-10 csvdownloadlink" target="_blank">Click here</a></p>
+			 <div class="row"> 
+			<!-----------Add Captcha Code Script----->
+			<div class="form-group col-sm-6 col-xs-12 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();"
+						id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+														
+				</p>
+				 <div class="clearfix"></div><span class="require" id="captcha-code"></span>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+        	 <!-----------End Captcha Code Script----->
+         
+             <div class="form-group col-md-12 col-sm-12 text-center">
+                <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="importcsvButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="importcsvcancleButton" onclick="goCancel();"><?php echo CANCEL; ?></button>
+            </div>
+		</div>
+	</form>
+
+

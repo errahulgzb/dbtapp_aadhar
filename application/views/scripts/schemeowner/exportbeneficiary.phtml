@@ -1,0 +1,24 @@
+<?php
+$schemename = $this->schemename;
+$scm_name = "Scheme Name: ".$schemename[0]['scheme_name'];
+$scm_code = "Scheme Code: ".$schemename[0]['scheme_codification'];
+$header1 = array(0=> $scm_name, 1=> $scm_code);
+$header = array(0 => "UUID",1 => "Title",2 => "Name",3 => "DOB(mm/dd/yyyy)",4 => "Gender",5 => "Aadhaar No.",6 => "Seeded with Aadhaar",7 => "Mobile No",8 => "Email-Id",9 => "Scheme Specific Unique Code",10 => "Scheme Specific Family No",11 => "Home Addres",12 => "Village Code",13 => "Village Name",14 => "Panchayat Code",15 => "Panchayat Name",16 => "Block Code",17 => "Block Name",18 => "District Code",19 => "District Name",20 => "State Code",21 => "State Name",22 => "Pincode",23 => "Ration Card No",24 => "TIN Family No",25 => "Bank Account No",26 => "IFSC",27 => "Bank Name",28 => "Amount",29 => "Fund Transfer(APB/NACH/NEFT/RTGS/CASH)",30 => "Transaction Date(mm/dd/yyyy)",31 => "Beneficiary Regional Language",32 => "Beneficiary Type",33 => "Transfer By (BA/DA/MV)");
+$fp = fopen('php://output','w');
+fputcsv($fp, $header1);
+fputcsv($fp, $header);
+$data = $this->exportarray;//echo "<pre>";print_r($data);die;
+foreach($data as $key=>$val){
+fputcsv($fp, $val);
+}
+header('Content-type: application/csv');
+$filename = $schemename[0]['scheme_name'].".csv";
+header('Pragma: public');
+header('Expires: 0');
+header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+header('Cache-Control: private',false);
+header('Content-Disposition: attachment; filename='.$filename);
+header('Content-Transfer-Encoding: binary');
+header('Connection: close');
+exit;
+?>

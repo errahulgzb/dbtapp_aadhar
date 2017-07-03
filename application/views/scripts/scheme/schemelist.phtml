@@ -1,0 +1,326 @@
+<?php
+$badtags=array('IFRAME','SCRIPT','script','javascript','alert','?','#','(',')','OBJECT','EMBED');
+?>
+
+<script type="text/javascript">
+    function printDiv() 
+    {
+      var divToPrint=document.getElementById('mainContant');
+      document.getElementById('print-form').style.display='none';
+      document.getElementById('breadcrumbId').style.display='none';
+      var newWin=window.open('','Print-Window');
+      newWin.document.open();
+      newWin.document.write('<html><head><title>DBT Bharat: DBT Onboarded Schemes</title><link rel="STYLESHEET" type="text/css" href="http://180.151.3.101/dbtbharat/css/style.css"></head><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+      newWin.document.close();
+      setTimeout(function(){newWin.close();},10);
+      document.getElementById('print-form').style.display='block';
+    }
+</script>
+
+
+<!--Start Main Contant box-->
+<section class="container-fluid mainContant" id="mainContant">
+<ol class="breadcrumb  margin_top10" id="breadcrumbId">
+    <li><a href="<?php echo $this->baseUrl("/");?>"><?php echo home; ?></a></li>
+    <li class="active"><?php echo DBTONBOARDEDSCHEMES; ?></li>
+  </ol>
+    <div id="print-form" class="col-sm-12 col-xs-12 text-right">
+        <a href="#" id='btn' title='Print' class="btn btn-warning" onclick='printDiv();'>Print</a>
+    </div>
+		<div id="scheme">
+	    <h2><?php echo DBTONBOARDEDSCHEMES; ?></h2>
+		<div class="row">
+		<?php
+		
+		$objministry = new Application_Model_DbtScheme;
+		$ministry = $objministry->getministry();
+		
+		if(count($ministry)!=0)
+		{
+		//print_r($ministry);
+
+			foreach($ministry as $k=>$v)
+					{	
+					//print_r($v);
+					//echo "<br>----";
+				 $scheme = $objministry->getschemenew($v["ministryid"]);
+				 if(count($scheme)>0){
+										
+		?>
+        <div class="col-sm-12 col-md-6">
+		
+			<?php
+			//echo "lang".$_SESSION["LANGUAGE_ID"];
+			 if($_SESSION["LANGUAGE_ID"] == 3)
+			{
+				//echo "first";
+				 $translation_id = $v['translation_id'];
+				 $obj = new Application_Model_DbtScheme();
+				$valwithtranslation  = $obj->titleListByLang($translation_id,$v['ministryid']);
+				                 if($translation_id!=0)
+									{
+										$ministry_name= $valwithtranslation["ministry_name"];
+									
+										
+										?>
+										
+										<h3><?php echo $ministry_name; ?></h3>
+										<?php
+										//echo "id=".$valwithtranslation["ministryid"];
+										//$scheme = $objministry->getscheme($valwithtranslation["ministryid"]);
+									     //echo $scheme = $scheme['scheme_name'];
+										 ?>
+										 
+										 <ul>
+										 <?php
+									 foreach($scheme as $k1=>$v1)
+										{
+											//print_r($v1);		
+										$traanslation_id_scheme = $v1['translation_id'];
+										 if($traanslation_id_scheme!=0)
+									    {
+											$valwithtranslation  = $obj->titleListByScheme($traanslation_id_scheme,$v1['id']);
+											?>
+											
+											
+											<li><a href='#'><?php  echo $scheme = $valwithtranslation['scheme_name'];
+
+											  ?></a></li>
+											  
+											  
+											  <?php 
+										}
+										else
+										{
+										$scheme = $v1['scheme_name']; 
+										
+										?>
+									 <li>  <a href='#'><?php echo str_replace($badtags,"",trim($scheme)); ?></a></li>
+									   
+									   
+									   <?php
+										
+										}
+										
+										
+										}
+										
+										?>
+										
+										</ul>
+										<?php 
+									}
+									else
+									{
+										 $ministry_name= $v["ministry_name"];
+										
+										 ?>
+										 <h3><?php echo $ministry_name; ?></h3>
+										 
+										 <?php
+										//echo "id=".$v["ministryid"];
+										$scheme = $objministry->getscheme($v["ministryid"]);
+										//$aaaa=$scheme->toArray();
+										//echo "<pre>";
+										//print_r($aaaa);
+										//echo "</pre>";
+										//	echo "<br>----";
+										
+										?>
+										<ul>
+										<?php
+										foreach($scheme as $k1=>$v1)
+										{
+											
+											
+										$traanslation_id_scheme_new = $v1['translation_id'];
+										 if($traanslation_id_scheme_new!=0)
+									    {
+											
+											//echo "second";
+											
+											//echo $traanslation_id_scheme_new;
+										
+											$valwithtranslation  = $obj->titleListByScheme($traanslation_id_scheme_new,$v1['id']);
+											$scheme = $valwithtranslation['scheme_name'];
+											?>
+											<li><a href='#'><?php echo  str_replace($badtags,"",trim($scheme));?></a></li>
+										<?php 
+										}
+										else
+										{
+											
+											$scheme = $v1['scheme_name'];
+											?>
+									  <li><a href='#'><?php echo str_replace($badtags,"",trim($scheme));?></a></li>
+										
+									<?php 	}
+										}
+										
+										
+										?>
+										</ul>
+										<?php
+									}
+			}
+		 if($_SESSION["LANGUAGE_ID"] == 1)
+			{
+				//echo "second";
+					//echo "id=".$v["ministryid"];
+					$obj = new Application_Model_DbtScheme();
+					$scheme = $objministry->getschemenew($v["ministryid"]);
+					
+					$translation_id = $v['translation_id'];
+					
+					 if($translation_id!=0)
+									{
+									
+									
+									
+									}
+									
+								    else
+									{
+									 $ministry_name= $v["ministry_name"];
+									
+									?>
+									<h3><?php echo str_replace($badtags,"",trim($ministry_name)); ?></h3>
+										 
+									 <?php
+										//echo "id=".$v["ministryid"];
+										
+										//$aaaa=$scheme->toArray();
+										//echo "<pre>";
+										//print_r($aaaa);
+										//echo "</pre>";
+										//	echo "<br>----";
+										
+										?>
+									<ul>
+									<?php
+										foreach($scheme as $k1=>$v1)
+										{
+											
+											
+										$traanslation_id_scheme_new = $v1['translation_id'];
+										
+										$schemedetail = $this->url(array(
+                                         'controller' => 'scheme',
+                                         'action' => 'schemedetail'
+                                        ))."?id=".base64_encode($this->escape($v1['id']));
+
+					$scheme = $v1['scheme_name'];
+										?>
+										
+									  <li id="first"><a href='<?php echo $schemedetail; ?>'><?php   echo  str_replace($badtags,"",trim($scheme)); ?></a></li>
+										
+									<?php 	
+										}
+										
+										
+										?>
+										</ul>
+									<?php
+									
+									}
+					
+					?>
+					
+					
+					
+					<?php
+					
+
+			}
+			else
+			{
+				//echo "third";
+			//echo "test";
+			//echo "abhi".$v['ministry_name'];
+			?>
+			
+			<?php
+			//echo $v['ministry_name'];
+					//echo "id=".$v["ministryid"];
+					$obj = new Application_Model_DbtScheme();
+					$scheme = $objministry->getschemenew($v["ministryid"]);
+					//print_r($scheme);
+					$translation_id = $v['translation_id'];
+					/*  if($translation_id!=0)
+									{
+									
+									echo "sdsd";
+									
+									}
+									else 
+									 */
+									 
+								    if($translation_id!=0 || $translation_id ==0)
+									{
+								
+									 $ministry_name= $v["ministry_name"];
+						
+									?>
+									<h3><?php echo $ministry_name; ?></h3>
+										 
+									 <?php
+										//echo "id=".$v["ministryid"];
+										
+										
+										//$aaaa=$scheme->toArray();
+										//echo "<pre>";
+										//print_r($aaaa);
+										//echo "</pre>";
+										//	echo "<br>----";
+										
+										?>
+									<ul>
+									<?php
+										foreach($scheme as $k1=>$v1)
+										{
+												$schemedetail = $this->url(array(
+                                         'controller' => 'scheme',
+                                         'action' => 'schemedetail'
+                                        ))."?id=".base64_encode($this->escape($v1['id']));
+											
+										$traanslation_id_scheme_new = $v1['translation_id'];
+										$scheme = $v1['scheme_name'];
+										?>
+										
+									  <li><a href='<?php echo $schemedetail; ?>'><?php   echo  str_replace($badtags,"",trim($scheme)); ?></a></li>
+										
+									<?php 	
+										}
+									
+										?>
+										</ul>
+									<?php
+									
+									}
+					
+					?>
+					
+					
+			
+			
+			
+			
+			<?php
+			} ?>
+			
+	         
+		</div>
+		
+		<?php
+					} 
+		} // end of if ?>
+		
+		<?php 
+		} ?>
+		
+		
+       
+        </div>
+       </div>
+</section>
+<!--End Main Contant box-->

@@ -1,0 +1,257 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$transferengineer=$this->transferengineer;
+
+
+//for the searching record
+$searchUrl = $this->url(array(
+            'controller' => 'schemeowner',
+            'action'  => 'pfmstransactionhistory'
+            )); 
+//for Transaction update to the single beneficiaries
+$cmiurl = $this->url(array(
+        'controller' => 'managetransaction',
+        'action' => 'beneficiaryedit'
+    ));
+//for display the record of single beneficiaries
+$viewurl = $this->url(array(
+        'controller' => 'managetransaction',
+        'action' => 'viewbeneficiariesrecord'
+    ));				
+
+$schemename= $this->scheme_id;
+$cmidata = $this->cmidata;
+//echo "aaaa";exit;
+//print_r($cmidata);exit;
+$min_id = $cmidata[0]['min_id'] != "" ?  base64_encode($cmidata[0]['min_id']) : isset($_GET['min_id']) ? $_GET['min_id']: "";
+
+
+$paramid = "?scheme_id=".base64_encode($schemename[0]->id)."&min_id=".safexss($_GET['min_id'])."&status=".safexss($_GET['status'])."&scm_type=".safexss($_GET['scm_type']);
+$searchUrl = $searchUrl.'?scheme_id='.$schemename[0]->id;
+?>
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+	$("#sechemSearchCancleButton").click(function(){
+		window.location.href="<?php echo $paramid; ?>";
+	});
+});
+</script>
+<!--- ************************************************* --->
+
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('managetransaction/schemeview'); ?>">Scheme List</a></li>
+   <li class="active">Manage Transaction</li>
+</ol>
+
+<div class="row">	
+    <div class="col-sm-12 central-and-stat">
+
+		<ul class="list-unstyled centralAndstatescheme nav nav-pills margin-bottom-10">
+			<li class="active">
+				<!--<a href="<?php //echo $this->BaseUrl("schemeowner/beneficiarydatalist?scheme_id=".$_REQUEST['scheme_id']."&min_id=".$min_id."&scm_type=".$_GET['scm_type']."&status=".$_GET['status']); ?>" class="active">Manage Beneficiaries &amp; Transaction</a></li>
+				
+				<a href="#" class="active">Manage Transaction</a></li>-->
+		</ul>
+	</div>
+</div>
+<!--- ************************************************* --->
+<div class="row">
+<div class="col-sm-9 col-xs-12"><h2><?php $schemename= $this->scheme_id; 
+if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 1){
+			$type = " (In Cash)";
+		}else if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 2){
+			$type = " (In Kind)";
+		}else if(isset($_GET['scm_type']) && base64_decode($_GET['scm_type']) == 3){
+			$type = " (In Others)";
+		}else{
+			$type = "";
+		}
+$code = $this->scheme_code[0]['scheme_codification']!=""? " &nbsp;&nbsp;Scheme Code: ".$this->scheme_code[0]['scheme_codification']:"";		
+echo "Scheme Name : ".$schemename[0]->scheme_name.$type.$code;
+?>  </h2> </div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Transactions.pdf'); ?>"  target="_blank">Help?</a></div></div>
+
+   <div class="row">
+	  <div class="col-sm-12">
+ 
+<?php
+//echo "<pre>";print_r($this->cmidata);echo "</pre>";
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalcmireports;
+	   $min_id = $min_id;
+	   //echo $min_id;exit;
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalcmireports;
+        // if($this->successMsg){
+            // echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+        // }
+		if(isset($_GET['success']) && $_GET['success']){
+            echo "<div class='success-msg'>Transaction has been uploaded successfully.</div>"; 
+        }
+		if(isset($_GET['actmsg']) && $_GET['actmsg']=='add'){
+            echo "<div class='success-msg'>Transaction has been uploaded successfully.</div>"; 
+        }
+?>
+		<form class="form-inline" method="get" action="<?=$searchUrl.'?search='.$searchUrl?>">
+        <div class="row margin-bottom-10">
+		
+			<div class="col-sm-12">
+				<div class="form-group margin-left-15">
+					<label><?php //echo SEARCH_BY; ?></label>
+				<span class="dateinput">
+					<input class="rolBtn form-control" type="date" name="to" id="to" value="<?php if(isset($_GET['to'])){ echo $_GET['to']; }?>" placeholder="mm/dd/yy"/>
+					<input class="rolBtn form-control" type="date" name="from" id="from" value="<?php if(isset($_GET['from'])){ echo $_GET['from']; }?>" placeholder="mm/dd/yy"/>
+				</span>
+					<input class="rolBtn form-control" type="text" name="benef_id" value="<?php if(isset($_GET['benef_id'])){ echo safexss($_GET['benef_id']);} ?>" placeholder="Beneficiaries Id"/>
+					
+					<input class="rolBtn form-control" type="hidden" name="scheme_id" value="<?php echo base64_encode($schemename[0]->id); ?>"/>
+					<input class="rolBtn form-control" type="hidden" name="min_id" value="<?php echo base64_encode($schemename[0]->ministry_id); ?>"/>
+					<input class="rolBtn form-control" type="hidden" name="status" value="<?php  echo safexss($_GET['status']);?>"/>
+					<input class="rolBtn form-control" type="hidden" name="scm_type" value="<?php  echo safexss($_GET['scm_type']);?>"/>
+					<button type="Submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Search</button>
+					<button type="reset" class="btn active text-center" name="reset" id="sechemSearchCancleButton">Reset</button>
+				</div>
+			</div>
+            </div>
+		</form>
+
+			<div class="row"><div class="col-sm-12 text-right">
+			<?php 
+			//below initialization using exporting filter wise data
+			$to = $from = $benef_id = $st = $dt = $bl = $vi = null;
+			if(isset($_GET['to'])){
+				$to = $_GET['to'];
+			}
+			if(isset($_GET['from'])){
+				$from = $_GET['from'];
+			}
+			if(isset($_GET['benef_id'])){
+				$benef_id = $_GET['benef_id'];
+			}
+			if(isset($_GET['st'])){
+				$st = $_GET['st'];
+			}
+			if(isset($_GET['dt'])){
+				$dt = $_GET['dt'];
+			}
+			if(isset($_GET['bl'])){
+				$bl = $_GET['bl'];
+			}
+			if(isset($_GET['vi'])){
+				$vi = $_GET['vi'];
+			}
+			$paramtobeexp = "&to=".$to."&from=".$from."&benef_id=".$benef_id."&st=".$st."&dt=".$dt."&bl=".$bl."&vi=".$vi;
+
+			?>
+				<a class="btn btn-warning" href="<?php echo $this->baseUrl(); ?>/schemeowner/csvexportmethodpfms?scheme_id=<?php echo base64_encode($schemename[0]->id); ?>&min_id=<?php echo $min_id; ?><?php echo $paramtobeexp; ?>" title="<?php echo 'Export Data of Current Scheme'; ?>"><?php echo 'Export Beneficiaries &amp; Transaction'; ?></a>
+				<?php
+					//if(isset($_GET['status']) && $_GET['status'] == 1){
+				?>
+				<?php //} else if(isset($_GET['status']) && $_GET['status'] == 0){ ?>
+				
+					<a class="btn btn-warning" href="<?php echo $this->BaseUrl("schemeowner/importbulktransaction?scheme_id=".safexss($_REQUEST['scheme_id'])."&min_id=".safexss($min_id)."&scm_type=".safexss($_GET['scm_type'])."&status=".safexss($_GET['status']); ?>" class="active">Upload Bulk Transaction</a>
+					
+				<?php
+				//}?>
+			</div>
+            </div>
+      <div class="row">    
+		<div class="col-sm-12 text-center record_box">
+			<?php if($Count): echo $Count ." ".RECORD_FOUND; endif;?>
+			<?php if(!$Count): echo 0 ." ".RECORD_FOUND; endif;?>
+		</div>
+		</div>
+
+		
+		<?php $postUrl = $this->url(array(
+                'controller' => 'schememanualdata',
+                'action'  => 'schememanualdatainactive'
+            ));
+        ?> 
+		
+		
+		<form  class="webform-client-form form-inline" method="post" accept-charset="UTF-8" action="<?php //echo $postUrl; ?>">
+        <div class="table table-responsive">
+		<table class="table" summary="schemes name">
+            <thead>
+                <tr>
+                    <!--<th>#</th>-->
+                    <th scope="col"><?php echo SNo; ?></th>
+					<th scope="col">Name</th>
+                    <th scope="col">Unique ID</th>
+					<?php if(isset($_GET['scm_type']) && (base64_decode($_GET['scm_type']) == 1 || base64_decode($_GET['scm_type']) == 3)){ ?>
+                    <th scope="col">Amount</th>
+					<?php } ?>
+					<th scope="col">Transaction Date</th>
+					<?php if(isset($_GET['scm_type']) && (base64_decode($_GET['scm_type']) == 1 || base64_decode($_GET['scm_type']) == 3)){ ?>
+					<th scope="col">Fund Transfer</th>
+					<?php } ?>
+					<th scope="col">Action</th>
+                </tr>
+            </thead>
+			 <tbody>
+	<?php if($Count==0){ ?>
+			<tr>
+				<td colspan="12" class="text-center"><?php echo RECORD_EMPTY;?></td>
+			</tr><?php
+		}else{
+            $i=1;
+            foreach ($cmidata as $key => $val){
+					?>
+					<tr>
+					<td><?php echo $i+$this->start;?></td>
+					<td><?php echo $this->escape($val['name']);?></td>
+					<td><?php echo $this->escape($val['uniq_user_id']);?></td>
+					<?php if(isset($_GET['scm_type']) && (base64_decode($_GET['scm_type']) == 1 || base64_decode($_GET['scm_type']) == 3)){ ?>
+					<td><?php 
+						if($this->escape($val['amount']) !=""){
+							$amount = $this->escape($val['amount']);
+						}else{
+							$amount = "----";
+						}
+					echo $amount;?></td>
+					<?php } ?>
+					<td><?php 
+						if($this->escape($val['transaction_date']) != ""){
+							$dateob = $this->escape($val['transaction_date']);
+							$data = date("d/m/Y",strtotime($dateob));	
+						}else{
+							$data = "----";
+						}
+						echo $this->escape($data);
+					?></td>
+					<?php if(isset($_GET['scm_type']) && (base64_decode($_GET['scm_type']) == 1 || base64_decode($_GET['scm_type']) == 3)){ ?>
+					<td><?php
+						if($this->escape($val['fund_transfer']) !=""){
+							$fund_transfer = $this->escape($val['fund_transfer']);
+						}else{
+							$fund_transfer = "----";
+						}
+						echo $fund_transfer;?>
+					</td>
+					<?php } ?>
+					<?php 
+						$par = "?id=".base64_encode($this->escape($val['id']))."&scheme_id=".base64_encode($this->escape($schemename[0]->id))."&uuid=".base64_encode($val['uniq_user_id'])."&scmtype=".base64_encode($this->escape($val['scheme_type']))."&min_id=".safexss($_GET['min_id'])."&status=".safexss($_GET['status']);
+					?>
+					<td>	
+						<a href="<?php echo $viewurl.$par;?>" class="menu1">View Transaction</a><!-- / 
+						<a href="<?php //echo $cmiurl.$par;?>" class="menu1">Manage Transaction</a>-->
+					</td>
+					</tr>
+					<?php ++$i;
+			}
+		}?>
+		</tbody> 
+			</table>
+         </div>   
+		</form>
+<div class="text-center">
+<?php
+    echo $this->paginate;
+    ?>
+		</div>
+	</div>
+</div>

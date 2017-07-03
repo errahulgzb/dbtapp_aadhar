@@ -1,0 +1,100 @@
+
+<?php
+    $userid = new Zend_Session_Namespace('userid');
+    $role = new Zend_Session_Namespace('role');
+    $admname = new Zend_Session_Namespace('adminMname');
+	$state_code = new Zend_Session_Namespace('state_code');
+    $controller_name=Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+    //$controller_action_name=Zend_Controller_Front::getInstance()->getRequest()->getActionName();
+
+	////added by vik
+	$agencyroles=array(7,8,9,10,11,12);
+	////
+
+?>
+  <!--<h2 class="pgTtl">Welcome <?php //echo ucfirst($admname->adminname);?></h2>-->
+   <!--- <h2 class="pgTtl">Welcome <?php //echo ucfirst($admname->adminname);?></h2> --->
+
+    <nav class="navbar navbar-default">
+    <div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+
+        <div class="collapse navbar-collapse" id="myNavbar">
+
+        <ul class="nav navbar-nav">
+
+           <?php
+
+            if(($userid->userid)&&($role->role==1))
+            {?>
+                <!--<li><a href="<?php //echo $this->url(array('controller' => 'user', 'action'  => 'userview')); ?>" title="Users" class=<?php if($controller_name == 'user') { echo 'active';} ?> >Users1</a></li>-->
+
+                 <li><a href="<?php echo $this->baseUrl("scheme/schemeview"); ?>" title="Manage Scheme" class=<?php if($controller_name == 'scheme') { echo 'active';} ?> >Manage Scheme</a></li>
+                <li><a href="<?php echo $this->baseUrl("schemeowner/schemeview"); ?>" title="Manage Beneficiaries" class=<?php if($controller_name == 'schemeowner') { echo 'active';} ?> >Manage Beneficiaries</a></li>
+
+				<li><a href="<?php echo $this->baseUrl("managetransaction/schemeview"); ?>" title="Manage Transaction" class=<?php if($controller_name == 'managetransaction') { echo 'active';} ?> >Manage Transaction</a></li>
+
+                <li><a href="<?php echo $this->baseUrl("user/userview"); ?>" title="Manage User" class=<?php if($controller_name == 'user' || $controller_name == 'assignmanager' || $controller_name == 'assignstateuser') { echo 'active';} ?> >Manage User</a></li>
+
+
+                <li><a href="<?php echo $this->baseUrl("ministry/ministryview"); ?>" title="Manage Ministries / Departments" class=<?php if($controller_name == 'ministry') { echo 'active';} ?>>Manage Ministries / Departments </a></li>
+
+
+
+
+				<li><a href="<?php echo $this->baseUrl("auditlog"); ?>" title="Audit Log" class=<?php if($controller_name == 'auditlog') { echo 'active';} ?> >Audit Log</a></li>
+
+				 <li><a href="<?php echo $this->baseUrl("contentmanagement/contentmanagementview"); ?>" title="Content Management" class=<?php  if($controller_name == 'contentmanagement') { echo 'active';} ?>>Content Management</a></li>
+
+				<li><a href="<?php echo $this->baseUrl("misreport/schemereport"); ?>" title="Scheme Report" class=<?php if($controller_name == 'misreport') { echo 'active';} ?> >Scheme Report</a></li>
+
+      <li><a href="<?php echo $this->baseUrl("webservice/"); ?>" title="Webservice" class=<?php if($controller_name == 'webservice') { echo 'active';} ?>>Web Service</a></li>
+
+				<!--<li><a href="<?php echo $this->baseUrl("assignstateuser/"); ?>" title="Assign State User" class=<?php if($controller_name == 'assignstateuser') { echo 'active';} ?>>Assign State User </a></li>-->
+
+				 <!--<li><a href="<?php //echo $this->baseUrl("feedback/feedbackview"); ?>" title="Feedback" class=<?php //if($controller_name == 'feedback') { echo 'active';} ?>>Feedback</a></li>-->
+
+
+
+             <?php }
+			 else if($role->role == 6) { ?>
+
+			 <li><a href="<?php echo $this->baseUrl("scheme/schemeview"); ?>" title="Manage Scheme" class=<?php if($controller_name == 'scheme') { echo 'active';} ?> >Manage Scheme</a></li>
+             <li><a href="<?php echo $this->baseUrl("schemeowner/schemeview"); ?>" title="Manage Beneficiaries" class=<?php if($controller_name == 'schemeowner') { echo 'active';} ?> >Manage Beneficiaries</a></li>
+
+			 <li><a href="<?php echo $this->baseUrl("managetransaction/schemeview"); ?>" title="Manage Transaction" class=<?php if($controller_name == 'managetransaction') { echo 'active';} ?> >Manage Transaction</a></li>
+
+			  <li><a href="<?php echo $this->baseUrl("user/userview"); ?>" title="Manage User" class=<?php if($controller_name == 'user' || $controller_name == 'assignmanager' || $controller_name == 'assignstateuser') { echo 'active';} ?> >Manage User</a></li>
+
+
+			  <li><a href="<?php echo $this->baseUrl("misreport/schemereport"); ?>" title="Scheme Report" class=<?php if($controller_name == 'misreport') { echo 'active';} ?> >Scheme Report</a></li>
+			  <li><a href="<?php echo $this->baseUrl("contentmanagement/contentmanagementview"); ?>" title="Content Management" class=<?php  if($controller_name == 'contentmanagement') { echo 'active';} ?>>Content Management</a></li>
+			  <li><a href="<?php echo $this->baseUrl("auditlog"); ?>" title="Audit Log" class=<?php if($controller_name == 'auditlog') { echo 'active';} ?> >Audit Log</a></li>
+        <li><a href="<?php echo $this->baseUrl("webservice/"); ?>" title="Webservice" class=<?php if($controller_name == 'webservice') { echo 'active';} ?>>Web Service</a></li>
+
+			<?php }else if($role->role == 4) { ?>
+
+			<li><a href="<?php echo $this->baseUrl("schemeowner/schemeview"); ?>" title="Manage Beneficiaries" class=<?php if($controller_name == 'schemeowner') { echo 'active';} ?> >Manage Beneficiaries</a></li>
+
+			<li><a href="<?php echo $this->baseUrl("managetransaction/schemeview"); ?>" title="Manage Transaction" class=<?php if($controller_name == 'managetransaction') { echo 'active';} ?> >Manage Transaction</a></li>
+			 <li><a href="<?php echo $this->baseUrl("user/userview"); ?>" title="Users" class=<?php if($controller_name == 'user' || $controller_name == 'assignmanager' || $controller_name == 'assignstateuser') { echo 'active';} ?> >Manage User</a></li>
+			<li><a href="<?php echo $this->baseUrl("misreport/schemereport"); ?>" title="Scheme Report" class=<?php if($controller_name == 'misreport') { echo 'active';} ?> >Scheme Report</a></li>
+
+  		<?php }
+
+			else if($role->role==12){ ?>
+			  <li><a href="<?php echo $this->baseUrl("schemeowner/schemeview"); ?>" title="Manage Beneficiaries" class=<?php if($controller_name == 'schemeowner') { echo 'active';} ?> >Manage Beneficiaries</a></li>
+			<li><a href="<?php echo $this->baseUrl("managetransaction/schemeview"); ?>" title="Manage Transaction" class=<?php if($controller_name == 'managetransaction') { echo 'active';} ?> >Manage Transaction</a></li>
+			<li><a href="<?php echo $this->baseUrl("misreport/schemereport"); ?>" title="Scheme Report" class=<?php if($controller_name == 'misreport') { echo 'active';} ?> >Scheme Report</a></li>
+
+			<?php }?>
+
+       </ul>
+       </div>
+
+    </nav>

@@ -1,0 +1,48 @@
+<?php
+    $postUrl = $this->url(array('controller' => 'auth', 'action'  => 'logout')); 
+    $admname = new Zend_Session_Namespace('adminMname');
+	
+?>
+
+<?php 
+    $cmi_list = new Application_Model_Folder;
+    $parent_list = $cmi_list->folderParent();
+    $cmishow_list = $cmi_list->folderlistbypermission(1);
+
+    $userid = new Zend_Session_Namespace('userid');
+	 $unme= $userid->userid;
+	 //echo $unme;
+     $role = new Zend_Session_Namespace('role');
+    //echo "ROLE=".$role->role;
+
+	$user_list = $cmi_list->user_name($unme);
+	//$first = $user_list['firstname'];
+    //$second = $user_list['lastname'];
+	$usname = $user_list['firstname'];
+    $last_name = $user_list['lastname'];
+
+    $rootstartStrong = "";
+    $rootendStrong	="";
+    //if(($value["owner"]==$userid->userid || $value["pub_pri"]==1) || $role->role==1)
+    //{
+    //}
+?>
+
+<!--<li class="last"><a href="<?php //echo $postUrl?>" title="Logout">Logout</a></li>-->
+
+
+<header class="container-fluid">
+<div class="row">
+        <div class="col-md-6 col-sm-10 col-xs-10">
+               <a href="<?php echo $this->baseUrl();?>" class="navbar-brand"><img src="<?php echo $this->baseUrl('images/logo.png');?>" alt="DBT" /><span class="rightlogo"><span><?php echo scheme_management_system; ?></span><small><?php echo govt_of_india; ?></small></span></a>
+              
+        </div>
+		
+        <div class="col-md-6 col-sm-2 col-xs-2">
+                <a href="javascript:void(0);" class="pull-right"><img src="<?php echo $this->baseUrl('images/indian_emblem.png');?>" class="rightemblem" alt=" Indian Emblem" /><!-- <span class="rightlogo"><span><?php //echo scheme_management_system; ?></span><small><?php //echo govt_of_india; ?></small></span>--></a>
+               
+        </div>
+        
+	</div>	
+		
+</header>

@@ -1,0 +1,46 @@
+<?php 
+//echo "abhishek";
+//$escaper = new Zend\Escaper\Escaper('utf-8');
+//$escaper = new Base_View_Helper_SafeXss();
+$pageid =  $this->idpage;
+$titlebrdcrumn =  $this->titlebrdcrumn;
+//$brdcrumbtitle = new Application_Model_Page;
+//$pagecnt = $brdcrumbtitle->getpagetitle($pageid);
+//echo $title; 
+//echo $this->safexss();
+$badtags=array('IFRAME','SCRIPT','script','javascript','alert','?','OBJECT','EMBED');
+//Removed bad characters into a space
+ $langid =  $this->langid;
+ ?>
+
+<section id="mainContant">
+		<div id="about">
+	    <div class="row">
+        <div class="col-sm-12 col-md-12">
+	
+
+		<ol class="breadcrumb  margin_top10">
+    <li><a href="<?php echo $this->baseUrl('/'); ?>"><?php echo home; ?></a></li>
+    <li class="active">
+	<?php echo  str_replace($badtags,"",trim($titlebrdcrumn)); ?></li>
+  </ol>
+<?php
+   			if($pageid==64 || $pageid==65 || $pageid==80 || $pageid==81)
+		{ ?>
+			<h2> <?php echo  str_replace($badtags,"",trim($titlebrdcrumn)); ?></h2>
+    <?php    } 
+	
+	else {
+  ?>
+        <h2><?php echo  str_replace($badtags,"",trim($titlebrdcrumn)); ?></h2>
+        <?php    } ?>	
+			<?php echo  str_replace($badtags,"",trim($this->description)); ?>
+			
+           
+            		
+		</div>
+        
+       </div>
+</div>
+</section>
+<!--End Main Contant box-->

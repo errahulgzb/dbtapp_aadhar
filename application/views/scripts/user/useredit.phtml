@@ -1,0 +1,382 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+<!-----------Add Captcha Code Script----->
+ <script type="text/javascript" src="<?php echo $this->baseUrl('js/captcha.js') ?>"></script> 
+ <!--------------End Captcha Code------->
+<script type="text/javascript" language="javascript">
+$(document).ready(function(){
+	
+	var rid = $("#name").val();
+	if(rid ==3)
+		{
+			$(".role-item").show();		
+		}
+		else
+		{
+			$(".role-item").hide();		
+		}	
+	$("#name").change(function(){
+		var role = $(this).val();
+		if(role ==3)
+		{
+			$(".role-item").show();	
+			
+		}
+		else
+		{
+			$(".role-item").hide();	
+			
+		}	
+	});
+});
+
+function validate()
+{
+	var iChars12 ="0123456789";
+	var iChars = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";
+	var iChars1 = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	var iChars121 = "!#$%^&*()+=[]\\\';,/{}|\":<>?~`() ";
+	var iChars_username = "!@#$%^&*()+=-[]\\\';,/{}|\":<>?~`() ";
+	var iChars_allow_space = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	//var string1 = removeSpacesnew(document.getElementById('mainCaptcha').value);
+    //var string2 = removeSpacesnew(document.getElementById('txtInput').value);
+
+
+
+        if(document.frmfeedback.firstname.value==''||document.frmfeedback.firstname.value==null)
+        {
+               $('#first-name').text("First name field cannot be empty");
+               document.frmfeedback.firstname.focus();
+               return false;
+        }
+
+
+       if(document.frmfeedback.firstname.value!='')
+        {
+
+                for (var i = 0; i < document.frmfeedback.firstname.value.length; i++) {
+                if (iChars_allow_space.indexOf(document.frmfeedback.firstname.value.charAt(i)) != -1) {
+                 $('#first-name').text("First name field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+                document.frmfeedback.firstname.focus();
+                return false;
+                }
+          }
+        }
+        if(document.frmfeedback.firstname.value!='')
+                    {
+                    for (var i = 0; i < 1; i++) {
+                    if (iChars12.indexOf(document.frmfeedback.firstname.value.charAt(i)) != -1) {
+                     $('#first-name').text("First character should be string!");
+                    document.frmfeedback.firstname.focus();
+                    return false;
+                    }
+              }
+        }
+
+
+  if(document.frmfeedback.firstname.value!=''||document.frmfeedback.firstname.value!=null)
+        {
+               $('#first-name').text("");
+        }
+
+  if(document.frmfeedback.lastname.value==''||document.frmfeedback.lastname.value==null)
+   {
+	   $('#last-name').text("Last name field cannot be empty");
+	   document.frmfeedback.lastname.focus();
+	   return false;
+   }
+
+	if(document.frmfeedback.lastname.value!='')
+					{
+						for (var i = 0; i < document.frmfeedback.lastname.value.length; i++) {
+						if (iChars.indexOf(document.frmfeedback.lastname.value.charAt(i)) != -1) {
+						$('#last-name').text("Last name field has special characters. \nThese are not allowed.\n Please remove them and try again.");
+						document.frmfeedback.lastname.focus();
+						return false;
+						}
+				 	  }
+					}
+if(document.frmfeedback.lastname.value!='')
+				{
+				for (var i = 0; i < 1; i++) {
+				if (iChars12.indexOf(document.frmfeedback.lastname.value.charAt(i)) != -1) {
+				$('#last-name').text("First character should be string!");
+				document.frmfeedback.lastname.focus();
+				return false;
+				}
+			  }
+     		}
+		
+		 if(document.frmfeedback.lastname.value!=''||document.frmfeedback.lastname.value!=null)
+   {
+	   $('#last-name').text("");
+   }
+
+	if(document.frmfeedback.email.value==''||document.frmfeedback.email.value==null)
+   {
+	   $('#email-add').text("Email field cannot be empty");
+	   document.frmfeedback.email.focus();
+	   return false;
+   }
+
+   if(document.frmfeedback.email.value!='')
+					{
+           var email = document.getElementById('email');
+           var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5})+$/;
+
+           if (!filter.test(email.value)) {
+           $('#email-add').text('Please provide a valid email address');
+           document.frmfeedback.email.focus();
+           return false;
+	         }
+			}
+	if(document.frmfeedback.email.value!=''||document.frmfeedback.email.value!=null)
+   {
+	   $('#email-add').text("");
+   }
+   		
+   if(document.frmfeedback.mobile.value==''||document.frmfeedback.mobile.value==null)
+   {
+	   $('#mobile-no').text("Mobile no. field cannot be empty");
+	   document.frmfeedback.mobile.focus();
+	   return false;
+   }
+/* if(document.getElementById("txtInput").value ==''|| document.getElementById("txtInput").value ==null)
+   {
+	   alert("<?php echo CAPTCHA_NOTEMPTY; ?>");
+	   document.getElementById("txtInput").focus();
+	   return false;
+   }
+   if (string1!= string2){
+	   alert('<?php echo CAPTCHA_INCORRECT; ?>');					  
+	   return false;
+	} */
+if(document.frmfeedback.mobile.value!='')
+					{
+					 var mobile = document.getElementById("mobile").value;
+        var pattern = /^[\s()+-]*([0-9][\s()+-]*){6,20}$/;
+        if (!pattern.test(mobile)) {
+            $('#mobile-no').text("It is not valid mobile number");
+			document.frmfeedback.mobile.focus();
+            return false;
+        }
+        
+}
+  if(document.frmfeedback.mobile.value!=''||document.frmfeedback.mobile.value!=null)
+   {
+	   $('#mobile-no').text("");
+   }
+if(jQuery('#vercode').val() == '')
+		{
+			$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		} 
+		
+		if(jQuery('#vercode').val() != '')
+		{
+			$('captcha-code').text("");
+			
+		} 
+
+if(document.frmfeedback.organisation.value==''||document.frmfeedback.organisation.value==null)
+   {
+	   alert("organisation field cannot be empty");
+	   document.frmfeedback.organisation.focus();
+	   return false;
+   }
+
+if(document.frmfeedback.organisation.value!='')
+				{
+				for (var i = 0; i < document.frmfeedback.organisation.value.length; i++) {
+				if (iChars1.indexOf(document.frmfeedback.organisation.value.charAt(i)) != -1) {
+				alert ("Organisation field has special characters.\nThese are not allowed.\n Please remove them and try again.");
+						
+			document.frmfeedback.organisation.focus();
+            return false;
+        }
+      }
+	}
+
+
+		
+
+
+
+
+
+
+         if(document.frmfeedback.email.value!='')
+					{
+           var email = document.getElementById('email');
+          // var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		 var filter = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.([a-zA-Z])+([a-zA-Z])+/;
+
+           if (!filter.test(email.value)) {
+           $('#email-add').text('Please provide a valid email address');
+           document.frmfeedback.email.focus();
+           return false;
+	         }
+	}
+	return true;
+}
+ function removeSpacesnew(string){
+                  return string.split(' ').join('');
+                  }
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('user/userview'); ?>">User(s) List</a></li>
+   <li class="active">Edit</li>
+</ol>
+<div class="row"><div class="col-sm-9 col-xs-12"><h2>Edit User</h2>	</div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Users.pdf'); ?>"  target="_blank">Help?</a></div></div>			
+<? 
+		 $cmidata = $this->cmidata;
+		 
+	$getministryname = $this->getministry;
+	$getstatename = $this->getstatename;
+	$getdistrict = $this->getdistrict;
+	$getusername = $this->getusername;
+	$getrolename = $this->getrolename;
+		$postUrlUpdate = $this->url(array(
+                                'controller' => 'user',
+                                'action'  => 'useredit'
+                                ))."?id=".$this->escape($cmidata['id']); ?>
+<form role="form" method="post" action="<?php echo $postUrlUpdate; ?>" name="frmfeedback"  id="frmfeedback"  onsubmit="return validate();">
+    <?php 
+        if($this->errorMessage){
+            echo "<div class='error-msg'>".$this->errorMessage."</div>"; 
+        }
+    ?>
+
+        
+		
+		<div class="row">
+		 <div class="form-group col-sm-6">
+              <label>User Name<sup class="require">*</sup>  </label>
+             <input type="text" value="<?php echo $getusername; ?>" disabled="disabled" class="form-control" />
+            </div>
+			
+			  <div class="form-group col-sm-6">
+              <label>Role<sup class="require">*</sup>  </label>
+              <?php //echo $this->form->name;?>
+			  <input type="text" value="<?php echo $getrolename;?>" disabled="disabled" class="form-control" />
+            </div>
+			</div>
+            <div class="row">
+			<?php if($getstatename!='')
+			{ ?>
+			
+			 <div class="form-group col-sm-6">
+              <label>State<sup class="require">*</sup>  </label>
+               <input type="text" value="<?php echo $getstatename;?>" disabled="disabled" class="form-control" />
+            </div>
+    	<?php } else { ?>
+		<div class="form-group col-sm-6 hide">
+              <label>&nbsp;</label>
+              <?php //echo $getstatename;?>
+            </div>
+		<?php
+		} ?>
+		</div>
+            <div class="row">
+			<?php if($getdistrict!='')
+			{ ?>
+       <div class="form-group col-sm-6">
+              <label>City<sup class="require">*</sup>  </label>
+              <input type="text" value="<?php echo $getdistrict;?>" disabled="disabled" class="form-control" />
+            </div>
+			
+			
+			<?php } else { ?>
+		<div class="form-group col-sm-6 hide">
+              <label>&nbsp;</label>
+              <?php //echo $getstatename;?>
+            </div>
+		<?php
+		} ?>
+		</div>
+            <div class="row">
+		<?php 
+		//print_r($getministryname);exit;
+		//Ministry
+		if($getministryname!='')
+			{ ?>
+				<div class="form-group col-sm-6">
+				<label>Ministry<sup class="require">*</sup>  </label>
+				<input type="text" value="<?php echo $getministryname['ministry_name'];?>" disabled="disabled" class="form-control" />
+				</div>
+				<?php } else { ?>
+			<div class="form-group col-sm-6 hide">
+            <label>&nbsp;</label>
+              <?php //echo $getstatename;?>
+			</div>
+			<?php
+		} ?>
+		
+           </div>
+            <div class="row">
+             <div class="form-group col-sm-6">
+              <label>First Name<sup class="require">*</sup>  </label>
+              <?php echo $this->form->firstname; ?>
+              <span class="require" id="first-name"></span>
+            </div>
+           
+             <div class="form-group col-sm-6">
+              <label>Last Name<sup class="require">*</sup>  </label>
+              <?php echo $this->form->lastname;?>
+              <span class="require" id="last-name"></span>
+            </div>
+	</div>
+            <div class="row">
+			
+    
+            <div class="form-group col-sm-6">
+              <label>E-mail Address<sup class="require">*</sup>  </label>
+              <?php echo $this->form->email;?>
+              <span class="require" id="email-add"></span>
+            </div>
+      
+             <div class="form-group col-sm-6">
+              <label>Mobile Number<sup class="require">*</sup>  </label>
+              <?php echo $this->form->mobile; ?>
+              <span class="require" id="mobile-no"></span>
+            </div>
+			</div>
+            <div class="row">
+			 <!-----------Add Captcha Code Script----->
+			 <div class="form-group col-sm-6 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup>  </label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>	
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();" id="change-image" class="menu4 refresh pull-left" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>									
+				</p>
+				<div class="clearfix"></div><span class="require" id="captcha-code"></span>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+</div>
+            <div class="row">
+            <div class="form-group col-md-12 col-sm-12 text-center">
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+			        <button type="reset" name="Reset" class="btn active text-center" id="sechemSearchButton">Cancel</button>
+            </div>
+
+   </div>
+</form>
+
+
+
+
+
+
+

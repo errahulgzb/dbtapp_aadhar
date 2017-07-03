@@ -1,0 +1,75 @@
+<? //echo APPLICATION_PATH;?>
+
+<table width="100%">
+	<tr>
+		<td align="left"><h2 class="blue">Contact Us</h2></td>
+	</tr>
+
+	<tr>
+	<td align="center" class="text1" style="padding: 10px; border: 1px solid #ddd;">
+		<? $postUrl = $this->url(array(
+						'controller' => 'contactus',
+						)); ?>
+					<form action="<?=$postUrl?>" method="post" name="frmfeedback" id="frmfeedback" onsubmit="">
+						<table align="center" width="70%" border="1">
+							<tr>
+<td valign="top"  align="center" colspan="2">
+<?php if(isset($_GET['message'])){
+
+if($_GET['message']=='success'){
+?>
+<tr>
+<td align="center" width="100%" style="vertical-align: top;" colspan="2"><span class="alert"
+style="">
+
+
+<?PHP
+echo "We thank you for writing to us. We will reach you soon.";
+
+//echo $this->escape($this->message); ?>
+
+
+</span></td>
+
+</tr>
+
+<?php  } ?>
+<?php } ?>
+</td>
+</tr>
+<tr>
+<td align="center" width="100%" style="vertical-align: top;" colspan="2">&nbsp;</td>
+
+</tr>
+<tr>
+<td align="left" width="172" style="vertical-align: top;">First Name :<span class="alert">*</span></td>
+<td align="left" width="438"><?=$this->form->fname?></td>
+</tr>
+<tr>
+<td align="left" width="172" style="vertical-align: top;">Last Name <span
+class="style2">:<span class="alert">*</span></span></td>
+<td align="left" width="438"><?=$this->form->lname?></td>
+</tr>
+<tr>
+<td align="left" style="vertical-align: top;">Phone Number :<span class="alert">*</span></td>
+<td align="left"><?=$this->form->phone?></td>
+</tr>
+<tr>
+<td align="left" style="vertical-align: top;">E-mail Address :<span class="alert">*</span> </td>
+<td align="left"><?=$this->form->email?></td>
+</tr>
+<tr>
+<td style="vertical-align: top;" align="left">Query / Feedback :<span class="alert">*</span> </td>
+<td align="left"><?=$this->form->address?></td>
+</tr>
+
+
+
+<tr>
+<td colspan="2" align="center"><input  type="image"  value=" Submit " name="Submit" border="0"  /></td>
+</tr>
+
+</table></form></td>
+</tr>
+</table>
+

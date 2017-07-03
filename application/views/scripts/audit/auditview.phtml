@@ -1,0 +1,106 @@
+<?php 
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$transferengineer=$this->transferengineer;
+$searchUrl = $this->url(array(
+            'controller' => 'feedback',
+            'action'  => 'feedbackview'
+            )); 
+?>
+<script type="text/javascript" language="javascript">
+  jQuery(document).ready(function(){
+	jQuery(".rstbtn").click(function(){
+		
+		jQuery(".srch-box").val('');
+		window.location.href="<?php echo $searchUrl; ?>";
+	});
+});
+
+</script>
+<?php
+	$prevlogurl = $this->url(array(
+		'controller' => 'auditlog',
+		'action' => ''
+		));
+?>
+<h2 class="btn btn-block btn-danger margin_bottom10 col-sm-12"><?php echo audit_log; ?> - <a href="<?php echo $prevlogurl;?>">Till 11<sup>th</sup> November, 2016(Click Here)</a></h2>
+
+    <?php
+        $cmidata = $this->cmidata;
+        $Count = $this->counttotalcmireports;
+       // $language = $this->language;
+		//print_r($language);
+		
+        if($this->successMsg){
+            echo "<div class='success-msg'>".$this->successMsg."</div>"; 
+        }
+		
+		
+    ?>
+   
+	  <div class="data-found">
+		
+		<div class="filterData">
+		
+
+		   <div class="col-sm-12 col-xs-6 text-center record_box"><?php if($Count): echo '<span>'.$Count ." ".RECORD_FOUND.'</span>'; endif;?>
+    </div>
+
+        <div class="cntnt">
+     <form  class="form-inline webform-client-form" role="form" method="post" accept-charset="UTF-8" action="<?=$postUrl?>">
+        <table>
+            <thead>
+                <tr>
+                   
+                    <th>S. No.</th>
+					<th>Scheme Name</th>
+                    <th>Aadhar bridge payment</th>	
+					 <th>Without Aadhar bridge payment</th>	
+                    <th>Saving</th>	
+					<th>Total No. of beneficiaries</th>	
+                    <th>Total No. of beneficiaries data seeded</th>		
+                    <th>Created</th>		
+                    <th>Updated</th>						  
+                  
+                   
+                    <!--<th>Delete</th>-->
+                </tr>
+            </thead>
+            <tbody><?php if($Count ==0)
+                    { ?>
+                        <tr>
+                            <td colspan="8"><?php echo RECORD_EMPTY;?></td>
+                        </tr>
+                    <?php
+                    }else{
+                        $i=1;
+                        foreach ($cmidata as $key => $val)
+                        {
+						//print_r($val); die;
+						?>
+						<tr>
+						
+						 <td><?php echo $i+$this->start;?></td>				
+						 <td><?php echo $this->escape($val['scheme_name']); ?></td>							 
+						 <td><?php echo $this->escape($val['aadhar_bridge_payment']); ?></td>
+						 <td><?php echo $this->escape($val['without_aadhar_bridge_payment']); ?></td>
+						 <td><?php echo $this->escape($val['saving']); ?></td>
+						 <td><?php echo $this->escape($val['total_num_beneficieries']); ?></td>
+						  <td><?php echo $this->escape($val['aadhar_seeded_total_num_beneficieries']); ?></td>
+						  <td><?php echo $this->escape($val['created']); ?></td>
+						   <td><?php echo $this->escape($val['updated']); ?></td>
+						
+						</tr>
+                            
+                            <?php ++$i;
+                        }
+                    }?>
+                </tbody> 
+        </table>
+   
+    </form>
+    </div>
+    <?php echo $this->paginate; ?>
+</div>
+		

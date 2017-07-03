@@ -1,0 +1,124 @@
+<!--Start Main Contant box-->
+<section class="container-fluid mainContant" id="mainContant">
+<ol class="breadcrumb  margin_top10">
+    <li><a href="#">Home</a></li>
+    <li class="active">Scheme</li>
+  </ol>
+		<div id="scheme">
+	    <h2 class="btn btn-block btn-danger">Schemes</h2>
+		<div class="row">
+		
+		<?php
+		
+		$objministry = new Application_Model_Page;
+		$ministry = $objministry->getministry();
+		if(count($ministry)!=0)
+		{
+		//print_r($ministry);
+
+			foreach($ministry as $k=>$v)
+					{	
+					//print_r($v);
+					echo "<br>----";
+					
+		?>
+        <div class="col-sm-12 col-md-6">
+		
+			<?php
+			$l = 2;
+			if($l ==2)
+			{
+				 $translation_id = $v['translation_id'];
+				 $obj = new Application_Model_Page();
+				$valwithtranslation  = $obj->titleListByLang($translation_id,$v['ministryid']);
+				                 if($translation_id!=0)
+									{
+										echo $ministry_name= $valwithtranslation["ministry_name"].'id='.$valwithtranslation["ministryid"];
+										//echo "id=".$valwithtranslation["ministryid"];
+										$scheme = $objministry->getscheme($valwithtranslation["ministryid"]);
+									     //echo $scheme = $scheme['scheme_name'];
+										 
+									 foreach($scheme as $k1=>$v1)
+										{
+											//print_r($v1);		
+										$traanslation_id_scheme = $v1['translation_id'];
+										 if($traanslation_id_scheme!=0)
+									    {
+											$valwithtranslation  = $obj->titleListByScheme($traanslation_id_scheme,$v1['id']);
+											  echo "first====".$scheme = $valwithtranslation['scheme_name'];
+										}
+										else
+										{
+									    echo "secondq=".$scheme = $v1['scheme_name'];
+										
+										}
+										
+										
+										}
+									}
+									else
+									{
+										echo $ministry_name= $v["ministry_name"].'id='.$v["ministryid"];
+										//echo "id=".$v["ministryid"];
+										$scheme = $objministry->getscheme($v["ministryid"]);
+										//$aaaa=$scheme->toArray();
+										//echo "<pre>";
+										//print_r($aaaa);
+										//echo "</pre>";
+										//	echo "<br>----";
+										foreach($scheme as $k1=>$v1)
+										{
+											
+											
+										$traanslation_id_scheme = $v1['translation_id'];
+										 if($traanslation_id_scheme!=0)
+									    {
+											$valwithtranslation  = $obj->titleListByScheme($traanslation_id_scheme,$v1['id']);
+											  echo "first=".$scheme = $valwithtranslation['scheme_name'];
+										}
+										else
+										{
+									    echo "secondw".$scheme = $v1['scheme_name'];
+										
+										}
+										}
+									}
+			}
+			else
+			{
+				echo $v['ministry_name'];
+					//echo "id=".$v["ministryid"];
+			}
+			//$scheme = $objministry->getscheme($v["ministryid"]);
+			?>
+								
+								
+			 
+			
+			
+            <ul>
+                <li><a href="schemes-details.html">Deen Dayal Upadhyaya Gram Jyoti Yojana [2]</a></li>
+                <li><a href="schemes-details.html">Deendayal Disabled Rehabilitation Scheme</a></li>
+                <li><a href="schemes-details.html">Digital India Programme [3]</a></li>
+                <li><a href="schemes-details.html">Gramin Bhandaran Yojana</a></li>
+                <li><a href="schemes-details.html">HRIDAY – Heritage City Development and Augmentation Yojana</a></li>
+                <li><a href="schemes-details.html">Indira Awaas Yojana</a></li>
+                <li><a href="schemes-details.html">Indira Gandhi Matritva Sahyog Yojana</a></li>
+                <li><a href="schemes-details.html">INSPIRE Programme</a></li>
+                <li><a href="schemes-details.html">Integrated Child Development Services</a></li>
+                <li><a href="schemes-details.html">Integrated Rural Development Program</a></li>
+            </ul>
+		</div>
+		
+		<?php
+					} ?>
+		
+		<?php 
+		} ?>
+		
+		
+       
+        </div>
+       </div>
+</section>
+<!--End Main Contant box-->

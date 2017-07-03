@@ -1,0 +1,48 @@
+<?php 
+	$mainheader = array_filter($this->mainheader);
+	//echo "<pre>";print_r($mainheader);echo "</pre>";
+	if(!empty($mainheader)){
+		if($this->mainheader[0]['total_beneficiaries'] != 0){
+			$tb = $this->mainheader[0]['total_beneficiaries'];
+		}else{
+			$tb = 0;
+		}
+		if($this->mainheader[0]['aadhaar_seeded'] != 0){
+			$asb = $this->mainheader[0]['aadhaar_seeded'];
+		}else{
+			$asb = 0;
+		}
+		if($this->mainheader[1]['total_amount'] != 0){
+			$tft = $this->mainheader[1]['total_amount'];
+		}else{
+			$tft = 0;
+		}
+		if($this->mainheader[1]['aadhaar_payment'] != 0){
+			$abpft = $this->mainheader[1]['aadhaar_payment'];
+		}else{
+			$abpft = 0;
+		}
+	}else{
+		$tb = 0;
+		$asb = 0;
+		$tft = 0;
+		$abpft = 0;
+	}
+?>
+		<div class="schereport">
+            	<div class="row">
+				
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="total-fund-transfer"><h2>Total Fund Transfer</h2>
+                    <p id="total_fund"><img src="<?php echo $this->baseUrl('images/rupee-symbol.png');?>" alt="Rupee Icon" class="rupee-icon"><?php echo $this->escape(currencyData($tft)); ?></p></div></div>
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="aadhaar-based-payment-fund-transfer"><h2>Aadhaar Based Payment Fund Transfer</h2>
+                    <p id="apb_based"><img src="<?php echo $this->baseUrl('images/rupee-symbol.png');?>" alt="Rupee Icon" class="rupee-icon"><?php echo $this->escape(currencyData($abpft)); ?></p></div></div>
+					
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="total-beneficiaries"><h2>Total Beneficiaries</h2>
+                    <p id="total_beneficiary"><?php echo $this->escape($tb); ?></p></div></div>
+                    <div class="col-sm-6 col-md-3 col-xs-12"><div class="aadhaar-seeded-beneficiaries"><h2>Aadhaar Seeded Beneficiaries</h2>
+                    <p id="aadhaar_beneficiary"><?php echo $this->escape($asb); ?></p></div></div>
+                </div>
+			</div>
+<?php 
+exit;
+?>

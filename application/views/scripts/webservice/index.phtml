@@ -1,0 +1,157 @@
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+$captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+<script type="text/javascript" language="javascript">
+
+//captcha-code
+
+jQuery(document).ready(function()
+{
+	jQuery("#transaction_form_id").submit(function()
+	{
+	if (jQuery("#transaction_id").val() == '')
+		 {
+			$('#scheme-code').text("Transaction Id <?php echo CANTEMPTY; ?>");
+			jQuery( "#transaction_id" ).focus();
+			return false;
+		}
+		if (jQuery("#transaction_id").val() != '')
+		 {
+			$('#scheme-code').text("");
+
+		}
+
+
+
+		if(jQuery('#vercode').val() == '')
+		{
+			$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		}
+
+		if(jQuery('#vercode').val() != '')
+		{
+			$('#captcha-code').text("");
+		}
+
+		//return false;
+
+	});
+
+});
+
+$(document).ready(function(){
+  $("#checked").click(function(){
+  var transaction_id =null;
+
+  transaction_id 				= $("#transaction_id").val();
+  //alert(transaction_id);
+  if(transaction_id == 0){
+    $("#scheme-code").html("Request Id required!");
+    return false;
+  }else{
+    $("#scheme-code").html("");
+  }
+ getVal(transaction_id);
+});
+});
+function getVal(transaction_id){
+  //alert(transaction_id);
+	//this ajax callback is getting the result of default scheme to set intot the header box
+	if(transaction_id !== ""){
+		$.ajax({
+			"url" : "<?php echo $this->baseUrl('webservice/gettransactiondetail'); ?>",
+			"data" : {transaction_id:transaction_id},
+			"type" : "POST",
+			"dataType" : "HTML",
+      success : function(response){
+        if(response>0){
+              $("#scheme-code").html("");
+              $("div#buttonsubmitdiv").show();
+               $("#scheme-code").html("<span class='success-left'>Data existed for this Request Id.</span>");
+        }else{
+              $("#scheme-code").html("");
+              $("#buttonsubmitdiv").hide();
+              $("#scheme-code").html("This Request Id is not exists in Database.");
+        }
+			},error: function(e){
+				console.log(e);
+			}
+		});
+  }
+}
+</script>
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+
+   <li class="active">Web Service</li>
+</ol>
+
+  <?php $postUrl = $this->url(array(
+                    'controller' => 'webservice',
+                    //'action'  => 'userview'
+                    ));
+    ?>
+
+
+    <?php if($this->errorMessage){?>
+        <div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+        <?php }elseif(@$_GET[actmsg] =='error'){ ?>
+        <div class='error-msg'><?php echo "Transaction Enabled Error."; ?></div>
+        <?php }elseif(@$_GET[actmsg] =='error1'){ ?>
+        <div class='error-msg'><?php echo "This Request Id is not exists in Database."; ?></div>
+        <?php }elseif(@$_GET[actmsg] =='update'){ ?>
+        <div class='success-msg'><?php echo "Transaction Enabled sucessfully!"; ?></div>
+        <?php }elseif(@$_GET[actmsg] =='error3'){ ?>
+        <div class='error-msg'><?php echo "Request Id not exist."; ?></div>
+        <?php }?>
+
+
+
+    <form role="form" method="post" action="<?php echo $postUrl; ?>" enctype="multipart/form-data"  name="addnewtranscation"  id="transaction_form_id">
+        <div class="row">
+
+	<div class="form-group col-sm-12">
+    <div class="row">
+    <div class="form-group col-sm-4">
+            <label><sup class="require"></sup>  </label>
+            <?php echo $this->form->transaction_id;?>
+            <span class="require" id="scheme-code"></span>
+            <span class="glyphicon glyphicon-ok" id="checked" data-toggle="tooltip" title="Click here to Check Request Id" ></span>
+              </div>
+            <!--<div class="form-group col-sm-3">
+                <label class="text-indent">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+      <input type="button" name="checked" class="btn btn-default btn-warning text-center" value="Check Transaction Id" />
+
+      </div>--> </div> </div>
+
+				<!-----------Add Captcha Code Script----->
+        <div id="buttonsubmitdiv" style="display:none;">
+			 <div class="form-group col-sm-6 col-xs-12 captcha-inner">
+				<label>Captcha Code<sup class="require">*</sup></label>
+                <?php echo $this->form->vercode; ?>
+				<p>
+					<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/>	</span>
+					<a  onclick="
+						document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+						document.getElementById('vercode').focus();" id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+				</p>
+				 <div class="clearfix"></div><span class="require" id="captcha-code"></span>
+                				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+           <!--------------End Captcha Code------->
+            <div class="form-group col-md-12 col-sm-12 text-center">
+               <button type="submit" name="Submit" class="btn btn-default btn-warning text-center" id="sechemSearchButton">Submit</button>
+                <button type="reset" class="btn active text-center" id="sechemSearchButton">Cancel</button>
+               <!--<input class="mlft btn btn-default btn-warning text-center" type="Submit" name="Submit" value="SUBMIT" />
+                <input type="reset" value="<?php echo CANCEL; ?>" name="Reset" border="0"  onclick="goCancel();">-->
+            </div>
+          </div>
+        </div>
+
+    </form>

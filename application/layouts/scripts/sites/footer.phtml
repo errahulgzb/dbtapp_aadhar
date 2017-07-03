@@ -1,0 +1,128 @@
+
+<?php 
+    $userid = new Zend_Session_Namespace('userid');
+    $role = new Zend_Session_Namespace('role');
+    $admname = new Zend_Session_Namespace('adminMname');
+	
+		$slang = new Zend_Session_Namespace('languageold');
+		$langid = $slang ->language;
+    // if(($userid->userid)&&($role->role!=2)&&($role->role!=4)&&($role->role!=3)){
+?>
+
+<!--Start Footer-->
+<footer  class="container-fluid" id="footer">
+<div class="row">
+		<div class="col-md-10 col-sm-12">
+			<ul class="list-inline">
+				<!--<li><a href="<?php //echo $this->baseUrl("feedback"); ?>" alt="Feedback">Feedback</a></li> | -->
+            	<!--<li><a href="javascript:void(0);">About Us</a></li>
+                <li class="divider">|</li>
+                <li class="divider">|</li>
+                <li><a href="javascript:void(0);">Cotact Us</a></li>-->
+			<?php
+			$show_footer_menu = new Application_Model_Auth;
+			$showAllFooterMenuTitle = $show_footer_menu->getFooterMenu();
+			if(count($showAllFooterMenuTitle)!=0)
+			{
+				//echo "Count=".count($showAllMenuTitle);
+				$j=1;
+				foreach($showAllFooterMenuTitle as $cmsFooterId=>$cmsFooterValue)
+					{
+						
+
+								 if($langid == 1) //if language is hindi then 
+								{
+									$translation_id = $cmsFooterValue['translation_id'];
+									//echo $tid;
+									// check if transalation id is exist means hindi transaltion is available for particular record then display other english will be displayed by default.
+									$obj = new 	Application_Model_Auth();
+									$footervalwithtranslation  = $obj->titleListByLang($translation_id,$cmsFooterValue['cmsid']);
+									
+								   $footervalwithtranslationhindi  = $obj->titleListByLanghindi($translation_id,$cmsFooterValue['cmsid']);
+									//return $valwithtranslation;
+									//print_r($valwithtranslation);
+									if($translation_id!=0)
+									{
+										$menuTtle = $footervalwithtranslation["title"];
+										//$menuId = $footervalwithtranslation["id"];
+										$menuId = $footervalwithtranslationhindi["id"];
+									}
+									else
+									{
+										$menuTtle= $cmsFooterValue["title"];
+										$menuId=$cmsFooterValue["cmsid"];
+									}
+									if($cmsValue['cmsid']==29)
+									{
+										$pageRedirect = $this->baseUrl('/');
+									}
+									else if($cmsFooterValue['cmsid']==37)
+									{
+										$pageRedirect = $this->baseUrl('feedback/');
+									}
+									else
+									{
+										
+										$pageRedirect = $this->baseUrl('page/frontcontentview/?id='.base64_encode($menuId));
+									}
+									?>
+									<li><a href="<?php echo $pageRedirect; ?>"><?php echo $menuTtle;?></a></li>
+									<?php  if(count($showAllFooterMenuTitle)!=$j){?>
+									<li class="divider">|</li>
+									<?php
+										}
+
+									//$val = 'abc';
+								}
+								else // it wil directly come to english.
+								{
+									//$cmsValue['cmsid'];
+
+									if($cmsValue['cmsid']==29)
+									{
+										$pageRedirect = $this->baseUrl('/');
+									}
+									else if($cmsFooterValue['cmsid']==37)
+									{
+										$pageRedirect = $this->baseUrl('feedback/');
+									}
+						
+									else
+									{
+										$pageRedirect = $this->baseUrl('page/frontcontentview/?id='.base64_encode($cmsFooterValue[cmsid]));
+										//$this->url('page', array('action' => 'frontcontentview', 'id' =>$cmsValue[cmsid]));
+									}
+									?>
+									<li><a href="<?php echo $pageRedirect; ?>"><?php echo $cmsFooterValue["title"];?></a></li>
+									<?php  if(count($showAllFooterMenuTitle)!=$j){?>
+									<li class="divider">|</li>
+									<?php
+									}
+								
+								}
+			?>
+				
+				
+<?php 
+					$j++;
+					}// end of foreach($showAllMenuTitle as $cmsId=>$cmsValue)
+								
+			} //end of if(count($showAllMenuTitle)!=0)
+?>
+				
+			</ul>
+		</div>
+		<div class="col-md-2 col-sm-12 text-right">
+			<a href="https://www.mygov.in/" target="_blank" title="My GOV"><img src="<?php echo $this->baseUrl('images/mygov.png');?>" alt="My GOV" /></a>
+		</div>
+        
+		<div class="col-sm-12 col-md-10 text-center">
+			<p><?php echo footer_content; ?></p>
+		</div>
+        <div class="col-md-2 col-sm-12 text-right">
+			<a href="https://india.gov.in/" target="_blank"><img src="<?php echo $this->baseUrl('images/india-gov-logo.jpg');?>" alt="" /></a>
+		</div>
+        </div>
+</footer>
+
+<!--End Footer-->

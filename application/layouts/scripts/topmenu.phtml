@@ -1,0 +1,123 @@
+<?php
+
+    $postUrl = $this->url(array('controller' => 'auth', 'action'  => 'logout')); 
+    $admname = new Zend_Session_Namespace('adminMname');
+
+	$url_all=explode('&colorid',$_SERVER['REQUEST_URI']);
+	$url_alias=explode('?',$_SERVER['REQUEST_URI']);
+
+	if($url_alias[1]==''){
+		$url=$url_all[0]."?";
+	}else{
+		$url=$url_all[0]."&";
+	}	
+
+?>
+
+<?php 
+    $cmi_list = new Application_Model_Folder;
+    $parent_list = $cmi_list->folderParent();
+    $cmishow_list = $cmi_list->folderlistbypermission(1);
+
+    $userid = new Zend_Session_Namespace('userid');
+	 $unme= $userid->userid;
+	 //echo $unme;
+     $role = new Zend_Session_Namespace('role');
+    //echo "ROLE=".$role->role;
+
+	$user_list = $cmi_list->user_name($unme);
+	//$first = $user_list['firstname'];
+    //$second = $user_list['lastname'];
+	$usname = $user_list['firstname'];
+    $last_name = $user_list['lastname'];
+
+    $rootstartStrong = "";
+    $rootendStrong	="";
+    //if(($value["owner"]==$userid->userid || $value["pub_pri"]==1) || $role->role==1)
+    //{
+    //}
+	
+	//echo "language after";	
+	 $slang = new Zend_Session_Namespace('languageold');
+		$langid =   $slang ->language;
+	                          $scrnid = 6;
+						$pageRedirect = $this->baseUrl('page/frontcontentview/?id='.base64_encode($scrnid));
+?>
+<!--<li class="last"><a href="<?php //echo $postUrl?>" title="Logout">Logout</a></li>-->
+
+<script type="text/javascript">
+		  $(document).ready(function(){
+	
+		/// getting district name from state id with ajax call.......
+			$( "#lng_change" ).change(function() {
+			
+				var language = $("#lng_change").val();
+				
+             var url = "<?php echo $this->baseUrl('page/pagelang'); ?>";
+				$.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'html',
+                    async: true,
+                    data: { language: language},
+                    success: function (data) {
+					   frmLanguage.submit();
+                       location.reload();					   
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        alert("Error: " + thrownError);
+                    }
+					});
+				});
+			});
+</script>
+
+<!--Start Skip To Main Content Box-->
+<section class="container-fluid">
+
+<div class="row">
+		<div class="text-right lastLogin">
+		<?php 
+			$lobj = new Zend_Session_Namespace('lastlogin');
+			echo "Last Login : ". date("jS F, Y g:i A ",strtotime($lobj->lastlogin));
+			?>
+		</div>
+						
+						
+						
+		<div class="col-md-12 text-right skipContent skipContentHide">
+      		<ul class="list-unstyled margin_top10 pull-right uasername">
+			<li><img src="<?php echo $this->baseUrl('images/user.png');?>" alt="<?php echo ucfirst($usname)." ".$lastname; ?>" /><strong>Welcome</strong> <span class="usrname"><?php echo ucfirst($usname)." ".$last_name; ?></span>
+            <div class="clearfix"></div>
+	<ul class="list-unstyled user-detail">
+					<li><a href="<?php echo $this->baseUrl('user/userinfo'); ?>" title="">My Account</a></li>
+        <?php
+        if($role->role==4){ ?>
+			<li><a href="<?php echo $this->baseUrl(); ?>/schemeowner/schemeview" title="">Administrator</a></li> 
+            <?php }elseif($role->role==1){ ?><li><a href="<?php echo $this->baseUrl(); ?>/user/userview" title="">Administrator</a></li>
+			<?php }elseif($role->role==6){ ?><li><a href="<?php echo $this->baseUrl(); ?>/schemeowner/schemeview" title="">Administrator</a></li>
+            <?php }elseif($role->role == 12){ ?><li><a href="<?php echo $this->baseUrl('schemeowner/schemeview'); ?>" title="">Administrator</a></li>
+        <?php } ?>
+			<li>
+				<a href="<?php echo $this->baseUrl('/auth/logout');?>">Logout</a>
+			</li>
+			</ul>
+		</li>
+	</ul>
+			<ul class="list-unstyled list-inline font-zoom pull-right skipContentHide">
+                        <li><a href="#mainContant"><?php echo skip_main_content; ?></a></li>
+                        <li class="divider">|</li>
+						
+                        <li><a href="<?php echo safexss($pageRedirect); ?> "><?php echo screen_reader_acess; ?></a></li>
+                        <li class="divider">|</li>
+                        <li class="round-icons"><a href="#" class="small round-icons a-minus clsDecrease">A</a></li>
+                        <li class="round-icons"><a href="#" class="normal round-icons a-normal clsNormal">A</a></li>
+                        <li class="round-icons"><a href="#" class="large round-icons a-plus clsIncrease" id="btnFontIncrease">A</a></li>
+                        <li class="divider">|</li>
+                        <li><a href="<?php echo safexss($url);?>colorid=<?php echo base64_encode("normal");?>" class="colorNormal">A</a></li>
+                        <li><a href="<?php echo safexss($url);?>colorid=<?php echo base64_encode("contrast");?>" class="colorBliend" name="colorBliendg">A</a></li>
+                      
+                </ul>
+   </div>     
+   </div>
+</section>

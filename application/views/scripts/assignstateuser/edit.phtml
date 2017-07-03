@@ -1,0 +1,236 @@
+<noscript>
+    <style type="text/css">
+        .webform-client-form {display:none;}
+    </style>
+</noscript>
+<script>
+document.onkeydown = function(e) {
+        if (e.ctrlKey && (e.keyCode === 67 || e.keyCode === 86 || e.keyCode === 85 || e.keyCode === 117)) {//Alt+c, Alt+v will also be disabled sadly.
+            return false;
+        }
+        
+};
+$(document).ready(function(){
+	$(this).bind("contextmenu", function(e) {
+       	 e.preventDefault();
+    	});
+});
+</script>
+<?php
+$userid = new Zend_Session_Namespace('userid');
+$unme= $userid->userid;
+$role = new Zend_Session_Namespace('role');
+ $captchanew = new Zend_Session_Namespace('captchanew');
+    $captchanew->captchanew = session_id();
+?>
+<script type="text/javascript" language="javascript">
+function selectAllItems(selobj){
+		  for(var i=0;i<selobj.options.length;i++){
+			selobj.options[i].selected = true;
+		  }
+		}
+function validate()
+{
+	var 	iChars = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`()";
+	//var 	iCharsCertian = "!#$%^&*()+=-[]\\\;/{}|\:<>~`";
+	var 	iCharsCertian = "!@#$%^&*()+=-[]_\\\';,./{}|\":<>?~`() ";
+	var  	reWhiteSpace = new RegExp(/^\s+$/);
+	var selobj = null;
+	
+        var ec = document.getElementById("projectmanager");
+        var strUserC = ec.options[ec.selectedIndex].value;
+        //var strUser1 = ec.options[ec.selectedIndex].text;
+        if(strUserC==0) //for text use if(strUser1=="Select")
+        {
+            alert("Please select Project Manager.");
+            document.frmfeedback.projectmanager.focus();
+            return false;
+        }
+        var atLeastOneIsChecked = $('input[name="projectname[]"]:checked').length;
+        if(atLeastOneIsChecked<1){
+            //alert("Please choose at least one Project.");
+            //return false;
+        }
+		
+		selobj = document.frmfeedback.elements["projectname[]"];
+			selectAllItems(selobj);
+		selobj = document.frmfeedback.elements["allcities[]"];
+			selectAllItems(selobj);
+}
+</script>
+
+<script type="text/javascript" language="javascript">
+
+jQuery(document).ready(function(){
+	jQuery("#frmfeedback").submit(function(){
+		if(jQuery('#vercode').val() == ''){
+			$('#captcha-code').text("Captcha code <?php echo CANTEMPTY; ?>");
+			jQuery( "#vercode" ).focus();
+			return false;
+		}
+		if(jQuery('#vercode').val() != ''){
+			$('#captcha-code').text("");
+		}
+	});
+function removeSpacesnew(string){
+	return string.split(' ').join('');
+}
+});
+</script>
+
+<ol class="breadcrumb">
+   <li><a href="<?php echo $this->baseUrl(); ?>">Home</a></li>
+   <li><a href="<?php echo $this->baseUrl('user/userview'); ?>">User(s) List</a></li>
+   <li><a href="<?php echo $this->baseUrl('assignstateuser'); ?>">Assigned State User List</a></li>
+   <li class="active">Assign State User</li>
+</ol>
+<div class="row"><div class="col-sm-12" id="asignmanager-edit">
+<div class="row"><div class="col-sm-9 col-xs-12"><h2><?php //echo Scheme_assign_msg; ?></h2></div>
+<div class="col-sm-3 col-xs-12 text-right"><a href="<?php echo $this->baseUrl('/samplecsv/DBT-Schemes-Management-User-Manual-Manage-Users.pdf'); ?>"  target="_blank">Help?</a></div></div>
+<?php if($this->errorMessage){?>
+<div class='error-msg'><span class="errors"><?php echo $this->errorMessage; ?></span></div>
+<?php } ?>
+    <?php  
+    $cmidata = $this->cmidata;
+    $countFreeProjectAvailable =  $this->countFreeProject;
+    $postUrlUpdate = $this->url(array(
+                'controller' => 'assignstateuser',
+                'action'  => 'edit'
+                ))."?userid=".$_GET['userid']; ?>
+				
+				
+				<?php
+				 $pids = array();
+				 $disableids = array();
+				 $allprojects = array();
+				 foreach ($this->form->projectname as $label => $val){
+					 $allprojects[] = $val;					
+				 }
+				 foreach($allprojects[1] as $key=>$val){					 
+					 $pids[] = $key;					 
+				 }
+				 foreach($allprojects[2] as $key1=>$val1){
+					 $disableids[] = $val1;
+				 }
+				 $model = new Application_Model_Assignstateuser;
+			     $data = $model->customerproject_Info($pids);//all the scheme ids from the ministry
+				 // echo "<pre>";
+				 // print_r($data);exit;
+				?>
+				
+				
+				
+				
+	<div class='webform-client-form'>
+	<form role="form" class="form-inline" method="post" action="<?php echo $postUrlUpdate; ?>" name="frmfeedback" id="frmfeedback" onsubmit="return validate();" >
+        <?php echo $this->errorMessage; ?>
+
+		<div class="row">
+            <div class="form-group col-sm-6">
+                <label>Scheme Owner:<sup class="require">*</sup> </label>
+                <?php echo $this->form->projectmanager;?>
+            </div>
+            <div class="form-group col-sm-12">
+                <div class="projects table table-responsive">
+				<table class='table'>
+            <thead>
+                <tr>
+                     
+					<th scope="col">Scheme Name</th>
+                </tr>
+            </thead>
+			<tbody>
+			<?php
+//echo "<pre>";print_r($data);
+			if(!empty($data)){
+			?>
+				<tr><td>
+				<div>
+    <div class="col-sm-5 col-xs-12 scheme-show">
+        <select name="allcities[]" id="allcities" multiple="multiple">
+			<?php 
+				foreach($data as $key=>$pinfo){
+					foreach($pinfo as $key=>$val){
+					if(!in_array($val['id'],$disableids)){?>
+						<option relate="abc" value="<?php echo $val['id'];?>"><?php echo $val["scheme_name"];?></option>
+						<?php }
+					}
+				}
+			?>
+        </select>
+    </div>
+    <div class="col-sm-2 col-xs-12 scheme-switch-con">
+        <input id="btnleft" value=">>" type="button" class="btn btn-default btn-warning text-center" />
+        <br /><br />
+        <input id="btnright" value="<<" type="button" class="btn btn-default btn-warning text-center" />
+    </div>
+    <div class="col-sm-5 col-xs-12 scheme-selected">
+	<?php
+		
+	?>
+        <select name="projectname[]" id="selectedcities" readonly multiple="multiple" style="width: 100px;
+            height: 130px;">
+			<?php 
+				foreach($data as $key=>$pinfo){
+					foreach($pinfo as $key=>$val){
+						if(in_array($val['id'],$disableids)){?>
+							<option relate="abc" value="<?php echo $val['id'];?>" selected><?php echo $val["scheme_name"];?>
+						<?php }
+					}
+				}?>
+        </select>
+    </div>
+</div>
+</tr>	
+	<?php }else { ?> 
+		<tr><td colspan='8' class='text-center'>No Record(s) Found!</td></tr>
+	<?php }?>
+	</tbody>
+	</table>
+	</div>
+    </div>
+	<!-----------Add Captcha Code Script----->
+		<div class="form-group col-sm-6 captcha-inner">
+		<label>Captcha Code<sup class="require">*</sup>  </label>
+			<?php echo $this->form->vercode; ?>
+              <p>
+				<span><img src="<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>" id="captcha" class="pull-left"/></span>
+					<a  onclick="document.getElementById('captcha').src='<?php echo $this->baseUrl('cool_capcha/captcha.php'); ?>?'+Math.random();
+	document.getElementById('vercode').focus();" id="change-image" class="menu4 refresh" style="cursor:pointer"><img src="<?php echo $this->baseUrl('images/refress.png'); ?>" class ="refresh" id="refresh" /></a>
+			</p>
+			<div class="clearfix"></div><span class="require" id="captcha-code"></span>
+				<input type="hidden"  name ="sessionCheck" value="<?php echo $captchanew->captchanew;?>" />
+            </div>
+		   <!--------------End Captcha Code-------> 
+             <div class="form-group col-md-12 col-sm-12 text-center">
+                <button type="submit" name="Submit" class="btn btn-default btn-warning text-center">Submit</button>
+				<button type="reset" class="btn active text-center" id="sechemSearchButton" onclick="goCancel();"><?php echo CANCEL; ?></button>
+            </div>
+        </div>
+    </form>
+	</div>
+</div></div>
+<!---****************** js for multiple select box******************-->
+
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery("#btnleft").click(function () {//listing of the un-assigned scheme's
+            jQuery("#allcities option:selected").each(function (){
+                jQuery("#selectedcities").append(jQuery(this).clone());
+				jQuery("#selectedcities option").each(function (){
+					jQuery("#selectedcities option").attr("selected", "true");
+					jQuery("#selectedcities option").attr("readonly", "true");
+				});
+                jQuery(this).remove();
+            });
+        });
+        jQuery("#btnright").click(function () {//value that need to be submit
+            jQuery("#selectedcities option:selected").each(function () {
+                jQuery("#allcities").append(jQuery(this).clone());
+                jQuery(this).remove();
+            });
+        });
+    });
+</script>
+<!---****************** js for multiple select box******************-->
